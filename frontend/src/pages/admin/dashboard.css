@@ -1,0 +1,73 @@
+.admin-dashboard {
+  padding: 24px;
+}
+
+/* TITLE */
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* KPI */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.kpi-label {
+  margin-top: 6px;
+  color: #6b7280;
+}
+
+.kpi-card.warning .kpi-value {
+  color: #d97706;
+}
+
+.kpi-card.success .kpi-value {
+  color: #059669;
+}
+
+/* TABLE */
+.dashboard-section h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.dashboard-table {
+  width: 100%;
+  background: #ffffff;
+  border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.status.pending {
+  color: #d97706;
+  font-weight: 600;
+}
+
+.status.approved {
+  color: #059669;
+  font-weight: 600;
+}

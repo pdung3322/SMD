@@ -1,0 +1,23 @@
+<aside class="uth-sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-app-name">SMD System</div>
+    <div class="sidebar-app-sub">
+      Đại học Giao thông Vận tải TP.HCM
+    </div>
+
+    <div class="sidebar-meta">
+      <div>
+        Vai trò:
+        <span id="sidebarRole">---</span>
+      </div>
+      <div>
+        Học kỳ:
+        <span id="sidebarSemester">---</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-menu" id="sidebarMenu">
+    <!-- JS sẽ render menu ở đây -->
+  </div>
+</aside>

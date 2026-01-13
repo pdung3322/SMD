@@ -1,0 +1,125 @@
+.uth-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+
+/* LEFT */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* nút toggle */
+.menu-btn {
+  font-size: 22px;
+  background: none;
+  border: none;
+  color: #0f766e;     /* xanh UTH */
+  cursor: pointer;
+  margin-right: 12px;
+}
+.menu-btn:hover {
+  background: #e6f4f1;
+  border-radius: 6px;
+}
+
+
+.header-logo {
+  height: 32px;      /* QUAN TRỌNG – KHÓA LOGO */
+  width: auto;
+  object-fit: contain;
+}
+
+/* RIGHT */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* USER BOX */
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.user-box:hover {
+  color: #0f766e;
+}
+
+.arrow {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* DROPDOWN */
+.user-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 180px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dropdown-item:hover {
+  background: #f0fdfa;
+  color: #0f766e;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 4px 0;
+}
+
+.logout {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.logout:hover {
+  background: #fee2e2;
+}
+.menu-btn:focus {
+  outline: none;
+  box-shadow: none;
+}

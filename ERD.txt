@@ -1,0 +1,114 @@
+==============================
+USERS : Người dùng
+==============================
+user_id: mã định danh người dùng
+full_name: họ và tên người dùng
+email: email đăng nhập hệ thống
+password: mật khẩu đăng nhập
+mobile: số điện thoại
+role: vai trò người dùng (admin / lecturer / student / hod / aa / principal)
+status: trạng thái tài khoản (active / inactive)
+
+==============================
+ROLES : Vai trò người dùng
+==============================
+role_id: mã định danh vai trò
+code: mã vai trò (admin / lecturer / student / hod / aa / principal)
+name: tên vai trò (Quản trị viên, Giảng viên, Sinh viên, Trưởng bộ môn, Phòng đào tạo, Ban giám hiệu)
+
+==============================
+FACULTY : Khoa / Bộ môn
+==============================
+faculty_id: mã định danh khoa / bộ môn
+faculty_code: mã khoa / bộ môn
+faculty_name: tên khoa / bộ môn
+description: mô tả ngắn về khoa / bộ môn
+status: trạng thái hoạt động (active / inactive)
+created_at: thời điểm tạo bản ghi
+
+==============================
+COURSE : Môn học / Học phần
+==============================
+course_id: mã định danh môn học
+course_code: mã môn học (ví dụ: IT001, SE203)
+course_name: tên môn học
+credits: số tín chỉ
+faculty_id: khoa / bộ môn quản lý môn học
+description: mô tả nội dung môn học
+status: trạng thái môn học (active / inactive)
+
+==============================
+SYLLABUS : Giáo trình học phần
+==============================
+syllabus_id: mã định danh đề cương
+course_code: mã học phần
+course_name: tên học phần
+credits: số tín chỉ
+description: mô tả học phần
+created_by: người tạo đề cương (tham chiếu users)
+status: trạng thái đề cương
+created_at: thời điểm tạo
+updated_at: thời điểm cập nhật
+
+==============================
+SYLLABUS_VERSIONS : Phiên bản giáo trình
+==============================
+version_id: mã định danh phiên bản đề cương
+syllabus_id: đề cương gốc tương ứng
+version_number: số phiên bản
+content: nội dung chi tiết đề cương
+created_by: người tạo phiên bản
+created_at: thời điểm tạo phiên bản
+
+==============================
+APPROVAL_WORKFLOWS : Quy trình phê duyệt đề cương
+==============================
+workflow_id: mã định danh bước duyệt
+syllabus_version_id: phiên bản đề cương được duyệt
+reviewer_id: người duyệt
+reviewer_role: vai trò người duyệt (HOD / AA / PRINCIPAL)
+step_order: thứ tự bước duyệt
+status: trạng thái duyệt (PENDING / APPROVED / REJECTED)
+comment: ghi chú khi duyệt
+reviewed_at: thời điểm duyệt
+
+==============================
+REVIEW_COMMENTS : Bảng Nhận xét / góp ý đề cương
+==============================
+comment_id: mã định danh nhận xét
+syllabus_version_id: phiên bản đề cương được nhận xét
+reviewer_id: người nhận xét
+reviewer_role: vai trò người nhận xét
+content: nội dung nhận xét
+created_at: thời điểm nhận xét
+
+==============================
+AUDIT_LOGS : Nhật ký hệ thống
+==============================
+log_id: mã định danh nhật ký
+user_id: người thực hiện hành động
+action: hành động được thực hiện
+target: đối tượng bị tác động
+created_at: thời điểm ghi log
+
+==============================
+PLOS :Chuẩn đầu ra chương trình đào tạo (Program Learning Outcomes)
+==============================
+plo_id: mã định danh chuẩn đầu ra chương trình
+code: mã PLO (PLO1, PLO2,...)
+description: mô tả chuẩn đầu ra chương trình
+
+==============================
+CLOS : Chuẩn đầu ra môn học (Course Learning Outcomes)
+==============================
+clo_id: mã định danh chuẩn đầu ra môn học
+syllabus_version_id: phiên bản đề cương liên quan
+code: mã CLO (CLO1, CLO2,...)
+description: mô tả chuẩn đầu ra môn học
+
+==============================
+CLO_PLO_MAPPING : Ánh xạ giữa CLO và PLO
+==============================
+id: mã định danh ánh xạ
+clo_id: chuẩn đầu ra môn học
+plo_id: chuẩn đầu ra chương trình

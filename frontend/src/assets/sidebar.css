@@ -1,0 +1,185 @@
+.uth-sidebar {
+  width: 260px;
+  height: 100%;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* HEADER */
+.sidebar-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;   /* 🔥 HEADER KHÔNG SCROLL */
+}
+
+
+.sidebar-app-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f766e;
+  line-height: 1.4;
+}
+
+.sidebar-app-sub {
+  font-size: 12.5px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.sidebar-meta {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.sidebar-meta span {
+  color: #374151;
+  font-weight: 500;
+}
+
+.menu-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  font-weight: 600;
+  color: #065f46;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.menu-label:hover {
+  background: #f0fdfa;
+}
+
+.menu-label:active {
+  background: #e6f4f1;
+  color: #b91c1c;
+  border-left: 4px solid #0f766e;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 20px;
+  margin: 4px 0;
+}
+
+.submenu li {
+  padding: 6px 8px;
+  font-size: 14px;
+  color: #2b2e2d;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.submenu li:hover {
+  color: #0f766e;
+}
+
+.submenu li:active {
+  background: #e6f4f1;
+  color: #b91c1c;
+  font-weight: 600;
+  border-left: 3px solid #0f766e;
+}
+
+.arrow {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+.sidebar-menu {
+  flex: 1;                 /* chiếm toàn bộ phần còn lại */
+  overflow-y: auto;        /* 🔥 SCROLL NẰM Ở ĐÂY */
+  padding-bottom: 24px;
+}
+
+/* ===================================================== */
+/* =============== BỔ SUNG DUY NHẤT Ở ĐÂY =============== */
+/* ===================================================== */
+
+.uth-sidebar {
+  width: 260px;
+  height: 100vh;                 /* 🔥 PHẢI LÀ 100vh */
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  font-family: "Segoe UI", Arial, sans-serif;
+
+  display: flex;                 /* 🔥 */
+  flex-direction: column;        /* 🔥 */
+
+  transition: width 0.2s ease;
+}
+
+
+.uth-sidebar.collapsed {
+  width: 0px;
+  overflow: hidden;  
+}
+
+/* Ẩn chữ khi sidebar thu gọn */
+.uth-sidebar.collapsed .menu-label span:first-child {
+  display: none;
+}
+
+.uth-sidebar.collapsed .submenu {
+  display: none;
+}
+
+.uth-sidebar.collapsed .sidebar-meta,
+.uth-sidebar.collapsed .sidebar-app-sub {
+  display: none;
+}
+.submenu {
+  list-style: none;
+  padding-left: 16px;
+  margin: 4px 0;
+}
+
+.submenu li {
+  padding: 6px 0;
+}
+
+.submenu-link {
+  text-decoration: none;
+  color: #2b2e2d;
+  font-size: 14px;
+  display: block;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.submenu-link:hover {
+  color: #0f766e;
+  background: #f0fdfa;
+}
+
+.submenu-link.active {
+  font-weight: 600;
+  color: #0f766e;
+  background: #e6f4f1;
+  border-left: 3px solid #0f766e;
+}
+/* ===== HIDE SCROLLBAR BUT KEEP SCROLL ===== */
+
+/* Chrome, Edge, Safari */
+.sidebar-menu::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Firefox */
+.sidebar-menu {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* IE, Edge cũ */
+.sidebar-menu {
+  -ms-overflow-style: none;
+}

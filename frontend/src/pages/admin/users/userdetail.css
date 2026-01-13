@@ -1,0 +1,145 @@
+/* ===== PAGE ===== */
+.user-detail-page {
+  padding: 12px 24px;
+  
+}
+
+/* ===== HEADER ===== */
+.user-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.user-detail-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.user-detail-header button {
+  background: none;
+  border: none;
+  color: #0f766e;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ===== CARD ===== */
+.user-detail-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== FORM ===== */
+.form-group {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #0f766e;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.15);
+}
+
+/* ===== STATUS ===== */
+.status-pill {
+  display: inline-flex;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-pill.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-pill.locked {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===== ACTIONS ===== */
+.user-detail-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;     
+  margin-top: 24px;
+}
+
+.btn-primary {
+  background: #0f766e;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: #fecaca;
+}
+.form-group input,
+.form-group select {
+  height: 40px;          /* 🔥 ép chiều cao bằng nhau */
+  box-sizing: border-box;
+}
+/* ===== FIX RIÊNG CHO DÒNG TRẠNG THÁI ===== */
+.form-group-status {
+  display: flex !important;   /* ❗ phá grid */
+  align-items: center;
+  gap: 16px;
+}
+
+/* status chỉ ôm chữ */
+.form-group-status .status-pill {
+  height: auto !important;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
