@@ -4,7 +4,7 @@ export default function PendingApprovals() {
   return (
     <div className="academic-affairs-dashboard">
       {/* TITLE */}
-      <h1 className="page-title">Danh sách đề cương chờ duyệt</h1>
+      <h1 className="page-title">Danh sách giáo trình chờ duyệt</h1>
 
       {/* TABLE */}
       <div className="dashboard-section">

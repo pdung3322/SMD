@@ -4,7 +4,7 @@ export default function LookupBySemester() {
   return (
     <div className="academic-affairs-dashboard">
       {/* TITLE */}
-      <h1 className="page-title">Tra cứu đề cương theo năm học và học kỳ</h1>
+      <h1 className="page-title">Tra cứu giáo trình theo năm học và học kỳ</h1>
 
       {/* FILTERS */}
       <div className="dashboard-section">

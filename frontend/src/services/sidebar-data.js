@@ -225,10 +225,10 @@ academic_affairs: {
   menu: [
     
     {
-      label: "Duyệt đề cương học phần",
+      label: "Duyệt giáo trình",
       items: [
         {
-          label: "Danh sách đề cương chờ duyệt",
+          label: "Danh sách giáo trình chờ duyệt",
           path: "/academic_affairs/approval/pending",
         },
         {
@@ -236,7 +236,7 @@ academic_affairs: {
           path: "/academic_affairs/approval/plo-check",
         },
         {
-          label: "Đánh giá đề cương",
+          label: "Đánh giá giáo trình",
           path: "/academic_affairs/approval/evaluate",
         },
       
@@ -262,14 +262,14 @@ academic_affairs: {
     },
 
     {
-      label: "Tra cứu và báo cáo",
+      label: "Tra cứu giáo trình",
       items: [
         {
-          label: "Tra cứu đề cương theo năm học và học kỳ",
+          label: "Tra cứu giáo trình theo năm học và học kỳ",
           path: "/academic_affairs/lookup/lookup-by-semester",
         },
         {
-          label: "So sánh đề cương giữa các học kỳ",
+          label: "So sánh giáo trình giữa các học kỳ",
           path: "/academic_affairs/lookup/compare-syllabus",
         },
       ],
@@ -279,11 +279,11 @@ academic_affairs: {
       label: "Thông báo",
       items: [
         {
-          label: "Thông báo kết quả duyệt đề cương",
+          label: "Thông báo kết quả duyệt giáo trình",
           path: "/academic_affairs/notification/approval-result",
         },
         {
-          label: "Thông báo đề cương bị từ chối hoặc yêu cầu chỉnh sửa",
+          label: "Thông báo giáo trình yêu cầu chỉnh sửa",
           path: "/academic_affairs/notification/rejected-or-edit",
         },
       ],

@@ -4,7 +4,7 @@ export default function RejectedOrEdit() {
   return (
     <div className="academic-affairs-dashboard">
       {/* TITLE */}
-      <h1 className="page-title">Thông báo đề cương bị từ chối hoặc yêu cầu chỉnh sửa</h1>
+      <h1 className="page-title">Thông báo giáo trình yêu cầu chỉnh sửa</h1>
 
       {/* TABLE */}
       <div className="dashboard-section">

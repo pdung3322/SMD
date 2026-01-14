@@ -4,7 +4,7 @@ export default function EvaluateSyllabus() {
   return (
     <div className="academic-affairs-dashboard">
       {/* TITLE */}
-      <h1 className="page-title">Đánh giá đề cương</h1>
+      <h1 className="page-title">Đánh giá giáo trình</h1>
 
       {/* TABLE */}
       <div className="dashboard-section">

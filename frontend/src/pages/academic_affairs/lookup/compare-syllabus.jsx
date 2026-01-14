@@ -4,16 +4,16 @@ export default function CompareSyllabus() {
   return (
     <div className="academic-affairs-dashboard">
       {/* TITLE */}
-      <h1 className="page-title">So sánh đề cương giữa các học kỳ</h1>
+      <h1 className="page-title">So sánh giáo trình giữa các học kỳ</h1>
 
       {/* COMPARISON */}
       <div className="dashboard-section">
         <div style={{ marginBottom: '16px', color: '#1f2937' }}>
-          <label>Chọn đề cương 1: </label>
+          <label>Chọn giáo trình 1: </label>
           <select>
             <option>Lập trình Web - Học kỳ 1 2025</option>
           </select>
-          <label style={{ marginLeft: '16px' }}>Chọn đề cương 2: </label>
+          <label style={{ marginLeft: '16px' }}>Chọn giáo trình 2: </label>
           <select>
             <option>Lập trình Web - Học kỳ 1 2024</option>
           </select>
@@ -24,8 +24,8 @@ export default function CompareSyllabus() {
           <thead>
             <tr>
               <th>Phần</th>
-              <th>Đề cương 1</th>
-              <th>Đề cương 2</th>
+              <th>Giáo trình 1</th>
+              <th>Giáo trình 2</th>
               <th>Sự khác biệt</th>
             </tr>
           </thead>

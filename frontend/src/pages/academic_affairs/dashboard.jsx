@@ -10,12 +10,12 @@ export default function AcademicAffairsDashboard() {
       <div className="kpi-grid">
         <div className="kpi-card">
           <div className="kpi-value">4</div>
-          <div className="kpi-label">Đề cương chờ duyệt</div>
+          <div className="kpi-label">Giáo trình chờ duyệt</div>
         </div>
 
         <div className="kpi-card success">
           <div className="kpi-value">8</div>
-          <div className="kpi-label">Đề cương đã duyệt</div>
+          <div className="kpi-label">Giáo trình đã duyệt</div>
         </div>
 
         <div className="kpi-card">

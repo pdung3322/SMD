@@ -4,7 +4,7 @@ export default function ApprovalResult() {
   return (
     <div className="academic-affairs-dashboard">
       {/* TITLE */}
-      <h1 className="page-title">Thông báo kết quả duyệt đề cương</h1>
+      <h1 className="page-title">Thông báo kết quả duyệt giáo trình</h1>
 
       {/* TABLE */}
       <div className="dashboard-section">
