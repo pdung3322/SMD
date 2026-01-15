@@ -1,0 +1,80 @@
+.user-import-page {
+  padding: 12px 24px;
+}
+
+/* ===== HEADER ===== */
+.user-import-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.user-import-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.user-import-header button {
+  background: none;
+  border: none;
+  color: #0f766e;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ===== CARD ===== */
+.user-import-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  max-width: 720px;
+}
+
+/* ===== NOTE ===== */
+.import-note {
+  background: #f0fdfa;
+  border-left: 4px solid #0f766e;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #065f46;
+}
+
+.import-note code {
+  background: #e6fffa;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+/* ===== FORM ===== */
+.import-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.import-form input[type="file"] {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: #0f766e;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

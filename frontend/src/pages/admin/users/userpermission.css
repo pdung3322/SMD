@@ -1,0 +1,107 @@
+/* ===== PAGE ===== */
+.user-permission-page {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+}
+
+/* ===== TITLE ===== */
+.user-permission-page h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ===== TABS ===== */
+.permission-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.permission-tabs button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.permission-tabs button.active {
+  background: #0a8f7b;
+  color: #fff;
+  border-color: #0a8f7b;
+}
+
+/* ===== SELECT AREA ===== */
+.permission-role {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.permission-role label {
+  font-weight: 500;
+}
+
+.permission-role select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 200px;
+}
+
+/* ===== TABLE ===== */
+.permission-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.permission-table th {
+  background: #f4f6f9;
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+
+.permission-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+/* ===== CHECKBOX ===== */
+.permission-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 16px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.permission-checkbox input {
+  cursor: pointer;
+}
+
+/* ===== SAVE BUTTON ===== */
+.permission-save {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #0a8f7b;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.permission-save:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
