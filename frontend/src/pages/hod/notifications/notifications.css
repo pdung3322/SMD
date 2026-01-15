@@ -1,0 +1,500 @@
+/* ============================================
+   NOTIFICATIONS PAGE - SHARED STYLES
+   ============================================ */
+
+.notifications-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.notifications-page h1 {
+    font-size: 28px;
+    color: #1a5490;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* ============================================
+   FILTER BAR
+   ============================================ */
+
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: #1a5490;
+    color: #1a5490;
+    background-color: #e8f1f7;
+}
+
+.filter-btn.active {
+    background-color: #1a5490;
+    color: #fff;
+    border-color: #1a5490;
+}
+
+/* ============================================
+   NOTIFICATION LIST & CARDS
+   ============================================ */
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.notification-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.notification-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #1a5490;
+}
+
+/* Urgent badge for new.jsx */
+.notification-card.urgent {
+    border-left: 4px solid #ff6b6b;
+    background-color: #fff5f5;
+}
+
+.urgent-badge {
+    display: inline-block;
+    background-color: #ff6b6b;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Status badge for request.jsx */
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.status-badge.PENDING_HOD_ACTION {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.status-badge.RESOLVED {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Decision badge for reviewresult.jsx */
+.decision-badge {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.decision-badge.approved {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.decision-badge.require_revision {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.decision-badge.rejected {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Card states */
+.notification-card.pending {
+    border-left: 4px solid #ffc107;
+}
+
+.notification-card.resolved {
+    border-left: 4px solid #28a745;
+    opacity: 0.85;
+}
+
+.notification-card.unread {
+    border-left: 4px solid #1a5490;
+    background-color: #f0f6fb;
+}
+
+.notification-card.review-result.approved {
+    border-left: 4px solid #28a745;
+}
+
+.notification-card.review-result.require_revision {
+    border-left: 4px solid #ffc107;
+    background-color: #fffbf0;
+}
+
+.notification-card.review-result.rejected {
+    border-left: 4px solid #dc3545;
+    background-color: #fff5f5;
+}
+
+/* ============================================
+   NOTIFICATION HEADER & META
+   ============================================ */
+
+.notif-header {
+    margin-bottom: 15px;
+}
+
+.course-name {
+    font-size: 18px;
+    color: #1a5490;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.meta {
+    font-size: 13px;
+    color: #666;
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.meta strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* ============================================
+   CHANGE SUMMARY (new.jsx)
+   ============================================ */
+
+.change-summary {
+    background-color: #f0f6fb;
+    border-left: 3px solid #1a5490;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.change-summary p {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+}
+
+/* ============================================
+   FEEDBACK SECTION (request.jsx)
+   ============================================ */
+
+.feedback-section {
+    margin: 15px 0;
+    background-color: #f9f9f9;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+.feedback-toggle {
+    background: none;
+    border: none;
+    color: #1a5490;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    transition: color 0.2s;
+}
+
+.feedback-toggle:hover {
+    color: #0d2f5f;
+}
+
+.feedback-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.feedback-item {
+    background-color: #fff;
+    border-left: 3px solid #17a2b8;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.feedback-author {
+    color: #666;
+    margin: 0 0 6px 0;
+    font-size: 12px;
+}
+
+.feedback-content {
+    color: #333;
+    margin: 0;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* ============================================
+   REVIEW COMMENT SECTION (reviewresult.jsx)
+   ============================================ */
+
+.review-comment-section {
+    background-color: #f0f6fb;
+    border-left: 3px solid #1a5490;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.review-comment-section h4 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.comment-text {
+    margin: 0;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ============================================
+   NEXT ACTION SECTION (reviewresult.jsx)
+   ============================================ */
+
+.next-action-section {
+    background-color: #faf3e0;
+    border-left: 3px solid #ff9800;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.next-action-section p {
+    margin: 6px 0;
+    color: #555;
+    font-size: 13px;
+}
+
+.deadline {
+    color: #dc3545 !important;
+    font-weight: 600;
+}
+
+/* ============================================
+   ACTIONS SECTION
+   ============================================ */
+
+.notif-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background-color: #1a5490;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0d2f5f;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-success:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+.empty-state {
+    background-color: #fff;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+}
+
+.empty-state p {
+    color: #999;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* ============================================
+   ERROR STATE
+   ============================================ */
+
+.notifications-page.error {
+    background-color: #fff5f5;
+    border: 1px solid #ffcccb;
+    border-radius: 8px;
+    padding: 20px;
+    color: #cc0000;
+    text-align: center;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .notifications-page {
+        padding: 15px;
+    }
+
+    .notifications-page h1 {
+        font-size: 22px;
+    }
+
+    .filter-bar {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .notification-card {
+        padding: 15px;
+    }
+
+    .notif-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .feedback-list {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .notifications-page {
+        padding: 10px;
+    }
+
+    .notifications-page h1 {
+        font-size: 20px;
+    }
+
+    .course-name {
+        font-size: 16px;
+    }
+
+    .meta {
+        font-size: 12px;
+    }
+
+    .notification-card {
+        padding: 12px;
+    }
+}
