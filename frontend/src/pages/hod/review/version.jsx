@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import api from "../../../services/api";
+import TabNavigation from "./TabNavigation";
 import "./version.css";
 
 export default function Version() {
@@ -10,70 +11,105 @@ export default function Version() {
     const [diffRows, setDiffRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [usedFallback, setUsedFallback] = useState(false);
 
     // filter
     const [typeFilter, setTypeFilter] = useState("ALL");
-    const [q, setQ] = useState("");
 
     useEffect(() => {
-        const mockMeta = {
-            syllabus_id: id,
-            course_name: "Lập Trình Web",
-            from_version: "v0",
-            to_version: "v1",
-            generated_at: "2026-01-05",
+        let isMounted = true;
+
+        async function loadData() {
+            setLoading(true);
+            setError(null);
+            setUsedFallback(false);
+
+            try {
+                const res = await api.get(`/syllabus/${id}/version-diff`);
+                if (!isMounted) return;
+
+                const data = res?.data || {};
+                setMeta({
+                    course_name: data.course_name || "—",
+                    from_version: data.from_version || "N/A",
+                    to_version: data.to_version || "N/A",
+                    generated_at: data.generated_at || new Date().toISOString(),
+                });
+
+                const items = Array.isArray(data.items) ? data.items : [];
+                setDiffRows(
+                    items.map((item, idx) => ({
+                        id: item.id || idx + 1,
+                        section: item.section || "(không rõ mục)",
+                        type: item.type || "changed",
+                        before: item.before || "",
+                        after: item.after || "",
+                    }))
+                );
+            } catch (err) {
+                console.error("Load version diff failed", err);
+
+                if (!isMounted) return;
+
+                // Fallback mock để vẫn hiển thị UI
+                setUsedFallback(true);
+                setMeta({
+                    syllabus_id: id,
+                    course_name: "Lập Trình Web",
+                    from_version: "v0",
+                    to_version: "v1",
+                    generated_at: "2026-01-05",
+                });
+
+                setDiffRows([
+                    {
+                        id: 1,
+                        section: "Mục tiêu môn học",
+                        type: "changed",
+                        before: "Nắm kiến thức web cơ bản.",
+                        after: "Nắm kiến thức web cơ bản + thực hành xây dựng web app.",
+                    },
+                    {
+                        id: 2,
+                        section: "CLO",
+                        type: "added",
+                        before: "",
+                        after: "CLO4: Liên kết CLO với PLO phù hợp và có minh chứng.",
+                    },
+                    {
+                        id: 3,
+                        section: "Đánh giá",
+                        type: "changed",
+                        before: "Giữa kỳ 30%, Cuối kỳ 70%",
+                        after: "Giữa kỳ 40%, Cuối kỳ 60%",
+                    },
+                    {
+                        id: 4,
+                        section: "Tài liệu tham khảo",
+                        type: "removed",
+                        before: "Giáo trình cũ 2018 (PDF)",
+                        after: "",
+                    },
+                ]);
+
+                setError(null); // vẫn hiển thị UI với dữ liệu fallback
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        }
+
+        loadData();
+        return () => {
+            isMounted = false;
         };
-
-        const mockDiff = [
-            {
-                id: 1,
-                section: "Mục tiêu môn học",
-                type: "changed",
-                before: "Nắm kiến thức web cơ bản.",
-                after: "Nắm kiến thức web cơ bản + thực hành xây dựng web app.",
-            },
-            {
-                id: 2,
-                section: "CLO",
-                type: "added",
-                before: "",
-                after: "CLO4: Liên kết CLO với PLO phù hợp và có minh chứng.",
-            },
-            {
-                id: 3,
-                section: "Đánh giá",
-                type: "changed",
-                before: "Giữa kỳ 30%, Cuối kỳ 70%",
-                after: "Giữa kỳ 40%, Cuối kỳ 60%",
-            },
-            {
-                id: 4,
-                section: "Tài liệu tham khảo",
-                type: "removed",
-                before: "Giáo trình cũ 2018 (PDF)",
-                after: "",
-            },
-        ];
-
-        setMeta(mockMeta);
-        setDiffRows(mockDiff);
-        setLoading(false);
     }, [id]);
 
     const filteredDiff = useMemo(() => {
-        const keyword = q.trim().toLowerCase();
-
         return diffRows.filter((r) => {
             const matchType = typeFilter === "ALL" || r.type === typeFilter;
-            const matchSearch =
-                !keyword ||
-                (r.section || "").toLowerCase().includes(keyword) ||
-                (r.before || "").toLowerCase().includes(keyword) ||
-                (r.after || "").toLowerCase().includes(keyword);
-
-            return matchType && matchSearch;
+            return matchType;
         });
-    }, [diffRows, typeFilter, q]);
+    }, [diffRows, typeFilter]);
 
     const typeBadgeClass = (type) => {
         if (type === "added") return "badge badge-ok";
@@ -95,24 +131,16 @@ export default function Version() {
 
     return (
         <div className="version-page">
+            <TabNavigation syllabusId={id} />
+
             <div className="version-header">
                 <div>
                     <h1 className="version-title">
                         Thay đổi phiên bản — {meta.course_name}
                     </h1>
-                    <p className="version-subtitle">
-                        Xem nhanh những phần được thêm/sửa/xóa giữa {meta.from_version} →{" "}
-                        {meta.to_version}. (Sau này có thể tích hợp AI Change Detection)
-                    </p>
-                </div>
-
-                <div className="version-top-actions">
-                    <Link to={`/hod/review/clo/${id}`} className="btn btn-ghost">
-                        ← CLO
-                    </Link>
-                    <Link to={`/hod/review/feedback/${id}`} className="btn btn-primary">
-                        Tiếp theo: Phản hồi →
-                    </Link>
+                    {usedFallback && (
+                        <p className="version-warning">Đang hiển thị dữ liệu mẫu do chưa lấy được từ máy chủ.</p>
+                    )}
                 </div>
             </div>
 
@@ -139,14 +167,6 @@ export default function Version() {
 
             <div className="version-filter-card">
                 <div className="filter-group">
-                    <label>Tìm kiếm</label>
-                    <input
-                        placeholder="Section, nội dung before/after..."
-                        value={q}
-                        onChange={(e) => setQ(e.target.value)}
-                    />
-                </div>
-                <div className="filter-group">
                     <label>Loại thay đổi</label>
                     <select
                         value={typeFilter}
@@ -164,7 +184,7 @@ export default function Version() {
                 {filteredDiff.length === 0 ? (
                     <div className="empty-state">
                         <div className="empty-title">Không có thay đổi phù hợp.</div>
-                        <div className="empty-sub">Thử đổi bộ lọc hoặc từ khóa.</div>
+                        <div className="empty-sub">Thử đổi bộ lọc hoặc đây có thể là đề cương chưa có đủ phiên bản để so sánh.</div>
                     </div>
                 ) : (
                     <table className="version-table">
@@ -192,10 +212,6 @@ export default function Version() {
                         </tbody>
                     </table>
                 )}
-            </div>
-
-            <div className="version-note">
-                TODO (backend): có thể trả thêm “diff summary”, “highlight” và “AI detected issues”.
             </div>
         </div>
     );

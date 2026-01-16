@@ -1,76 +1,76 @@
 
 // pages/hod/review/pending.jsx
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import api from "../../../services/api";  // ← IMPORT api
 import { Link } from "react-router-dom";
 import "./pending.css";
 
+/* ===== STATUS MAP ===== */
+const STATUS_LABEL = {
+  ALL: "Tất cả",
+  pending_review: "Chờ phản biện",  // ← Giữ nguyên
+  pending_approval: "Chờ duyệt",  // ← Giữ nguyên
+};
 
+const STATUS_TABS = [
+  { key: "ALL" },
+  { key: "pending_review" },
+  { key: "pending_approval" },
+];
+
+/**
+ * PENDING (HOD)
+ * - Danh sách đề cương "đang chờ HOD xử lý"
+ */
 export default function Pending() {
   const [syllabi, setSyllabi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
+  // filters
   const [q, setQ] = useState("");
-  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [activeStatus, setActiveStatus] = useState("ALL");
 
+  /* ===== LOAD DATA TỪ API =====*/
   useEffect(() => {
+    // Lấy hod_id từ user đang login (tạm thời dùng 1, cần integrate auth sau)
+    //const hod_id = 1; 
 
-    const mockData = [
-      {
-        id: 1,
-        course_code: "MTH101",
-        course_name: "Toán Cao Cấp",
-        faculty_name: "Khoa Toán",
-        lecturer_name: "Nguyễn Văn A",
-        submitted_date: "2026-01-01",
-        status: "pending_review",
-        version: "v2",
-        due_date: "2026-01-10",
-      },
-      {
-        id: 2,
-        course_code: "WEB201",
-        course_name: "Lập Trình Web",
-        faculty_name: "Khoa CNTT",
-        lecturer_name: "Trần Thị B",
-        submitted_date: "2026-01-02",
-        status: "pending_review",
-        version: "v1",
-        due_date: "2026-01-12",
-      },
-      {
-        id: 3,
-        course_code: "DBI202",
-        course_name: "Cơ Sở Dữ Liệu",
-        faculty_name: "Khoa CNTT",
-        lecturer_name: "Lê Văn C",
-        submitted_date: "2026-01-03",
-        status: "pending_approval",
-        version: "v3",
-        due_date: "2026-01-15",
-      },
-    ];
+    //id 1014 là id test giáo trình
+    const hod_id = 1014;  // TODO: lấy từ localStorage hoặc context
 
-    setSyllabi(mockData);
-    setLoading(false);
-
+    api.get("/syllabus/pending", { params: { hod_id } })
+      .then((res) => {
+        setSyllabi(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Load pending syllabi error:", err);
+        setError("Không thể tải danh sách đề cương. Vui lòng thử lại.");
+        setLoading(false);
+      });
   }, []);
 
+  /* ===== STATUS COUNT ===== */
+  const statusCounts = useMemo(() => {
+    const counts = { ALL: syllabi.length };
+    syllabi.forEach((s) => {
+      counts[s.status] = (counts[s.status] || 0) + 1;
+    });
+    return counts;
+  }, [syllabi]);
+
+  /* ===== FILTER + SORT ===== */
   const filteredSyllabi = useMemo(() => {
     const keyword = q.trim().toLowerCase();
 
     const list = syllabi
       .filter((s) => {
-        const matchStatus =
-          statusFilter === "ALL" || s.status === statusFilter;
-
+        const matchStatus = activeStatus === "ALL" || s.status === activeStatus;
         const matchSearch =
           !keyword ||
           (s.course_name || "").toLowerCase().includes(keyword) ||
           (s.course_code || "").toLowerCase().includes(keyword) ||
-          (s.faculty_name || "").toLowerCase().includes(keyword) ||
           (s.lecturer_name || "").toLowerCase().includes(keyword);
 
         return matchStatus && matchSearch;
@@ -82,120 +82,108 @@ export default function Pending() {
       });
 
     return list;
-  }, [syllabi, q, statusFilter]);
+  }, [syllabi, q, activeStatus]);
 
-  const badgeText = (status) => {
-    switch (status) {
-      case "pending_review":
-        return "Chờ phản biện";
-      case "pending_approval":
-        return "Chờ HOD duyệt";
-      default:
-        return status || "—";
-    }
-  };
-
-  const badgeClass = (status) => {
-    switch (status) {
-      case "pending_review":
-        return "badge badge-warn";
-      case "pending_approval":
-        return "badge badge-info";
-      default:
-        return "badge";
-    }
-  };
+  /* ===== QUICK STATS ===== */
+  const quickStats = useMemo(() => {
+    return {
+      total: filteredSyllabi.length,
+      pending: filteredSyllabi.filter((s) => s.status === "pending_approval").length,
+      approved: filteredSyllabi.filter((s) => s.status === "pending_review").length,
+    };
+  }, [filteredSyllabi]);
 
   if (loading) return <div className="pending-page">Đang tải...</div>;
   if (error) return <div className="pending-page">{error}</div>;
 
   return (
     <div className="pending-page">
-      {/* ===== HEADER ===== */}
-      <div className="pending-header">
-        <h1 className="pending-title">Đề cương chờ duyệt</h1>
+      <h1 className="pending-page-title">Giáo trình chờ duyệt</h1>
+
+      {/* ===== STATUS TABS ===== */}
+      <div className="status-tabs">
+        {STATUS_TABS.map((t) => (
+          <button
+            key={t.key}
+            className={`status-tab ${activeStatus === t.key ? "active" : ""}`}
+            onClick={() => setActiveStatus(t.key)}
+          >
+            {STATUS_LABEL[t.key]}
+          </button>
+        ))}
       </div>
 
+      {/* ===== FILTER ===== */}
       <div className="pending-filter-card">
         <div className="pending-filter-row">
           <div className="filter-group">
             <label>Tìm kiếm</label>
             <input
-              placeholder="Tìm theo họ tên, email..."
+              placeholder="Tìm theo tên môn học, mã môn, giảng viên..."
               value={q}
               onChange={(e) => setQ(e.target.value)}
             />
           </div>
 
-          <div className="filter-group">
-            <label>Trạng thái</label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="ALL">Tất cả</option>
-              <option value="pending_review">Chờ phản biện</option>
-              <option value="pending_approval">Chờ HOD duyệt</option>
-            </select>
+          <div className="pending-stats">
+            <span className="stat-pill stat-total">Tổng: {quickStats.total}</span>
+            <span className="stat-pill stat-pending">Chờ phản biện: {quickStats.pending}</span>
+            <span className="stat-pill stat-approved">Chờ duyệt: {quickStats.approved}</span>
           </div>
-
         </div>
       </div>
 
-      <div className="pending-list">
+      {/* ===== TABLE ===== */}
+      <div className="pending-table-card">
         {filteredSyllabi.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-title">Không có đề cương phù hợp.</div>
-            <div className="empty-sub">
-              Thử đổi bộ lọc hoặc từ khóa tìm kiếm.
-            </div>
+            <div className="empty-title">Không có giáo trình phù hợp.</div>
           </div>
         ) : (
-          <div className="table-wrap">
-            <table className="pending-table">
-              <thead>
-                <tr>
-                  <th>Môn học</th>
-                  <th>Người tạo</th>
-                  <th>Ngày gửi</th>
-                  <th>Trạng thái</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSyllabi.map((s) => (
-                  <tr key={s.id}>
-                    <td className="col-course">
+          <table className="uth-table">
+            <thead>
+              <tr>
+                <th className="col-stt">STT</th>
+                <th>Giáo trình</th>
+                <th>Giảng viên</th>
+                <th>Ngày gửi</th>
+                <th>Trạng thái</th>
+                <th style={{ width: 240 }}>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredSyllabi.map((s, index) => (
+                <tr key={s.syllabus_id}>
+                  <td className="col-stt">{index + 1}</td>
+                  <td>
+                    <div className="course-info">
                       <div className="course-name">{s.course_name}</div>
-                    </td>
-                    <td>{s.lecturer_name}</td>
-                    <td>
-                      {s.submitted_date
-                        ? new Date(s.submitted_date).toLocaleDateString("vi-VN")
-                        : "—"}
-                    </td>
-                    <td>
-                      <span className="badge-pending">
-                        Chờ duyệt
-                      </span>
-                    </td>
-
-                    <td className="col-actions">
-                      <div className="actions">
-                        <Link
-                          to={`/hod/review/evaluate/${s.id}`}
-                          className="action-link"
-                          title="Xem chi tiết"
-                        >
-                          Xem chi tiết
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      <div className="course-code">{s.course_code}</div>
+                    </div>
+                  </td>
+                  <td>{s.lecturer_name}</td>
+                  <td>
+                    {s.submitted_date
+                      ? new Date(s.submitted_date).toLocaleDateString("vi-VN")
+                      : "—"}
+                  </td>
+                  <td>
+                    <span className={`status ${s.status}`}>
+                      {s.status === "pending_review" ? "Chờ phản biện" : "Chờ duyệt"}
+                    </span>
+                  </td>
+                  <td>
+                    <Link
+                      to={`/hod/review/evaluate/${s.syllabus_id}`}
+                      className="btn-outline"
+                    >
+                      Chi tiết
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

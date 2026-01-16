@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import api from "../../../services/api";
+import TabNavigation from "./TabNavigation";
 import "./clo.css";
 
 
@@ -11,73 +12,104 @@ export default function Clo() {
     const [clos, setClos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    // filters
-    const [q, setQ] = useState("");
-    const [levelFilter, setLevelFilter] = useState("ALL");
+    const [usedFallback, setUsedFallback] = useState(false);
 
     useEffect(() => {
+        let isMounted = true;
 
-        const mockSyllabus = {
-            id,
-            course_code: "WEB201",
-            course_name: "Lập Trình Web",
-            faculty_name: "Khoa CNTT",
-            version: "v1",
-            submitted_date: "2026-01-02",
+        async function loadData() {
+            setLoading(true);
+            setError(null);
+            setUsedFallback(false);
+
+            try {
+                const [detailRes, cloRes] = await Promise.all([
+                    api.get(`/syllabus/${id}/detail`),
+                    api.get(`/syllabus/${id}/clos`),
+                ]);
+
+                if (!isMounted) return;
+
+                const detail = detailRes?.data;
+                const cloList = cloRes?.data || [];
+
+                setSyllabus({
+                    id,
+                    course_code: detail.course_code,
+                    course_name: detail.course_name,
+                    faculty_name: detail.faculty_name || "",
+                    version: detail.current_version,
+                    submitted_date: detail.submitted_date || detail.created_at || new Date(),
+                });
+
+                setClos(
+                    cloList.map((c, idx) => ({
+                        clo_code: c.code || c.clo_code || `CLO${idx + 1}`,
+                        description: c.description || "",
+                        level: c.level || c.bloom_level || "K1",
+                        status: c.status || "ok",
+                        note: c.note || "",
+                    }))
+                );
+            } catch (err) {
+                console.error("Load CLO failed", err);
+
+                if (!isMounted) return;
+
+                // Fallback mock để vẫn hiển thị UI
+                setUsedFallback(true);
+                setSyllabus({
+                    id,
+                    course_code: "WEB201",
+                    course_name: "Lập Trình Web",
+                    faculty_name: "Khoa CNTT",
+                    version: "v1",
+                    submitted_date: "2026-01-02",
+                });
+
+                setClos([
+                    {
+                        clo_code: "CLO1",
+                        description: "Trình bày được kiến thức nền tảng về Web/HTTP.",
+                        level: "K1",
+                        status: "ok",
+                        note: "",
+                    },
+                    {
+                        clo_code: "CLO2",
+                        description: "Xây dựng được giao diện web bằng HTML/CSS/JS.",
+                        level: "K2",
+                        status: "warning",
+                        note: "Mô tả hơi rộng, nên cụ thể hóa tiêu chí đánh giá.",
+                    },
+                    {
+                        clo_code: "CLO3",
+                        description:
+                            "Thiết kế và triển khai một web app có CRUD và xác thực cơ bản.",
+                        level: "K3",
+                        status: "ok",
+                        note: "",
+                    },
+                    {
+                        clo_code: "CLO4",
+                        description: "Liên kết CLO với PLO phù hợp và có minh chứng.",
+                        level: "K2",
+                        status: "error",
+                        note: "Thiếu mapping CLO–PLO hoặc mapping chưa đầy đủ.",
+                    },
+                ]);
+
+                setError(null); // giữ UI chạy với dữ liệu fallback
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        }
+
+        loadData();
+        return () => {
+            isMounted = false;
         };
-
-        const mockCLOs = [
-            {
-                clo_code: "CLO1",
-                description: "Trình bày được kiến thức nền tảng về Web/HTTP.",
-                level: "K1",
-                status: "ok",
-                note: "",
-            },
-            {
-                clo_code: "CLO2",
-                description: "Xây dựng được giao diện web bằng HTML/CSS/JS.",
-                level: "K2",
-                status: "warning",
-                note: "Mô tả hơi rộng, nên cụ thể hóa tiêu chí đánh giá.",
-            },
-            {
-                clo_code: "CLO3",
-                description:
-                    "Thiết kế và triển khai một web app có CRUD và xác thực cơ bản.",
-                level: "K3",
-                status: "ok",
-                note: "",
-            },
-            {
-                clo_code: "CLO4",
-                description: "Liên kết CLO với PLO phù hợp và có minh chứng.",
-                level: "K2",
-                status: "error",
-                note: "Thiếu mapping CLO–PLO hoặc mapping chưa đầy đủ.",
-            },
-        ];
-
-        setSyllabus(mockSyllabus);
-        setClos(mockCLOs);
-        setLoading(false);
-
     }, [id]);
-
-    const filteredCLOs = useMemo(() => {
-        const keyword = q.trim().toLowerCase();
-
-        return clos.filter((c) => {
-            const matchLevel = levelFilter === "ALL" || c.level === levelFilter;
-            const matchSearch =
-                !keyword ||
-                (c.clo_code || "").toLowerCase().includes(keyword) ||
-                (c.description || "").toLowerCase().includes(keyword);
-
-            return matchLevel && matchSearch;
-        });
-    }, [clos, q, levelFilter]);
 
     const badgeClass = (status) => {
         if (status === "ok") return "badge badge-ok";
@@ -99,26 +131,17 @@ export default function Clo() {
 
     return (
         <div className="clo-page">
+            <TabNavigation syllabusId={id} />
+
             {/* ===== HEADER ===== */}
             <div className="clo-header">
                 <div>
                     <h1 className="clo-title">
                         Kiểm tra CLO — {syllabus.course_name}
                     </h1>
-                    <p className="clo-subtitle">
-                        Mục tiêu: kiểm tra mô tả CLO rõ ràng, đúng mức độ, và sẵn sàng cho bước
-                        xem thay đổi phiên bản.
-                    </p>
-                </div>
-
-                <div className="clo-top-actions">
-                    {/* Điều hướng theo luồng */}
-                    <Link to={`/hod/review/evaluate/${id}`} className="btn btn-ghost">
-                        ← Nội dung
-                    </Link>
-                    <Link to={`/hod/review/version/${id}`} className="btn btn-primary">
-                        Tiếp theo: Version →
-                    </Link>
+                    {usedFallback && (
+                        <p className="clo-warning">Đang hiển thị dữ liệu mẫu do chưa lấy được từ máy chủ.</p>
+                    )}
                 </div>
             </div>
 
@@ -144,33 +167,9 @@ export default function Clo() {
                 </div>
             </div>
 
-            {/* ===== FILTER ===== */}
-            <div className="clo-filter-card">
-                <div className="filter-group">
-                    <label>Tìm kiếm CLO</label>
-                    <input
-                        placeholder="CLO1, mô tả, từ khóa..."
-                        value={q}
-                        onChange={(e) => setQ(e.target.value)}
-                    />
-                </div>
-                <div className="filter-group">
-                    <label>Mức độ</label>
-                    <select
-                        value={levelFilter}
-                        onChange={(e) => setLevelFilter(e.target.value)}
-                    >
-                        <option value="ALL">Tất cả</option>
-                        <option value="K1">K1</option>
-                        <option value="K2">K2</option>
-                        <option value="K3">K3</option>
-                    </select>
-                </div>
-            </div>
-
             {/* ===== LIST ===== */}
             <div className="clo-list-wrap">
-                {filteredCLOs.length === 0 ? (
+                {clos.length === 0 ? (
                     <div className="empty-state">
                         <div className="empty-title">Không có CLO phù hợp.</div>
                         <div className="empty-sub">Thử đổi bộ lọc hoặc từ khóa.</div>
@@ -187,7 +186,7 @@ export default function Clo() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredCLOs.map((c) => (
+                            {clos.map((c) => (
                                 <tr key={c.clo_code}>
                                     <td className="col-code">{c.clo_code}</td>
                                     <td>{c.level}</td>
@@ -203,11 +202,6 @@ export default function Clo() {
                         </tbody>
                     </table>
                 )}
-            </div>
-
-            {/* ===== FOOT NOTE ===== */}
-            <div className="clo-note">
-                TODO (backend): trang này sau sẽ có thêm mapping CLO–PLO và validate tự động.
             </div>
         </div>
     );

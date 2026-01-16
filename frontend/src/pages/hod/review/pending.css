@@ -1,269 +1,273 @@
 /* ===== PAGE ===== */
 .pending-page {
-  padding: 22px;
-  background: #f3f4f6;
-  /* giống ảnh (xám nhạt) */
-  min-height: 100vh;
+  padding: 24px 28px;
 }
 
-/* ===== TITLE ===== */
-.pending-header {
-  margin-bottom: 14px;
-}
-
-.pending-title {
-  margin: 0;
+.pending-page-title {
   font-size: 26px;
-  font-weight: 800;
-  color: #065f46;
-  /* tông xanh đậm giống sidebar */
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 18px;
 }
 
-/* ===== FILTERS ===== */
-.pending-filter-card {
-  background: #f0fdfa;
-  /* nền nhạt theo tông sidebar */
+/* ===== STATUS TABS ===== */
+.status-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.status-tab {
+  padding: 8px 14px;
+  border-radius: 999px;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
+  background: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.status-tab:hover {
+  background: #f3f4f6;
+}
+
+.status-tab.active {
+  background: #0f766e;
+  color: #ffffff;
+  border-color: #0f766e;
+  font-weight: 600;
+}
+
+/* ===== FILTER CARD ===== */
+.pending-filter-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .pending-filter-row {
   display: flex;
   align-items: flex-end;
-  gap: 16px;
-  flex-wrap: nowrap;
-}
-
-.filter-group label {
-  display: block;
-  font-weight: 700;
-  color: #065f46;
-  margin-bottom: 6px;
-}
-
-.filter-group input,
-.filter-group select {
-  width: 100%;
-  height: 40px;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 14px;
-  line-height: 1.2;
-  box-sizing: border-box;
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
   min-width: 240px;
 }
 
+.filter-group input:focus,
+.filter-group select:focus {
+  outline: none;
+  border-color: #0f766e;
+}
+
+/* ===== QUICK STATS ===== */
+.pending-stats {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+.stat-pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.stat-total {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.stat-pending {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.stat-approved {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
 /* ===== TABLE CARD ===== */
-.table-wrap {
-  background: #fff;
-  border-radius: 16px;
-  border: 1px solid #e5e7eb;
+.pending-table-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* ===== TABLE ===== */
-.pending-table {
+.uth-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.pending-table thead th {
-  text-align: left;
-  padding: 16px 18px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #065f46;
-  background: linear-gradient(180deg, #f0fdfa 0%, #e6f4f1 100%);
-  border-bottom: 2px solid #0f766e;
+.uth-table thead {
+  background: #0f766e;
 }
 
-.pending-table tbody td {
-  padding: 18px;
+.uth-table th {
+  color: #ffffff;
+  padding: 12px 14px;
   font-size: 14px;
-  color: #1f2937;
+  text-align: left;
+  font-weight: 600;
+}
+
+.uth-table td {
+  padding: 12px 14px;
+  font-size: 14px;
   border-bottom: 1px solid #e5e7eb;
-  vertical-align: middle;
-  transition: background 0.2s ease;
+  color: #1f2937;
 }
 
-.pending-table tbody tr {
-  transition: all 0.2s ease;
-}
-
-.pending-table tbody tr:hover {
+.uth-table tbody tr:hover {
   background: #f9fafb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.pending-table tbody tr:last-child td {
-  border-bottom: none;
+.col-stt {
+  width: 60px;
+  text-align: center;
+  font-weight: 600;
+  color: #374151;
 }
 
-/* Course name styling: ensure black */
-.col-course {
-  min-width: 280px;
+.uth-table thead .col-stt {
+  text-align: center;
+}
+
+/* ===== COURSE INFO ===== */
+.course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .course-name {
-  color: #111827 !important;
+  color: #111827;
   font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 4px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: 14px;
 }
 
-.course-name::before {
-  content: "📘";
-  font-size: 18px;
+.course-code {
+  color: #6b7280;
+  font-size: 12px;
 }
 
-/* Trạng thái: badge theo tông sidebar */
-.badge-pending {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 20px;
+/* ===== STATUS ===== */
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
   font-weight: 600;
+  display: inline-block;
+}
+
+.status.pending_review {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.pending_approval {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===== ACTION BUTTON ===== */
+.btn-outline {
+  padding: 6px 12px;
+  border-radius: 6px;
   font-size: 13px;
-  color: #065f46;
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  border: 1.5px solid #10b981;
-  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.1);
-}
-
-.badge-pending::before {
-  content: "⏳";
-  font-size: 14px;
-}
-
-/* ===== STATUS (Chờ duyệt) ===== */
-.status-pending {
-  font-weight: 700;
-  color: #b45309;
-  /* vàng nâu giống ảnh */
-}
-
-/* ===== ACTIONS ===== */
-.col-actions {
-  width: 260px;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-/* "Xem chi tiết" - button bo viền màu teal */
-.action-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #0f766e;
-  font-weight: 700;
-  font-size: 13px;
-  text-decoration: none;
-  border: 2px solid #0f766e;
-  padding: 8px 16px;
-  border-radius: 10px;
-  background: #fff;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(15, 118, 110, 0.1);
-}
-
-.action-link::after {
-  content: "→";
-  font-size: 14px;
-  transition: transform 0.2s ease;
-}
-
-.action-link:hover {
-  background: #f0fdfa;
-  border-color: #065f46;
-  color: #065f46;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(15, 118, 110, 0.15);
-}
-
-.action-link:hover::after {
-  transform: translateX(2px);
-}
-
-/* Nút Duyệt (xanh) */
-.btn-approve {
-  background: #0f766e;
-  color: #fff;
+  background: transparent;
   border: 1px solid #0f766e;
-  padding: 7px 12px;
-  border-radius: 6px;
-  font-weight: 800;
+  color: #0f766e;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
 }
 
-.btn-approve:hover {
-  filter: brightness(0.95);
+.btn-outline:hover {
+  background: #0f766e;
+  color: #ffffff;
 }
 
-/* Nút Từ chối (đỏ) */
-.btn-reject {
-  background: #dc2626;
-  color: #fff;
-  border: 1px solid #dc2626;
-  padding: 7px 12px;
-  border-radius: 6px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.btn-reject:hover {
-  filter: brightness(0.95);
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 /* ===== EMPTY STATE ===== */
 .empty-state {
-  background: #fff;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  padding: 18px;
+  padding: 40px 20px;
   text-align: center;
 }
 
 .empty-title {
-  font-weight: 900;
+  font-weight: 700;
   font-size: 16px;
   color: #111827;
+  margin-bottom: 8px;
 }
 
 .empty-sub {
-  margin-top: 6px;
   color: #6b7280;
+  font-size: 14px;
+}
+
+/* ===== REMOVE BLACK FOCUS RING ===== */
+button,
+a,
+.status-tab {
+  outline: none;
+  box-shadow: none;
+}
+
+button:focus,
+button:focus-visible,
+a:focus,
+a:focus-visible,
+.status-tab:focus,
+.status-tab:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
-  .col-actions {
-    width: auto;
+  .pending-stats {
+    margin-left: 0;
+    width: 100%;
   }
 
-  .actions {
-    gap: 8px;
+  .stat-pill {
+    flex: 1;
+    text-align: center;
   }
 }

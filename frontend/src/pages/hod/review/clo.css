@@ -15,10 +15,11 @@
     font-weight: 800;
 }
 
-.clo-subtitle {
+.clo-warning {
     margin: 6px 0 0;
-    opacity: 0.75;
-    line-height: 1.4;
+    font-size: 12px;
+    color: #c0392b;
+    font-weight: 700;
 }
 
 .clo-top-actions {
@@ -111,10 +112,6 @@
     font-weight: 600;
 }
 
-.col-note {
-    opacity: 0.85;
-}
-
 .badge {
     display: inline-flex;
     align-items: center;
@@ -172,12 +169,6 @@
 
 .empty-sub {
     margin-top: 6px;
-    opacity: 0.7;
-}
-
-.clo-note {
-    margin-top: 12px;
-    font-size: 12px;
     opacity: 0.7;
 }
 

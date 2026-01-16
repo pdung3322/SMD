@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import TabNavigation from "./TabNavigation";
 import "./decision.css";
 
 export default function Decision() {
@@ -132,6 +133,8 @@ export default function Decision() {
 
     return (
         <div className="decision-page">
+            <TabNavigation syllabusId={id} />
+
             {/* HEADER */}
             <div className="decision-header">
                 <div>
@@ -141,10 +144,6 @@ export default function Decision() {
                         {syllabus.version}
                     </p>
                 </div>
-
-                <button className="btn-ghost" onClick={goPending}>
-                    ← Pending
-                </button>
             </div>
 
             <div className="grid">
