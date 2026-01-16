@@ -27,7 +27,7 @@ export default function Login() {
 
       console.log("RES", res.data);
 
-      const user = res.data.user;
+      const user = res.data;
 
       if (!user || !user.role) {
         setError("Dữ liệu đăng nhập không hợp lệ");

@@ -34,7 +34,7 @@ export const SIDEBAR_BY_ROLE = {
           },
           {
             label: "Phân quyền người dùng",
-            path: "/admin/users/roles",
+            path: "/admin/users/permissions",
           },
           {
             label: "Khóa hoặc mở khóa tài khoản",
@@ -54,11 +54,11 @@ export const SIDEBAR_BY_ROLE = {
       },
 
       {
-        label: "Quản lý đề cương học phần",
+        label: "Quản lý giáo trình học phần",
         items: [
-          { label: "Danh sách đề cương học phần", path: "/admin/syllabi" },
-          { label: "Phiên bản đề cương học phần", path: "/admin/syllabi/versions" },
-          { label: "Theo dõi trạng thái đề cương", path: "/admin/syllabi/status" },
+          { label: "Danh sách giáo trình học phần", path: "/admin/syllabus" },
+          { label: "Phiên bản học phần", path: "/admin/syllabus/versions" },
+          { label: "Theo dõi trạng thái giáo trình", path: "/admin/syllabus/status" },
         ],
       },
 
@@ -179,44 +179,35 @@ hod: {
     {
       label: "Duyệt giáo trình",
       items: [
-        { label: "Xem giáo trình chờ duyệt", path: "/hod/review/pending" },
-        { label: "Xem giáo trình", path: "/hod/review/evaluate" },
-        { label: "Kiểm tra CLO", path: "/hod/review/clo" },
-        { label: "Xem thay đổi phiên bản", path: "/hod/review/version" },
-        { label: "Phê duyệt hoặc từ chối đề cương", path: "/hod/review/decision" },
-      ],
-    },
-    {
-      label: "Phản biện cộng tác",
-      items: [
-        { label: "Phản hồi cộng tác", path: "/hod/collaborative-review/collaborative" },
-        { label: "Tổng hợp ý kiến", path: "/hod/collaborative-review/summary" },
-      ],
-    },
-    {
-      label: "Tra cứu giáo trình",
-      items: [
-        { label: "Tra cứu theo năm học và chuyên ngành", path: "/hod/lookup/lookup" },
-        { label: "So sánh các phiên bản", path: "/hod/lookup/compare" },
-      ],
-    },
-    {
-      label: "Thông báo",
-      items: [
-        { label: "Thông báo giáo trình mới", path: "/hod/notifications/new" },
-        { label: "Thông báo kết quả phản biện", path: "/hod/notifications/reviewresult" },
-        { label: "Thông báo yêu cầu", path: "/hod/notifications/request" },
-      ],
-    },
-    
-  ],
-},
+          { label: "Danh sách chờ duyệt", path: "/hod/review/pending" },
+        ],
+      },
+      {
+        label: "Phản biện cộng tác",
+        items: [
+          { label: "Phản hồi cộng tác", path: "/hod/collaborative-review" },
+        ],
+      },
+      {
+        label: "Tra cứu giáo trình",
+        items: [
+          { label: "Tra cứu theo năm học và chuyên ngành", path: "/hod/lookup/lookup" },
+          { label: "So sánh các phiên bản", path: "/hod/lookup/compare" },
+        ],
+      },
+      {
+        label: "Thông báo",
+        items: [
+          { label: "Thông báo giáo trình mới", path: "/hod/notifications/new" },
+          { label: "Thông báo kết quả phản biện", path: "/hod/notifications/reviewresult" },
+          { label: "Thông báo yêu cầu", path: "/hod/notifications/request" },
+        ],
+      },
+    ],
+  },
 
-
-
-
- // ================= ACADEMIC AFFAIRS =================
-academic_affairs: {
+  // ================= ACADEMIC AFFAIRS =================
+  academic_affairs: {
   title: "Phòng đào tạo",
   menu: [
     {

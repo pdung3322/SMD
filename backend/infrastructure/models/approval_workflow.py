@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy.orm import relationship
 from ...infrastructure.databases.base import Base
 from datetime import datetime
 
@@ -17,3 +18,8 @@ class ApprovalWorkflow(Base):
     status = Column(String(50), nullable=False, default="PENDING")
     comment = Column(String(500))
     reviewed_at = Column(DateTime, default=None)
+
+        # ===== RELATIONSHIPS =====
+    syllabus = relationship("Syllabus", back_populates="workflows")
+    reviewer = relationship("User")
+

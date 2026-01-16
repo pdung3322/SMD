@@ -17,3 +17,4 @@ SessionLocal = sessionmaker(
     autoflush=False,
     bind=engine
 )
+print(engine.url)

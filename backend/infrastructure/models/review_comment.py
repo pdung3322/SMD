@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
+from sqlalchemy.orm import relationship
 from ...infrastructure.databases.base import Base
 from datetime import datetime
 
@@ -16,3 +17,8 @@ class ReviewComment(Base):
     content = Column(Text, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow)
+
+    # ===== RELATIONSHIPS =====
+    syllabus = relationship("Syllabus", back_populates="comments")
+    version = relationship("SyllabusVersion")
+    reviewer = relationship("User")

@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
+from sqlalchemy.orm import relationship
 from ...infrastructure.databases.base import Base
 from datetime import datetime
 
@@ -17,3 +18,6 @@ class SyllabusVersion(Base):
 
     created_at = Column(DateTime, default=datetime.utcnow)
 
+    # ===== RELATIONSHIPS =====
+    syllabus = relationship("Syllabus", back_populates="versions")
+    creator = relationship("User")

@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.routers.auth import router as auth_router
 from backend.api.routers.users import router as user_router
+from backend.api.routers.syllabus import router as syllabus_router
 
 app = FastAPI(
     title="SMD Backend API",
@@ -21,3 +22,4 @@ app.add_middleware(
 # ===== Register routers =====
 app.include_router(auth_router)
 app.include_router(user_router)
+app.include_router(syllabus_router)

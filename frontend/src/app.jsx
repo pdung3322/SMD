@@ -8,6 +8,10 @@ import AdminDashboard from "./pages/admin/dashboard";
 import UserList from "./pages/admin/users/userlist";
 import UserDetail from "./pages/admin/users/userdetail";
 import UserCreate from "./pages/admin/users/usercreate";
+import UserImport from "./pages/admin/users/userimport";
+import UserPermission from "./pages/admin/users/userpermission";
+import UserStatus from "./pages/admin/users/userstatus";
+import SyllabusList from "./pages/admin/syllabus/syllabuslist";
 
 import Dashboard from "./pages/hod/dashboard";
 import Pending from "./pages/hod/review/pending";
@@ -16,8 +20,8 @@ import Clo from "./pages/hod/review/clo";
 import Version from "./pages/hod/review/version";
 import Decision from "./pages/hod/review/decision";
 
-import Collaborative from "./pages/hod/collaborative-review/collaborative";
-import Summary from "./pages/hod/collaborative-review/summary";
+import CollaborativeReview from "./pages/hod/collaborative-review/collaborative";
+import CollaborativeReviewIndex from "./pages/hod/collaborative-review/index";
 
 
 import Lookup from "./pages/hod/lookup/lookup";
@@ -72,6 +76,25 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/users/import"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <UserImport />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users/permissions"
+          element={<UserPermission />}
+        />
+
+        <Route
+          path="/admin/users/status"
+          element={<UserStatus />}
+        />
+
+
         {/* HOD */}
         <Route
           path="/hod/dashboard"
@@ -92,7 +115,7 @@ export default function App() {
           }
         />
         <Route
-          path="/hod/review/evaluate"
+          path="/hod/review/evaluate/:id"
           element={
             <ProtectedRoute allowedRoles={["HOD"]}>
               <Evaluate />
@@ -100,7 +123,7 @@ export default function App() {
           }
         />
         <Route
-          path="/hod/review/clo"
+          path="/hod/review/clo/:id"
           element={
             <ProtectedRoute allowedRoles={["HOD"]}>
               <Clo />
@@ -108,7 +131,7 @@ export default function App() {
           }
         />
         <Route
-          path="/hod/review/version"
+          path="/hod/review/version/:id"
           element={
             <ProtectedRoute allowedRoles={["HOD"]}>
               <Version />
@@ -116,7 +139,7 @@ export default function App() {
           }
         />
         <Route
-          path="/hod/review/decision"
+          path="/hod/review/decision/:id"
           element={
             <ProtectedRoute allowedRoles={["HOD"]}>
               <Decision />
@@ -126,18 +149,18 @@ export default function App() {
 
         {/* HOD COLLABORATIVE-REVIEW */}
         <Route
-          path="/hod/collaborative-review/collaborative"
+          path="/hod/collaborative-review"
           element={
             <ProtectedRoute allowedRoles={["HOD"]}>
-              <Collaborative />
+              <CollaborativeReviewIndex />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/hod/collaborative-review/summary"
+          path="/hod/collaborative-review/:id"
           element={
             <ProtectedRoute allowedRoles={["HOD"]}>
-              <Summary />
+              <CollaborativeReview />
             </ProtectedRoute>
           }
         />
@@ -216,6 +239,11 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/syllabus"
+          element={<SyllabusList />}
+        />
+
 
         {/* STUDENT */}
         <Route
