@@ -1,0 +1,148 @@
+.st-page {
+  padding: 18px;
+}
+
+.st-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  padding: 12px 12px 16px;
+}
+
+.st-tableWrap {
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Table */
+.st-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 980px;
+}
+
+/* Header */
+.st-table thead th {
+  position: sticky;
+  top: 0;
+  background: #007f82; /* xanh như ảnh */
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 12px;
+  text-align: center;
+  border-right: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.st-table thead th:first-child {
+  border-top-left-radius: 10px;
+}
+.st-table thead th:last-child {
+  border-top-right-radius: 10px;
+  border-right: none;
+}
+
+/* Cells */
+.st-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+  background: #eef1f4; /* nền xám nhạt như ảnh */
+  font-size: 15px;
+  color: #4b5563;
+}
+
+.st-table td:last-child {
+  border-right: none;
+}
+
+.st-center {
+  text-align: center;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* Semester + Group rows */
+.st-semRow td,
+.st-groupRow td {
+  background: #f8fbff;
+  font-weight: 800;
+}
+
+.st-semTitle {
+  color: #e11d2e;
+  text-align: center;
+  font-size: 18px;
+}
+
+.st-groupTitle {
+  color: #e11d2e;
+  font-size: 16px;
+}
+
+.st-totalCredit {
+  text-align: center;
+  color: #e11d2e !important;
+  font-weight: 900 !important;
+}
+
+/* Name cell + note (*) */
+.st-nameCell {
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.st-nameText {
+  display: inline-block;
+}
+
+.st-note {
+  margin-left: 4px;
+  color: #e11d2e;
+  font-weight: 900;
+}
+
+/* Condition highlight like 005105(a) in red */
+.st-condition {
+  color: #e11d2e;
+  font-weight: 900;
+}
+
+/* Check icon */
+.st-check {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0a8a18;
+  position: relative;
+  vertical-align: middle;
+}
+
+.st-check::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 4px;
+  width: 6px;
+  height: 11px;
+  border: solid #fff;
+  border-width: 0 2.4px 2.4px 0;
+  transform: rotate(45deg);
+}
+
+/* Footnote */
+.st-footnote {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #111827;
+  line-height: 1.6;
+}
+
+.st-footnoteTitle {
+  color: #e11d2e;
+  font-weight: 900;
+  margin-bottom: 4px;
+}

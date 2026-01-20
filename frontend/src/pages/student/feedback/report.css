@@ -1,0 +1,85 @@
+/* Wrapper để căn giữa toàn trang */
+.feedback-page {
+  width: 100%;
+  min-height: calc(100vh - 120px); /* trừ header nếu có */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px; /* Sửa: Làm padding đều tất cả các bên (40px), hoặc giữ 40px 20px nếu bạn thích lề ngang hẹp hơn */
+  box-sizing: border-box;
+  margin: 0 auto; /* Thêm: Đảm bảo căn giữa nếu có parent container */
+}
+
+/* Responsive: Trên mobile, giảm padding để lề vẫn đều nhưng không quá sát mép */
+@media (max-width: 768px) {
+  .feedback-page {
+    padding: 20px; /* Lề trái-phải đều 20px trên mobile */
+  }
+}
+
+/* Khung form chính */
+.feedback-container {
+  width: 100%;
+  max-width: 720px;
+  background: #ffffff;
+  padding: 32px 36px;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  margin: 0 auto; /* Thêm: Căn giữa container nếu cần */
+}
+
+/* Tiêu đề */
+.feedback-container h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #0a7c5a;
+  font-weight: 600;
+}
+
+/* Textarea */
+.feedback-textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 14px 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+.feedback-textarea:focus {
+  border-color: #0a7c5a;
+  box-shadow: 0 0 0 3px rgba(10, 124, 90, 0.15);
+}
+
+/* Nút gửi */
+.feedback-btn {
+  display: block;
+  margin: 20px auto 0; /* căn giữa nút */
+  padding: 10px 36px;
+  background: #0a7c5a;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.feedback-btn:hover {
+  background: #096b4f;
+  transform: translateY(-1px);
+}
+
+/* Trạng thái */
+.feedback-status {
+  margin-top: 16px;
+  text-align: center;
+  font-weight: 500;
+  color: #2e7d32;
+}
