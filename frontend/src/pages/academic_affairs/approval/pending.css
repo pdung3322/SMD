@@ -1,0 +1,251 @@
+/* ===== PAGE ===== */
+.aaPending {
+  padding: 24px 28px;
+}
+
+.aaTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #1f2937;
+}
+
+/* ===== CARD ===== */
+.aaCard {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== CARD HEADER ===== */
+.aaCardHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+/* ===== FILTER ===== */
+.aaFilterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aaFilterGroup label {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 600;
+}
+
+/* ===== INPUT ===== */
+.aaInput,
+.aaSelect {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  min-width: 240px;
+}
+
+.aaInput:focus,
+.aaSelect:focus {
+  outline: none;
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
+/* ===== STATS ===== */
+.aaStats {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+}
+
+/* ===== BADGE ===== */
+.aaBadge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.aaBadge--total {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.aaBadge--pending {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.aaBadge--approved {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* ===== TABLE ===== */
+.aaTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aaTable thead {
+  background: #0f766e;
+}
+
+.aaTable th {
+  color: #ffffff;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.aaTable th:nth-child(2) {
+  text-align: left;
+}
+
+.aaTable td {
+  padding: 12px 14px;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
+  text-align: center;
+}
+
+.aaTable td:nth-child(2) {
+  text-align: left;
+}
+
+.aaTable tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* ===== COURSE INFO ===== */
+.aaCourseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.aaCourseTitle {
+  color: #0f766e;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ===== STATUS ===== */
+.aaStatus {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.aaStatus--pending {
+  background: #dcfce7;
+  color: #166534; 
+}
+
+.aaStatus--approved {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.aaStatus--rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===== ACTION COLUMN ALIGN ===== */
+.aaTable th:last-child,
+.aaTable td:last-child {
+  text-align: center;
+}
+
+/* ===== ACTION GROUP ===== */
+.aaActionGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ===== ACTION BUTTON & LINK (UNIFIED) ===== */
+.aaActionBtn,
+.aaLink {
+  height: 32px;
+  min-width: 84px;
+  padding: 0 12px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ===== APPROVE (GREEN – SOFT) ===== */
+.aaActionBtn--approve {
+  background: #dcfce7;
+  color: #166534;
+  border: none;
+}
+
+.aaActionBtn--approve:hover {
+  background: #bbf7d0;
+}
+
+/* ===== REJECT (RED – SOFT) ===== */
+.aaActionBtn--reject {
+  background: #fee2e2;
+  color: #991b1b;
+  border: none;
+}
+
+.aaActionBtn--reject:hover {
+  background: #fecaca;
+}
+
+/* ===== DETAIL LINK (NEUTRAL) ===== */
+.aaLink {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  text-decoration: none;
+}
+
+.aaLink:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .aaCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .aaStats {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .aaInput,
+  .aaSelect {
+    width: 100%;
+  }
+}

@@ -1,0 +1,215 @@
+/* ===== PAGE ===== */
+.aaPloManagement {
+  padding: 24px 28px;
+}
+
+.aaTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+  color: #1f2937;
+}
+
+/* ===== CARD ===== */
+.aaCard {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.aaPloCardHeader {
+  padding: 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #0f766e;
+}
+
+.aaPloCardHeaderTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.aaPloCardContent {
+  padding: 16px 18px;
+}
+
+/* PLO Grid */
+.aaPloGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+
+.aaPloCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.aaPloCard:hover {
+  border-color: #0f766e;
+  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.1);
+}
+
+.aaPloHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aaPloCode {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.aaPloCardTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.aaPloTag {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.aaTag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #f3f4f6;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.aaPloDesc {
+  margin: 12px 0 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .aaPloGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .aaPloManagement {
+    padding: 16px 12px;
+  }
+
+  .aaTitle {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .aaPloGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .aaCardHeader {
+    padding: 12px 16px;
+  }
+
+  .aaCardContent {
+    padding: 12px 16px;
+  }
+}
+
+/* Status badge */
+.ploRefStatus {
+  display: none;
+}
+
+.ploRefStatus > i {
+  display: none;
+}
+
+.ploRefStatus--active {
+  display: none;
+}
+
+.ploRefStatus--active > i {
+  display: none;
+}
+
+.ploRefStatus--inactive {
+  display: none;
+}
+
+.ploRefStatus--inactive > i {
+  display: none;
+}
+
+/* Actions */
+.ploRefPloActions {
+  display: none;
+}
+
+.ploRefLinkBtn {
+  display: none;
+}
+
+.ploRefLinkBtn:hover {
+  display: none;
+}
+
+/* Table view */
+.ploRefTableWrap {
+  display: none;
+}
+
+.ploRefTable {
+  display: none;
+}
+
+.ploRefTable thead th {
+  display: none;
+}
+
+.ploRefTable tbody td {
+  display: none;
+}
+
+.ploRefTable tbody tr:hover td {
+  display: none;
+}
+
+.ploRefStrong {
+  display: none;
+}
+
+.ploRefMutedLine {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 1050px) {
+  .ploRefGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .ploRefGrid {
+    grid-template-columns: 1fr;
+  }
+}

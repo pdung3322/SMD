@@ -1,0 +1,187 @@
+.clo-page {
+    padding: 18px;
+}
+
+.clo-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.clo-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.clo-warning {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #c0392b;
+    font-weight: 700;
+}
+
+.clo-top-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.clo-info-card {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+    margin-bottom: 14px;
+}
+
+.info-label {
+    font-size: 12px;
+    opacity: 0.65;
+}
+
+.info-value {
+    margin-top: 4px;
+    font-weight: 800;
+}
+
+.clo-filter-card {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+    margin-bottom: 14px;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.75;
+    margin-bottom: 6px;
+}
+
+.filter-group input,
+.filter-group select {
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    outline: none;
+}
+
+.clo-list-wrap {
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+    overflow: hidden;
+}
+
+.clo-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.clo-table thead th {
+    text-align: left;
+    font-size: 12px;
+    opacity: 0.75;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.clo-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    vertical-align: top;
+}
+
+.col-code {
+    font-weight: 900;
+}
+
+.col-desc {
+    font-weight: 600;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.badge-ok {
+    background: rgba(0, 200, 120, 0.12);
+}
+
+.badge-warn {
+    background: rgba(255, 168, 0, 0.15);
+}
+
+.badge-err {
+    background: rgba(255, 0, 80, 0.12);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    color: #111;
+    background: #fff;
+    font-size: 13px;
+}
+
+.btn:hover {
+    border-color: rgba(0, 0, 0, 0.28);
+}
+
+.btn-primary {
+    font-weight: 900;
+}
+
+.btn-ghost {
+    opacity: 0.9;
+}
+
+.empty-state {
+    padding: 18px;
+    text-align: center;
+}
+
+.empty-title {
+    font-weight: 900;
+}
+
+.empty-sub {
+    margin-top: 6px;
+    opacity: 0.7;
+}
+
+@media (max-width: 900px) {
+    .clo-header {
+        flex-direction: column;
+    }
+
+    .clo-info-card {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .clo-filter-card {
+        grid-template-columns: 1fr;
+    }
+}

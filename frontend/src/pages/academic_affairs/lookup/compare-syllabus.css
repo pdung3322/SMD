@@ -1,0 +1,139 @@
+/* Compare Syllabus */
+
+:root {
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --teal: #0a7f86;
+  --shadow: 0 12px 28px rgba(2, 6, 23, 0.08);
+}
+
+.aaCompare {
+  padding: 24px;
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+.aaTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #1f2937;
+}
+
+/* CARD */
+.aaCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.aaCardHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+/* FILTER GROUP */
+.aaFilterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aaFilterGroup label {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.aaSelect {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  color: var(--text);
+}
+
+.aaSelect:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(10, 127, 134, 0.1);
+}
+
+/* BUTTON */
+.aaBtn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.aaBtn--primary {
+  background: var(--teal);
+  color: #fff;
+  border-color: transparent;
+}
+
+.aaBtn--primary:hover {
+  opacity: 0.9;
+}
+
+/* TABLE */
+.aaTableWrapper {
+  overflow-x: auto;
+}
+
+.aaTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aaTable th,
+.aaTable td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  color: #1f2937;
+}
+
+.aaTable th {
+  background: #0f766e;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.aaTable tbody tr:hover {
+  background: #f9fafb;
+}
+
+@media (max-width: 768px) {
+  .aaCardHeader {
+    flex-direction: column;
+  }
+
+  .aaSelect {
+    width: 100%;
+  }
+
+  .aaBtn {
+    width: 100%;
+  }
+}
+@media (max-width: 1024px) {
+  .comparison-view {
+    grid-template-columns: 1fr;
+  }
+}

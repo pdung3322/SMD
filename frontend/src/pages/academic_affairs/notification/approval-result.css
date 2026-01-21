@@ -1,0 +1,159 @@
+/* Approval Result */
+
+:root {
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --teal: #0a7f86;
+}
+
+.aaNotification {
+  padding: 24px;
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+.aaTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #1f2937;
+}
+
+/* CARD */
+.aaCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* TABLE */
+.aaTableWrapper {
+  overflow-x: auto;
+}
+
+.aaTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aaTable th,
+.aaTable td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  color: #1f2937;
+}
+
+.aaTable th {
+  background: #0f766e;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.aaTable tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* STATUS */
+.aaStatus {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.aaStatus--approved {
+  color: #059669;
+}
+
+.aaStatus--rejected {
+  color: #dc2626;
+}
+
+/* LINK */
+.aaLink {
+  border: none;
+  background: transparent;
+  color: var(--teal);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.aaLink:hover {
+  opacity: 0.7;
+}
+  transition: all 0.2s ease;
+}
+
+.btn.primary {
+  background-color: #059669;
+  color: white;
+}
+
+.btn.primary:hover {
+  background-color: #047857;
+}
+
+.btn.secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.btn.secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* Timeline (for multiple statuses) */
+.timeline {
+  margin: 32px 0;
+  text-align: left;
+}
+
+.timeline-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 16px;
+}
+
+.timeline-item {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.timeline-marker {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #059669;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-right: 12px;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-status {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.timeline-date {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}

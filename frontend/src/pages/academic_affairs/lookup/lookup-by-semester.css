@@ -1,0 +1,316 @@
+/* Lookup By Semester */
+
+:root {
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --teal: #0a7f86;
+  --shadow: 0 12px 28px rgba(2, 6, 23, 0.08);
+}
+
+.aaLookup {
+  padding: 24px;
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+.aaTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #1f2937;
+}
+
+/* CARD */
+.aaCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.aaCardHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+/* FILTER GROUP */
+.aaFilterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aaFilterGroup label {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.aaSelect {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+  color: var(--text);
+}
+
+.aaSelect:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(10, 127, 134, 0.1);
+}
+
+/* BUTTON */
+.aaBtn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.aaBtn--primary {
+  background: var(--teal);
+  color: #fff;
+  border-color: transparent;
+}
+
+.aaBtn--primary:hover {
+  opacity: 0.9;
+}
+
+/* TABLE */
+.aaTableWrapper {
+  overflow-x: auto;
+}
+
+.aaTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.aaTable th,
+.aaTable td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  color: #1f2937;
+}
+
+.aaTable th {
+  background: #0f766e;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.aaTable tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* STATUS */
+.aaStatus {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.aaStatus--approved {
+  color: #059669;
+}
+
+.aaStatus--pending {
+  color: #d97706;
+}
+
+.aaStatus--rejected {
+  color: #dc2626;
+}
+
+/* LINK */
+.aaLink {
+  border: none;
+  background: transparent;
+  color: var(--teal);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.aaLink:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .aaCardHeader {
+    flex-direction: column;
+  }
+
+  .aaSelect {
+    width: 100%;
+  }
+
+  .aaBtn {
+    width: 100%;
+  }
+}
+}
+  outline: none;
+  border-color: #9ca3af;
+  background-color: #f3f4f6;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn.search {
+  background-color: #059669;
+  color: white;
+}
+
+.filter-btn.search:hover {
+  background-color: #047857;
+}
+
+.filter-btn.reset {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.filter-btn.reset:hover {
+  background-color: #e5e7eb;
+}
+
+/* Results Section */
+.results-section {
+  margin-bottom: 24px;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.results-count {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.sort-select {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  background-color: #f9fafb;
+  color: #1f2937;
+  cursor: pointer;
+}
+
+/* Results Table */
+.results-table {
+  width: 100%;
+  background: #ffffff;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.results-table th,
+.results-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  color: #1f2937;
+}
+
+.results-table th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.results-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Action Buttons */
+.result-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.action-btn.view {
+  background-color: #e0e7ff;
+  color: #4f46e5;
+}
+
+.action-btn.view:hover {
+  background-color: #c7d2fe;
+}
+
+.action-btn.download {
+  background-color: #f0fdf4;
+  color: #059669;
+}
+
+.action-btn.download:hover {
+  background-color: #dcfce7;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-message {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
