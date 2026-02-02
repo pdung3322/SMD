@@ -1,0 +1,87 @@
+/* ================= CURRENT SEMESTER CONFIG ================= */
+
+.current-semester-page {
+  padding: 24px;
+}
+
+/* title */
+.current-semester-page .page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f766e;              /* xanh UTH */
+  margin-bottom: 20px;
+  text-transform: none;
+}
+
+/* info box */
+.current-semester-box {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  max-width: 700px;
+}
+
+/* row */
+.current-semester-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.current-semester-row:last-child {
+  border-bottom: none;
+}
+
+/* label */
+.current-semester-label {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* value */
+.current-semester-value {
+  font-weight: 600;
+  color: #111827;
+}
+
+/* status badge */
+.current-semester-status {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.current-semester-status.active {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+/* note */
+.current-semester-note {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #6b7280;
+}
+.current-semester-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.btn-secondary {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #e6f4f1;
+  color: #0f766e;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-secondary:hover {
+  background-color: #ccfbf1;
+}

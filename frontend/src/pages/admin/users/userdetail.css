@@ -12,11 +12,28 @@
   margin-bottom: 10px;
 }
 
+/* ===== PAGE TITLE (UTH STYLE) ===== */
 .user-detail-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   font-size: 22px;
   font-weight: 700;
-  color: #111827;
+  color: #0f766e; /* xanh UTH */
+
+  text-transform: none;
 }
+
+/* thanh dọc bên trái */
+.user-detail-header h2::before {
+  content: "";
+  width: 4px;
+  height: 22px;
+  background-color: #0f766e;
+  border-radius: 2px;
+}
+
 
 .user-detail-header button {
   background: none;

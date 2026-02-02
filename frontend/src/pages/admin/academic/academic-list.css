@@ -1,0 +1,270 @@
+/* ================= ACADEMIC LIST (YEAR / SEMESTER) ================= */
+
+/* ===== PAGE ===== */
+.academic-page {
+  padding: 24px;
+}
+
+/* ===== TITLE ===== */
+.academic-page .page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f766e; /* UTH green */
+  margin-bottom: 16px;
+}
+
+/* ===== HEADER (FILTER + ACTION) ===== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.page-header > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* select year */
+.page-header select {
+  height: 38px;
+  min-width: 130px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  background: #ffffff;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* primary button */
+.btn-primary {
+  height: 38px;
+  padding: 0 16px;
+  background-color: #0f766e;
+  color: #ffffff;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #115e59;
+}
+
+/* ===== TABLE ===== */
+.academic-table {
+  width: 100%;
+  background: #ffffff;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* header */
+.academic-table thead th {
+  background-color: #0f766e;
+  color: #ffffff;
+  font-weight: 700;
+  padding: 12px;
+  text-align: left;
+}
+
+/* body */
+.academic-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* hover */
+.academic-table tbody tr:hover {
+  background-color: #f0fdfa;
+}
+
+/* ===== STATUS ===== */
+.academic-status {
+  font-weight: 600;
+}
+
+.academic-status.active {
+  color: #059669;
+}
+
+.academic-status.upcoming {
+  color: #d97706;
+}
+
+.academic-status.finished {
+  color: #6b7280;
+}
+
+.academic-status.closed {
+  color: #dc2626;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.actions button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #f3f4f6;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #e5e7eb;
+}
+
+.actions .danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.actions .danger:hover {
+  background: #fecaca;
+}
+
+/* ================= MODAL ================= */
+
+/* backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* modal box */
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 30px;
+  width: 460px;
+  max-width: 90%;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
+}
+
+/* modal title */
+.modal h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f766e;
+}
+
+/* inputs */
+.modal input[type="text"],
+.modal input[type="date"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.modal input[type="text"] {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.modal input:focus {
+  outline: none;
+  border-color: #0f766e;
+}
+
+/* row date */
+.form-row {
+  display: flex;
+  gap: 14px;
+}
+
+/* checkbox */
+.modal label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 20px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* modal actions */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.modal-actions button {
+  padding: 8px 22px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* save */
+.modal-actions button:first-child {
+  background-color: #0f766e;
+  color: #ffffff;
+}
+
+.modal-actions button:first-child:hover {
+  background-color: #115e59;
+}
+
+/* cancel */
+.modal-actions button:last-child {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.modal-actions button:last-child:hover {
+  background-color: #d1d5db;
+}
+/* ===== FIX INPUT TEXT (MÃ + TÊN HỌC KỲ) ===== */
+
+.modal {
+  box-sizing: border-box;
+}
+
+/* wrapper 2 input text trên cùng hàng */
+.modal input[type="text"] {
+  height: 42px;
+  box-sizing: border-box;
+}
+
+/* tạo hàng flex cho 2 input đầu */
+.modal input[type="text"] {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Mã học kỳ */
+.modal input[type="text"]:first-of-type {
+  width: 160px;
+  flex: 0 0 160px;
+}
+
+/* Tên học kỳ */
+.modal input[type="text"]:nth-of-type(2) {
+  flex: 1;
+}
+
+/* khoảng cách giữa 2 ô */
+.modal input[type="text"] + input[type="text"] {
+  margin-left: 14px;
+}

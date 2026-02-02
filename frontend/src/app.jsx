@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 import Login from "./pages/login";
 import Layout from "./components/layout";
@@ -12,6 +12,13 @@ import UserImport from "./pages/admin/users/userimport";
 import UserPermission from "./pages/admin/users/userpermission";
 import UserStatus from "./pages/admin/users/userstatus";
 import SyllabusList from "./pages/admin/syllabus/syllabuslist";
+import LecturerSyllabusList from "./pages/lecturer/syllabuslist";
+import LecturerSyllabusCreate from "./pages/lecturer/syllabuscreate";
+import LecturerSyllabusEdit from "./pages/lecturer/syllabusedit";
+import AcademicYearList from "./pages/admin/academic/academicyearlist";
+import SemesterList from "./pages/admin/academic/semesterlist";
+import CurrentSemester from "./pages/admin/academic/currentsemester";
+import LecturerDashboard from "./pages/lecturer/dashboard";
 
 export default function App() {
   return (
@@ -21,7 +28,7 @@ export default function App() {
 
       {/* LAYOUT */}
       <Route element={<Layout />}>
-        {/* ADMIN DASHBOARD */}
+        {/* ADMIN */}
         <Route
           path="/admin"
           element={
@@ -31,7 +38,6 @@ export default function App() {
           }
         />
 
-        {/* USER LIST */}
         <Route
           path="/admin/users"
           element={
@@ -41,7 +47,6 @@ export default function App() {
           }
         />
 
-        {/* USER DETAIL */}
         <Route
           path="/admin/users/:id"
           element={
@@ -50,31 +55,69 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/admin/users/create"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <UserCreate />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/users/import"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <UserImport />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/users/permissions"
+          element={<UserPermission />}
+        />
+
+        <Route
+          path="/admin/users/status"
+          element={<UserStatus />}
+        />
+
+        <Route
+          path="/admin/syllabus"
+          element={<SyllabusList />}
+        />
+
+        {/* ADMIN - ACADEMIC */}
 <Route
-  path="/admin/users/create"
+  path="/admin/academic-years"
   element={
     <ProtectedRoute allowedRoles={["ADMIN"]}>
-      <UserCreate />
+      <AcademicYearList />
     </ProtectedRoute>
   }
-/>
-<Route
-  path="/admin/users/import"
-  element={
-    <ProtectedRoute allowedRoles={["ADMIN"]}>
-      <UserImport />
-    </ProtectedRoute>
-  }
-/>
-    <Route
-  path="/admin/users/permissions"
-  element={<UserPermission />}
 />
 
-    <Route
-     path= "/admin/users/status"
-      element= {<UserStatus />}
-    />
+<Route
+  path="/admin/semesters"
+  element={
+    <ProtectedRoute allowedRoles={["ADMIN"]}>
+      <SemesterList />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/current-semester"
+  element={
+    <ProtectedRoute allowedRoles={["ADMIN"]}>
+      <CurrentSemester />
+    </ProtectedRoute>
+  }
+/>
+
+
         {/* HOD */}
         <Route
           path="/hod"
@@ -106,18 +149,25 @@ export default function App() {
         />
 
         {/* LECTURER */}
-        <Route
-          path="/lecturer"
-          element={
-            <ProtectedRoute allowedRoles={["LECTURER"]}>
-              <h1>LECTURER PAGE</h1>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-        path="/admin/syllabus"
-        element={<SyllabusList />}
-        />
+    <Route
+  path="/lecturer"
+  element={
+    <ProtectedRoute allowedRoles={["LECTURER"]}>
+      <Outlet />
+    </ProtectedRoute>
+  }
+>
+  {/* DASHBOARD */}
+  <Route index element={<LecturerDashboard />} />
+
+  {/* SYLLABUS */}
+  <Route path="syllabuses" element={<LecturerSyllabusList />} />
+  <Route path="syllabus/create" element={<LecturerSyllabusCreate />} />
+  <Route path="syllabus/:id/edit" element={<LecturerSyllabusEdit />} />
+</Route>
+
+
+         
 
         {/* STUDENT */}
         <Route

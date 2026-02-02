@@ -1,0 +1,49 @@
+.syllabus-edit-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.edit-header {
+  margin-bottom: 16px;
+}
+
+.edit-header h2 {
+  margin-bottom: 4px;
+}
+
+.edit-header .meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+}
+
+.block-card {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px dashed #ddd;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}

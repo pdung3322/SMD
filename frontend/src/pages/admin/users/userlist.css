@@ -3,12 +3,29 @@
   padding: 24px 28px;
 }
 
+/* ===== PAGE TITLE (UTH STYLE) ===== */
 .user-page-title {
-  font-size: 26px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 22px;
   font-weight: 700;
-  color: #1f2937;
+  color: #0f766e; /* xanh UTH */
+
   margin-bottom: 18px;
+  text-transform: none;
 }
+
+/* thanh dọc bên trái */
+.user-page-title::before {
+  content: "";
+  width: 4px;
+  height: 22px;
+  background-color: #0f766e;
+  border-radius: 2px;
+}
+
 
 /* ===== ROLE TABS ===== */
 .role-tabs {

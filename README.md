@@ -41,6 +41,6 @@ SMD là hệ thống quản lý và số hóa đề cương học phần cho tr�
 
     ### Frontend:
       cd frontend
-      npm install
+
       npm run dev
 

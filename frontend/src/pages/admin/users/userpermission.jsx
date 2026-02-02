@@ -15,19 +15,19 @@ export default function UserPermission() {
   const [permissions, setPermissions] = useState({});
 
   /* ================= FETCH INIT ================= */
-
   useEffect(() => {
-    fetch(`${API_BASE}/users/roles`)
+    // roles list
+    fetch(`${API_BASE}/permissions/roles`)
       .then((res) => res.json())
       .then(setRoles);
 
+    // modules + actions
     fetch(`${API_BASE}/permissions/modules`)
       .then((res) => res.json())
       .then(setModules);
   }, []);
 
   /* ================= ROLE CHANGE ================= */
-
   useEffect(() => {
     if (!role) return;
 
@@ -40,23 +40,22 @@ export default function UserPermission() {
         .then(setUsers);
     }
 
-    fetch(`${API_BASE}/users/roles/${role}`)
+    // ✅ đúng router
+    fetch(`${API_BASE}/permissions/roles/${role}`)
       .then((res) => res.json())
       .then(setPermissions);
   }, [role, tab]);
 
   /* ================= USER CHANGE ================= */
-
   useEffect(() => {
     if (!userId || tab !== "USER") return;
 
     fetch(`${API_BASE}/user-permissions/${userId}`)
-  .then((res) => res.json())
-  .then(setPermissions);
+      .then((res) => res.json())
+      .then(setPermissions);
   }, [userId, tab]);
 
   /* ================= HANDLERS ================= */
-
   const togglePermission = (moduleKey, actionKey) => {
     setPermissions((prev) => {
       const current = prev[moduleKey] || [];
@@ -71,10 +70,9 @@ export default function UserPermission() {
 
   const handleSave = async () => {
     const url =
-  tab === "ROLE"
-    ? `${API_BASE}/users/roles/${role}`
-    : `${API_BASE}/user-permissions/${userId}`;
-
+      tab === "ROLE"
+        ? `${API_BASE}/permissions/roles/${role}`
+        : `${API_BASE}/user-permissions/${userId}`;
 
     await fetch(url, {
       method: "POST",
@@ -86,7 +84,6 @@ export default function UserPermission() {
   };
 
   /* ================= RENDER ================= */
-
   return (
     <div className="user-permission-page">
       <h2>Phân quyền người dùng</h2>
@@ -111,8 +108,8 @@ export default function UserPermission() {
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="">-- Chọn vai trò --</option>
           {roles.map((r) => (
-            <option key={r.key} value={r.key}>
-              {r.label}
+            <option key={r.code} value={r.code}>
+              {r.name}
             </option>
           ))}
         </select>

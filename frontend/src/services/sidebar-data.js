@@ -1,176 +1,167 @@
 export const SIDEBAR_BY_ROLE = {
   // ================= SYSTEM ADMIN =================
- system_admin: {
-    title: "Quản trị hệ thống",
-    menu: [
-      {
-        label: "Tổng quan hệ thống",
-        items: [
-          {
-            label: "Thống kê sử dụng",
-            path: "/admin/overview/statistics",
-          },
-          {
-            label: "Theo dõi trạng thái vận hành",
-            path: "/admin/overview/system-status",
-          },
-        ],
-      },
-
-      {
-        label: "Quản lý người dùng",
-        items: [
-          {
-            label: "Danh sách người dùng",
-            path: "/admin/users",
-          },
-          {
-            label: "Tạo tài khoản người dùng",
-            path: "/admin/users/create",
-          },
-          {
-            label: "Nhập danh sách người dùng",
-            path: "/admin/users/import",
-          },
-          {
-            label: "Phân quyền người dùng",
-            path: "/admin/users/permissions",
-          },
-          {
-            label: "Khóa hoặc mở khóa tài khoản",
-            path: "/admin/users/status",
-          },
-        ],
-      },
-
-      {
-        label: "Quản lý chương trình đào tạo",
-        items: [
-          { label: "Danh sách chương trình đào tạo", path: "/admin/programs" },
-          { label: "Ngành và chuyên ngành", path: "/admin/majors" },
-          { label: "Quản lý học phần (môn học)", path: "/admin/courses" },
-          { label: "Thiết lập quan hệ học phần", path: "/admin/course-relations" },
-        ],
-      },
-
-      {
-        label: "Quản lý giáo trình học phần",
-        items: [
-          { label: "Danh sách giáo trình học phần", path: "/admin/syllabus" },
-          { label: "Phiên bản học phần", path: "/admin/syllabus/versions" },
-          { label: "Theo dõi trạng thái giáo trình", path: "/admin/syllabus/status" },
-        ],
-      },
-
-      {
-        label: "Quản lý chuẩn đầu ra",
-        items: [
-          { label: "Chuẩn đầu ra học phần (CLO)", path: "/admin/clo" },
-          { label: "Chuẩn đầu ra chương trình (PLO)", path: "/admin/plo" },
-          { label: "Liên kết CLO – PLO", path: "/admin/clo-plo" },
-          { label: "Kiểm tra mức độ bao phủ", path: "/admin/clo-coverage" },
-        ],
-      },
-
-      {
-        label: "Cấu hình quy trình duyệt",
-        items: [
-          { label: "Cấu hình luồng duyệt", path: "/admin/workflow" },
-          { label: "Phân công người duyệt", path: "/admin/workflow/assign" },
-          { label: "Theo dõi trạng thái phê duyệt", path: "/admin/workflow/status" },
-        ],
-      },
-
-      {
-        label: "Quản lý năm học và học kỳ",
-        items: [
-          { label: "Danh sách năm học", path: "/admin/academic-years" },
-          { label: "Danh sách học kỳ", path: "/admin/semesters" },
-          { label: "Thiết lập học kỳ hiện hành", path: "/admin/current-semester" },
-        ],
-      },
-
-      {
-        label: "Quản lý khoa và bộ môn",
-        items: [
-          { label: "Danh sách khoa", path: "/admin/faculties" },
-          { label: "Danh sách bộ môn", path: "/admin/departments" },
-          { label: "Phân công giảng viên phụ trách", path: "/admin/assign-lecturer" },
-        ],
-      },
-
-      {
-        label: "Quản lý thông báo",
-        items: [
-          { label: "Tạo thông báo hệ thống", path: "/admin/notifications/create" },
-          { label: "Theo dõi đăng ký theo dõi", path: "/admin/subscriptions" },
-          { label: "Lịch sử gửi thông báo", path: "/admin/notifications/history" },
-        ],
-      },
-
-      {
-        label: "Giám sát và nhật ký hệ thống",
-        items: [
-          { label: "Nhật ký hệ thống", path: "/admin/system-logs" },
-          { label: "Lịch sử đăng nhập", path: "/admin/login-history" },
-          { label: "Lịch sử chỉnh sửa dữ liệu", path: "/admin/audit-logs" },
-          { label: "Giám sát hoạt động người dùng", path: "/admin/user-activity" },
-        ],
-      },
-
-      {
-        label: "Cấu hình hệ thống",
-        items: [
-          { label: "Tham số hệ thống", path: "/admin/settings" },
-          { label: "Biểu mẫu chuẩn", path: "/admin/templates" },
-          { label: "Xử lý tự động", path: "/admin/automation" },
-          { label: "Sao lưu & phục hồi dữ liệu", path: "/admin/backup" },
-        ],
-      },
-    ],
-  },
- // ================= LECTURER =================
-lecturer: {
-  title: "Giảng viên",
+system_admin: {
+  title: "Quản trị hệ thống",
   menu: [
     {
-      label: "Quản lý giáo trình học phần",
+      label: "Tổng quan hệ thống",
       items: [
-        "Tạo giáo trình học phần",
-        "Chỉnh sửa hoặc cập nhật giáo trình học phần",
-        "Xem chi tiết giáo trình học phần phụ trách",
-        "So sánh các phiên bản giáo trình học phần",
-        "Gửi giáo trình học phần phê duyệt",
+        {
+          label: "Thống kê sử dụng",
+          path: "/admin/overview/statistics",
+        },
+        {
+          label: "Theo dõi trạng thái vận hành",
+          path: "/admin/overview/system-status",
+        },
       ],
     },
 
     {
-      label: "Phản biện chuyên môn",
+      label: "Quản lý người dùng",
       items: [
-        "Xem phản hồi góp ý",
-        "Thêm bình luận phản biện",
-        "Chỉnh sửa hoặc xóa bình luận phản biện",
+        { label: "Danh sách người dùng", path: "/admin/users" },
+        { label: "Tạo tài khoản người dùng", path: "/admin/users/create" },
+        { label: "Nhập danh sách người dùng", path: "/admin/users/import" },
+        { label: "Phân quyền người dùng", path: "/admin/users/permissions" },
+        { label: "Khóa / mở khóa tài khoản", path: "/admin/users/status" },
+      ],
+    },
+
+    // 🔥 ĐƯA LÊN TRƯỚC
+    {
+      label: "Quản lý năm học & học kỳ",
+      items: [
+        { label: "Danh sách năm học", path: "/admin/academic-years" },
+        { label: "Danh sách học kỳ", path: "/admin/semesters" },
+        { label: "Thiết lập học kỳ hiện hành", path: "/admin/current-semester" },
+      ],
+    },
+
+    {
+      label: "Quản lý chương trình đào tạo",
+      items: [
+        { label: "Chương trình đào tạo ", path: "/admin/program-structure" },
+        { label: "Quan hệ học phần", path: "/admin/course-relations" },
+      ],
+    },
+
+    {
+      label: "Quản lý giáo trình học phần",
+      items: [
+        { label: "Danh sách giáo trình học phần", path: "/admin/syllabus" },
+        { label: "Phiên bản giáo trình", path: "/admin/syllabus/versions" },
+        { label: "Theo dõi trạng thái giáo trình", path: "/admin/syllabus/status" },
+      ],
+    },
+
+    {
+      label: "Quản lý chuẩn đầu ra",
+      items: [
+        { label: "Chuẩn đầu ra học phần (CLO)", path: "/admin/clo" },
+        { label: "Chuẩn đầu ra chương trình (PLO)", path: "/admin/plo" },
+        { label: "Liên kết CLO – PLO", path: "/admin/clo-plo" },
+        { label: "Kiểm tra mức độ bao phủ", path: "/admin/clo-coverage" },
+      ],
+    },
+
+    {
+      label: "Cấu hình quy trình duyệt",
+      items: [
+        { label: "Cấu hình luồng duyệt", path: "/admin/workflow" },
+        { label: "Phân công người duyệt", path: "/admin/workflow/assign" },
+        { label: "Theo dõi trạng thái phê duyệt", path: "/admin/workflow/status" },
+      ],
+    },
+
+    {
+      label: "Giám sát hệ thống",
+      items: [
+        { label: "Nhật ký hệ thống", path: "/admin/system-logs" },
+      ],
+    },
+  ],
+},
+
+ // ================= LECTURER =================
+// ================= LECTURER =================
+lecturer: {
+  title: "Giảng viên",
+  menu: [
+    {
+      label: "Giáo trình học phần",
+      items: [
+        {
+  label: "Danh sách giáo trình học phần",
+ path: "/lecturer/syllabuses",
+},
+
+        {
+          label: "Tạo giáo trình học phần",
+          path: "/lecturer/syllabus/create",
+        },
+        {
+          label: "Chỉnh sửa / cập nhật giáo trình",
+          path: "/lecturer/syllabus/edit",
+        },
+        {
+          label: "So sánh các phiên bản giáo trình",
+          path: "/lecturer/syllabus/compare",
+        },
+        {
+          label: "Gửi giáo trình phê duyệt",
+          path: "/lecturer/syllabus/submit",
+        },
+      ],
+    },
+
+    {
+      label: "Phản hồi & chỉnh sửa ",
+      items: [
+        {
+          label: "Nhận xét",
+          path: "/lecturer/feedback",
+        },
+        {
+          label: "Phản hồi nhận xét",
+          path: "/lecturer/feedback/respond",
+        },
+        {
+          label: "Cập nhật giáo trình theo yêu cầu",
+          path: "/lecturer/feedback/update-syllabus",
+        },
       ],
     },
 
     {
       label: "Thông báo",
       items: [
-        "Xem thông báo trạng thái giáo trình học phần",
-        "Xem thông báo thay đổi quy trình làm việc",
+        {
+          label: "Trạng thái giáo trình học phần",
+          path: "/lecturer/notifications/syllabus-status",
+        },
+        {
+          label: "Thay đổi quy trình làm việc",
+          path: "/lecturer/notifications/workflow",
+        },
       ],
     },
 
     {
       label: "Hỗ trợ",
       items: [
-        "Gửi yêu cầu hỗ trợ kỹ thuật",
-        "Báo lỗi và góp ý",
+        {
+          label: "Gửi yêu cầu hỗ trợ kỹ thuật",
+          path: "/lecturer/support/request",
+        },
+        {
+          label: "Báo lỗi & góp ý hệ thống",
+          path: "/lecturer/support/feedback",
+        },
       ],
     },
   ],
 },
-
 
   // ================= HOD =================
 hod: {

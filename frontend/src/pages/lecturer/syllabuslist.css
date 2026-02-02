@@ -1,0 +1,145 @@
+/* ===============================
+   Syllabus List - Lecturer (UTH)
+================================ */
+
+.syllabus-list-page {
+  padding: 20px 24px;
+  background-color: #ffffff;
+}
+
+/* ===== Title theo màu UTH ===== */
+.syllabus-list-page h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f766e; /* xanh UTH */
+  border-left: 5px solid #0f766e;
+  padding-left: 12px;
+}
+
+/* ===============================
+   Table container
+================================ */
+.syllabus-table {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+/* Header */
+.syllabus-table .ant-table-thead > tr > th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Body cell */
+.syllabus-table .ant-table-tbody > tr > td {
+  text-align: center;
+  color: #374151;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Hover row */
+.syllabus-table .ant-table-tbody > tr:hover > td {
+  background-color: #f9fafb;
+}
+
+/* Course name nổi hơn */
+.course-name {
+  display: block;
+  text-align: left;
+  font-weight: 500;
+  color: #111827;
+}
+
+/* ===============================
+   Status badge
+================================ */
+.ant-tag {
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ===============================
+   Action buttons (Giáo trình)
+================================ */
+.syllabus-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* Chung */
+.syllabus-actions .ant-btn {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* Chi tiết */
+.syllabus-actions .btn-detail {
+  border-color: #0f766e;
+  color: #0f766e;
+}
+
+.syllabus-actions .btn-detail:hover {
+  background-color: #0f766e;
+  color: #ffffff;
+}
+
+/* Chỉnh sửa */
+.syllabus-actions .btn-edit {
+  border-color: #f59e0b;
+  color: #b45309;
+}
+
+.syllabus-actions .btn-edit:hover {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+/* So sánh */
+.syllabus-actions .btn-compare {
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.syllabus-actions .btn-compare:hover {
+  background-color: #374151;
+  color: #ffffff;
+}
+
+/* Disabled (đã phê duyệt) */
+.syllabus-actions .ant-btn[disabled] {
+  color: #9ca3af !important;
+  border-color: #e5e7eb !important;
+  background-color: #f9fafb !important;
+  cursor: not-allowed;
+}
+
+/* ===============================
+   Pagination
+================================ */
+.ant-pagination {
+  margin: 16px 0 8px;
+}
+
+/* ===============================
+   Responsive
+================================ */
+@media (max-width: 768px) {
+  .syllabus-list-page {
+    padding: 14px;
+  }
+
+  .syllabus-list-page h2 {
+    font-size: 18px;
+  }
+}

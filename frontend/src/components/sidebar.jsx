@@ -1,16 +1,39 @@
-import { useState } from "react";
-import { Link } from "react-router-dom"; // ✅ THÊM
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../assets/sidebar.css";
 import { SIDEBAR_BY_ROLE } from "../services/sidebar-data";
+import { getCurrentSemester } from "../services/academic";
 
 export default function Sidebar({ collapsed, role }) {
   const roleData = SIDEBAR_BY_ROLE[role];
   const menuGroups = roleData?.menu || [];
-  const semester = localStorage.getItem("currentSemester") || "---";
 
   const [openIndexes, setOpenIndexes] = useState([]);
+  const [semester, setSemester] = useState("---");
 
   if (!roleData) return null;
+
+  // ======================
+  // LOAD CURRENT SEMESTER
+  // ======================
+  useEffect(() => {
+    const loadSemester = async () => {
+      try {
+        const data = await getCurrentSemester();
+
+        const semesterText = `${data.name} (${data.academic_year})`;
+
+        setSemester(semesterText);
+        localStorage.setItem("currentSemester", semesterText);
+      } catch {
+        setSemester(
+          localStorage.getItem("currentSemester") || "---"
+        );
+      }
+    };
+
+    loadSemester();
+  }, []);
 
   const toggleGroup = (index) => {
     setOpenIndexes((prev) =>
@@ -42,10 +65,9 @@ export default function Sidebar({ collapsed, role }) {
         {menuGroups.map((group, index) => (
           <div key={index} className="sidebar-group">
             <div
-  className="menu-label"
-  onClick={() => toggleGroup(index)}
->
-
+              className="menu-label"
+              onClick={() => toggleGroup(index)}
+            >
               <span>{group.label}</span>
               <span
                 className={`arrow ${
@@ -58,15 +80,14 @@ export default function Sidebar({ collapsed, role }) {
 
             {openIndexes.includes(index) && (
               <ul className="submenu">
-  {group.items.map((item, idx) => (
-    <li key={idx}>
-      <Link to={item.path} className="submenu-link">
-        {item.label}
-      </Link>
-    </li>
-  ))}
-</ul>
-
+                {group.items.map((item, idx) => (
+                  <li key={idx}>
+                    <Link to={item.path} className="submenu-link">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         ))}

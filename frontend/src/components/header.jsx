@@ -36,6 +36,24 @@ export default function Header({ onToggleSidebar }) {
   };
 
   if (!user) return null;
+const getDashboardPathByRole = (role) => {
+  switch (role) {
+    case "ADMIN":
+      return "/admin";
+    case "LECTURER":
+      return "/lecturer";
+    case "HOD":
+      return "/hod";
+    case "AA":
+      return "/aa";
+    case "PRINCIPAL":
+      return "/principal";
+    case "STUDENT":
+      return "/student";
+    default:
+      return "/login";
+  }
+};
 
   return (
     <header className="uth-header">
@@ -49,7 +67,14 @@ export default function Header({ onToggleSidebar }) {
           ☰
         </button>
 
-        <img src={logoUTH} alt="UTH" className="header-logo" />
+        <img
+  src={logoUTH}
+  alt="UTH"
+  className="header-logo"
+  style={{ cursor: "pointer" }}
+  onClick={() => navigate(getDashboardPathByRole(user.role))}
+/>
+
       </div>
 
       {/* RIGHT */}

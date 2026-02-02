@@ -1,17 +1,13 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
 
-
-class SyllabusResponse(BaseModel):
+class SyllabusListResponse(BaseModel):
     syllabus_id: int
     course_code: str
     course_name: str
     credits: int
-
-    # Mô tả đề cương (dùng cho trang Chi tiết giáo trình)
-    description: Optional[str] = None
-
+    status: str
+    created_by: int
     created_at: datetime
 
     class Config:

@@ -6,11 +6,29 @@
 }
 
 /* ===== TITLE ===== */
+/* ===== PAGE TITLE (UTH STYLE) ===== */
 .user-permission-page h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f766e; /* xanh UTH */
+
+  margin-bottom: 18px;
+  text-transform: none;
 }
+
+/* thanh dọc bên trái */
+.user-permission-page h2::before {
+  content: "";
+  width: 4px;
+  height: 22px;
+  background-color: #0f766e;
+  border-radius: 2px;
+}
+
 
 /* ===== TABS ===== */
 .permission-tabs {
