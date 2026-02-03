@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; // ✅ THÊM
+import { Link } from "react-router-dom";
 import "../assets/sidebar.css";
 import { SIDEBAR_BY_ROLE } from "../services/sidebar-data";
 
@@ -41,11 +41,7 @@ export default function Sidebar({ collapsed, role }) {
       <div className="sidebar-menu">
         {menuGroups.map((group, index) => (
           <div key={index} className="sidebar-group">
-            <div
-  className="menu-label"
-  onClick={() => toggleGroup(index)}
->
-
+            <div className="menu-label" onClick={() => toggleGroup(index)}>
               <span>{group.label}</span>
               <span
                 className={`arrow ${
@@ -58,15 +54,14 @@ export default function Sidebar({ collapsed, role }) {
 
             {openIndexes.includes(index) && (
               <ul className="submenu">
-  {group.items.map((item, idx) => (
-    <li key={idx}>
-      <Link to={item.path} className="submenu-link">
-        {item.label}
-      </Link>
-    </li>
-  ))}
-</ul>
-
+                {(group.items || []).map((item, idx) => (
+                  <li key={idx}>
+                    <Link to={item.path} className="submenu-link">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         ))}
