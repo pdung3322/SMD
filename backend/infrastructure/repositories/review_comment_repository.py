@@ -21,7 +21,7 @@ class ReviewCommentRepository:
         content: str
     ) -> ReviewComment:
         """
-        Thêm comment mới khi HOD/AA/PRINCIPAL phản hồi
+        Thêm comment mới khi HOD/AA phản hồi
         """
         comment = ReviewComment(
             syllabus_id=syllabus_id,

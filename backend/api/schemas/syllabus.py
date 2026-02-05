@@ -2,58 +2,19 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional, List
 
-#Dung
-# class SyllabusResponse(BaseModel):
-#     syllabus_id: int
-#     course_code: str
-#     course_name: str
-#     credits: int
+class SyllabusResponse(BaseModel):
+    syllabus_id: int
+    course_code: str
+    course_name: str
+    credits: int
 
-#     # Mô tả đề cương (dùng cho trang Chi tiết giáo trình)
-#     description: Optional[str] = None
+    # Mô tả đề cương (dùng cho trang Chi tiết giáo trình)
+    description: Optional[str] = None
 
-#     created_at: datetime
+    created_at: datetime
 
-#     class Config:
-#         from_attributes = True
-
-
-#Tấn
-# Response cho danh sách pending
-# class SyllabusPendingResponse(BaseModel):
-#     syllabus_id: int
-#     course_code: str
-#     course_name: str
-#     faculty_name: Optional[str]
-#     lecturer_name: Optional[str]
-#     submitted_date: datetime
-#     status: str
-#     version: str
-#     due_date: Optional[datetime]
-    
-#     class Config:
-#         from_attributes = True
-
-# # Response cho chi tiết
-# class SyllabusDetailResponse(BaseModel):
-#     syllabus_id: int
-#     course_code: str
-#     course_name: str
-#     credits: int
-#     description: Optional[str]
-#     content: Optional[str]  # Từ syllabus_versions
-#     status: str
-#     created_by: int
-#     lecturer_name: str
-#     faculty_name: str
-#     current_version: str
-    
-#     # Thông tin workflow
-#     approval_history: list  # Danh sách các lần duyệt
-#     review_comments: list   # Danh sách nhận xét
-    
-#     class Config:
-#         from_attributes = True
+    class Config:
+        from_attributes = True
 
 # ===== PENDING LIST (Danh sách đề cương chờ HOD duyệt) =====
 class SyllabusPendingItem(BaseModel):
@@ -71,6 +32,50 @@ class SyllabusPendingItem(BaseModel):
     class Config:
         from_attributes = True
 
+
+class SyllabusListItem(BaseModel):
+    """
+    DTO cho trang tra cứu/so sánh
+    """
+    syllabus_id: int
+    course_code: str
+    course_name: str
+    status: str
+    updated_at: datetime
+    current_version: Optional[str]
+    lecturer_name: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+
+# ===== DETAIL (Chi tiết giáo trình) =====
+class SyllabusDetail(BaseModel):
+    """
+    DTO cho trang xem chi tiết đề cương (HOD duyệt)
+    Bao gồm: thông tin cơ bản + content phiên bản mới nhất + lịch sử duyệt + comments
+    """
+    syllabus_id: int
+    course_code: str
+    course_name: str
+    credits: int
+    description: Optional[str]
+    
+    # Thông tin phiên bản mới nhất
+    content: str  # Nội dung HTML/Text
+    current_version: str  # "v1", "v2", ...
+    pdf_url: Optional[str] = None
+    lecturer_name: str
+    lecturer_id: int
+    
+    # Lịch sử duyệt và comments
+    approval_history: List["ApprovalHistoryItem"]
+    review_comments: List["ReviewCommentItem"]
+    
+    class Config:
+        from_attributes = True
+
+
 # ===== APPROVAL HISTORY (Lịch sử duyệt) =====
 class ApprovalHistoryItem(BaseModel):
     """
@@ -87,6 +92,18 @@ class ApprovalHistoryItem(BaseModel):
         from_attributes = True
 
 
+# ===== REVIEW SUBMIT REQUEST (Gửi quyết định HOD) =====
+class ReviewSubmitRequest(BaseModel):
+    """
+    DTO cho request submit quyết định duyệt
+    """
+    decision: str  # APPROVED / REJECTED / REVISION
+    feedback: Optional[str] = None  # Nhận xét của HOD
+    
+    class Config:
+        from_attributes = True
+
+
 # ===== REVIEW COMMENT (Nhận xét) =====
 class ReviewCommentItem(BaseModel):
     """
@@ -97,44 +114,6 @@ class ReviewCommentItem(BaseModel):
     reviewer_role: str
     content: str
     created_at: datetime
-    
-    class Config:
-        from_attributes = True
-
-
-# ===== DETAIL (Chi tiết đề cương) =====
-class SyllabusDetail(BaseModel):
-    """
-    DTO cho trang xem chi tiết đề cương (HOD duyệt)
-    Bao gồm: thông tin cơ bản + content phiên bản mới nhất + lịch sử duyệt + comments
-    """
-    syllabus_id: int
-    course_code: str
-    course_name: str
-    credits: int
-    description: Optional[str]
-    
-    # Thông tin phiên bản mới nhất
-    content: str  # Nội dung HTML/Text
-    current_version: str  # "v1", "v2", ...
-    lecturer_name: str
-    lecturer_id: int
-    
-    # Lịch sử duyệt và comments
-    approval_history: List[ApprovalHistoryItem]
-    review_comments: List[ReviewCommentItem]
-    
-    class Config:
-        from_attributes = True
-
-
-# ===== REVIEW SUBMIT REQUEST (Gửi quyết định HOD) =====
-class ReviewSubmitRequest(BaseModel):
-    """
-    DTO cho request submit quyết định duyệt
-    """
-    decision: str  # APPROVED / REJECTED / REVISION
-    feedback: Optional[str] = None  # Nhận xét của HOD
     
     class Config:
         from_attributes = True
@@ -191,19 +170,45 @@ class VersionDiffResponse(BaseModel):
         from_attributes = True
 
 
-# ===== (CÓ SẵN) =====
-class SyllabusResponse(BaseModel):
+
+
+class SyllabusVersionItem(BaseModel):
     """
-    DTO chung cho syllabus (đã có)
+    DTO cho danh sách phiên bản của một syllabus
     """
+    version_id: int
+    version_number: int
+    content: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class SyllabusListItem(BaseModel):
     syllabus_id: int
     course_code: str
     course_name: str
     credits: int
-    description: Optional[str]
     status: str
-    created_at: datetime
-    updated_at: datetime
-    
+
+class HODSyllabusListItem(BaseModel):
+    """
+    Schema cho HOD tra cứu giáo trình công bố
+    """
+    id: int
+    course_code: str
+    course_name: str
+    faculty_name: str
+    year: Optional[str] = None
+    semester: Optional[str] = None
+    lecturer_name: Optional[str] = None
+    current_version: str
+    status: str
+    updated_at: Optional[datetime] = None
+
     class Config:
         from_attributes = True
+
+class SyllabusListResponse(BaseModel):
+    items: List[SyllabusListItem]

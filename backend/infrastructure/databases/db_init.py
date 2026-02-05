@@ -17,6 +17,11 @@ from backend.infrastructure.models.clo_plo_mapping import CLOPLOMapping
 from backend.infrastructure.models.role_permission import RolePermission
 from backend.infrastructure.models.user_permission import UserPermission
 from backend.infrastructure.models.course_material import CourseMaterial
+from backend.infrastructure.models.student_profile import StudentProfile
+from backend.infrastructure.models.lecturer_profile import LecturerProfile
+from backend.infrastructure.models.syllabus_file import SyllabusFile
+from backend.infrastructure.models.academic_year import AcademicYear
+from backend.infrastructure.models.semester import Semester
 
 def db_init():
     Base.metadata.create_all(bind=engine)

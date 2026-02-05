@@ -28,7 +28,7 @@ class ApprovalService:
     
     def list_pending_for_hod(self, hod_id: int) -> List[SyllabusPendingItem]:
         """
-        Lấy danh sách đề cương đang chờ HOD duyệt
+        Lấy danh sách giáo trình đang chờ HOD duyệt
         
         Status mapping:
         - Nếu syllabus.status = "PENDING" → UI status = "pending_approval" (chờ HOD duyệt)
@@ -46,22 +46,13 @@ class ApprovalService:
                 .first()
             )
             
-            # MAP trạng thái từ DB sang UI
-            ui_status = "pending_approval"  # Default: chờ HOD duyệt
-            if s.status == "COLLABORATIVE_REVIEW":
-                ui_status = "pending_review"  # Chờ phản biện
-            elif s.status == "APPROVED_BY_HOD":
-                ui_status = "approved"
-            elif s.status == "REJECTED_BY_HOD":
-                ui_status = "rejected"
-            
             item = SyllabusPendingItem(
                 syllabus_id=s.syllabus_id,
                 course_code=s.course_code,
                 course_name=s.course_name,
                 lecturer_name=s.creator.full_name if s.creator else "N/A",
                 submitted_date=s.created_at,
-                status=ui_status,  # ← Dùng UI status đã map
+                status=s.status,  # ← Return trực tiếp DB status (PENDING_HOD_REVIEW, ...)
                 current_version=f"v{latest_version.version_number}" if latest_version else "v0"
             )
             result.append(item)
@@ -122,6 +113,17 @@ class ApprovalService:
             for c in comments
         ]
 
+        pdf_url = None
+        if latest_version and getattr(latest_version, "files", None):
+            for f in latest_version.files:
+                if (f.file_name or "").lower().endswith(".pdf"):
+                    normalized_path = (f.file_path or "").replace("\\", "/")
+                    if normalized_path:
+                        if not normalized_path.startswith("/"):
+                            normalized_path = "/" + normalized_path
+                        pdf_url = f"http://localhost:8000{normalized_path}"
+                    break
+
         # Tổng hợp thành DTO
         detail = SyllabusDetail(
             syllabus_id=syllabus.syllabus_id,
@@ -131,6 +133,7 @@ class ApprovalService:
             description=syllabus.description,
             content=latest_version.content,
             current_version=f"v{latest_version.version_number}",
+            pdf_url=pdf_url,
             lecturer_name=syllabus.creator.full_name if syllabus.creator else "N/A",
             lecturer_id=syllabus.created_by,
             approval_history=approval_history,
@@ -212,3 +215,35 @@ class ApprovalService:
             syllabus_id=syllabus_id,
             new_status=new_syllabus_status
         )
+
+    def open_collaborative_review(self, syllabus_id: int, hod_id: int) -> dict:
+        """
+        HOD mở phiên phản biện: chuyển syllabus status sang COLLABORATIVE_REVIEW
+        """
+        workflow = self.workflow_repo.get_pending_workflow(
+            syllabus_id, hod_id, "HOD"
+        )
+
+        if not workflow:
+            raise HTTPException(
+                status_code=404,
+                detail="No pending workflow found for this HOD"
+            )
+
+        syllabus = self.syllabus_repo.get_by_id(syllabus_id)
+        if not syllabus:
+            raise HTTPException(status_code=404, detail="Syllabus not found")
+
+        if syllabus.status != "PENDING_HOD_REVIEW":
+            raise HTTPException(
+                status_code=400,
+                detail="Syllabus is not in PENDING_HOD_REVIEW state"
+            )
+
+        self.syllabus_repo.update_status(syllabus_id, "COLLABORATIVE_REVIEW")
+
+        return {
+            "message": "Collaborative review opened",
+            "syllabus_id": syllabus_id,
+            "status": "COLLABORATIVE_REVIEW",
+        }

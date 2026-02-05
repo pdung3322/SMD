@@ -70,3 +70,25 @@ class ApprovalWorkflowRepository:
             .all()
         )
         return workflows
+
+    def create_workflow(
+        self,
+        syllabus_id: int,
+        reviewer_id: int,
+        reviewer_role: str,
+        step_order: int,
+        status: str = "PENDING"
+    ) -> ApprovalWorkflow:
+        """
+        Tạo workflow mới cho syllabus
+        """
+        workflow = ApprovalWorkflow(
+            syllabus_id=syllabus_id,
+            reviewer_id=reviewer_id,
+            reviewer_role=reviewer_role,
+            step_order=step_order,
+            status=status
+        )
+        self.db.add(workflow)
+        self.db.flush()
+        return workflow

@@ -14,7 +14,7 @@ class Syllabus(Base):
 
     created_by = Column(Integer, ForeignKey("users.user_id"), nullable=False)
 
-    status = Column(String(50), nullable=False, default="DRAFT")
+    status = Column(String(50), nullable=False, default="PENDING")
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
