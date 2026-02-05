@@ -1,18 +1,21 @@
 .clo-page {
-    padding: 18px;
+    padding: 24px 32px;
+    background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+    min-height: 100vh;
 }
 
 .clo-header {
     display: flex;
     justify-content: space-between;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
 }
 
 .clo-title {
     margin: 0;
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 800;
+    color: #0f766e;
 }
 
 .clo-warning {
@@ -82,6 +85,20 @@
     border: 1px solid rgba(0, 0, 0, 0.08);
     background: #fff;
     overflow: hidden;
+}
+
+.clo-items {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.clo-item {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #f9fafb;
+    font-weight: 600;
 }
 
 .clo-table {

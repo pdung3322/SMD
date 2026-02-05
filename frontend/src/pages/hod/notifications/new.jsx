@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { getPendingSyllabus, openCollaborativeReview } from '../../../services/api';
 import { Link } from "react-router-dom";
-import axios from "axios";
-import "./notifications.css";
+import "./new.css";
 
 /**
  * NEW.jsx - Notification: Syllabus mới từ Lecturer
@@ -19,92 +19,105 @@ export default function NewNoti() {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [filter, setFilter] = useState("ALL"); // ALL | PENDING | URGENT
+    const [totalCount, setTotalCount] = useState(0);
+    const [reviewDeadlines, setReviewDeadlines] = useState({}); // {notification_id: deadline}
 
     // Lấy thông tin user từ localStorage
     const currentUser = JSON.parse(localStorage.getItem("user")) || {};
 
+    /* ===== SYNC BELL COUNT ===== */
+    const updateTotalCount = (countForPage) => {
+        const stored = JSON.parse(localStorage.getItem("hodNotificationCounts")) || {};
+        const updated = { ...stored, new: countForPage };
+        const combinedTotal = (updated.new || 0) + (updated.request || 0) + (updated.reviewResult || 0);
+        localStorage.setItem("hodNotificationCounts", JSON.stringify(updated));
+        setTotalCount(combinedTotal);
+    };
+
     /* ===== LOAD DATA ===== */
     useEffect(() => {
-        // MOCK DATA (khi backend chưa có)
-        const mockNotifications = [
-            {
-                notification_id: 1,
-                syllabus_id: 1,
-                course_code: "MTH101",
-                course_name: "Toán Cao Cấp",
-                lecturer_name: "Nguyễn Văn A",
-                faculty_name: "Khoa Toán",
-                submitted_date: "2026-01-10",
-                version: "v2",
-                is_urgent: false,
-                change_summary: "Cập nhật CLO và PLO",
-                status: "PENDING_HOD_REVIEW",
-            },
-            {
-                notification_id: 2,
-                syllabus_id: 2,
-                course_code: "WEB201",
-                course_name: "Lập Trình Web",
-                lecturer_name: "Trần Thị B",
-                faculty_name: "Khoa CNTT",
-                submitted_date: "2026-01-09",
-                version: "v1",
-                is_urgent: true,
-                change_summary: "Syllabus mới lần đầu",
-                status: "PENDING_HOD_REVIEW",
-            },
-            {
-                notification_id: 3,
-                syllabus_id: 3,
-                course_code: "DBI202",
-                course_name: "Cơ Sở Dữ Liệu",
-                lecturer_name: "Lê Văn C",
-                faculty_name: "Khoa CNTT",
-                submitted_date: "2026-01-08",
-                version: "v3",
-                is_urgent: false,
-                change_summary: "Điều chỉnh nội dung chương",
-                status: "PENDING_HOD_REVIEW",
-            },
-        ];
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const user = JSON.parse(localStorage.getItem("user"));
+                const hodId = user?.user_id || user?.id || 1;
 
-        setNotifications(mockNotifications);
-        setLoading(false);
+                console.log("📢 HOD ID:", hodId);
+                console.log("🔍 Fetching pending syllabus...");
 
-        // REAL API (khi backend ready)
-        // axios
-        //   .get("/hod/notifications/new", {
-        //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        //   })
-        //   .then((res) => {
-        //     setNotifications(res.data);
-        //     setLoading(false);
-        //   })
-        //   .catch((err) => {
-        //     console.error("Load notifications error:", err);
-        //     setError("Không thể tải thông báo. Vui lòng thử lại.");
-        //     setLoading(false);
-        //   });
+                const data = await getPendingSyllabus(hodId);
+                console.log("✅ API Response:", data);
+
+                // Map response API sang format của notifications
+                const formattedNotifications = data
+                    .filter(item => item.status === "PENDING_HOD_REVIEW")  // Chỉ lấy những giáo trình chờ HOD duyệt
+                    .map((item, idx) => ({
+                        notification_id: idx + 1,
+                        syllabus_id: item.syllabus_id,
+                        course_code: item.course_code,
+                        course_name: item.course_name,
+                        lecturer_name: item.lecturer_name,
+                        faculty_name: item.faculty_name || "N/A",
+                        submitted_date: item.submitted_date,
+                        version: item.current_version,
+                        change_summary: "Cập nhật đề cương",
+                        status: item.status,
+                    }));
+                console.log("📋 Formatted notifications:", formattedNotifications);
+                setNotifications(formattedNotifications);
+                setError(null);
+            } catch (err) {
+                console.error("❌ Failed to fetch pending syllabus:", err);
+                setError("Không thể tải danh sách thông báo. Vui lòng thử lại.");
+                setNotifications([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, []);
 
-    /* ===== FILTER NOTIFICATIONS ===== */
-    const filteredNotifications = notifications.filter((notif) => {
-        if (filter === "URGENT") return notif.is_urgent;
-        if (filter === "PENDING") return notif.status === "PENDING_HOD_REVIEW";
-        return true; // ALL
-    });
 
-    /* ===== HANDLE MARK AS READ ===== */
-    const handleMarkAsRead = (notification_id) => {
-        // TODO: API PATCH /hod/notifications/{notification_id}/read
-        setNotifications((prev) =>
-            prev.map((n) =>
-                n.notification_id === notification_id
-                    ? { ...n, is_read: true }
-                    : n
-            )
-        );
+    /* ===== HANDLE OPEN COLLABORATIVE REVIEW ===== */
+    const handleOpenCollaborativeReview = async (notif) => {
+        const deadline = reviewDeadlines[notif.notification_id];
+        if (!deadline) {
+            alert("Vui lòng chọn thời gian hết hạn phản biện");
+            return;
+        }
+
+        try {
+            const user = JSON.parse(localStorage.getItem("user"));
+            const hodId = user?.user_id || user?.id || 1;
+
+            await openCollaborativeReview(notif.syllabus_id, hodId);
+
+            // Lưu phiên collaborative review vào localStorage
+            const sessionKey = `collab_review_${notif.syllabus_id}`;
+            const session = {
+                syllabus_id: notif.syllabus_id,
+                course_code: notif.course_code,
+                course_name: notif.course_name,
+                lecturer_name: notif.lecturer_name,
+                faculty_name: notif.faculty_name,
+                review_deadline: deadline,
+                created_at: new Date().toISOString().slice(0, 10),
+                status: "ACTIVE",
+            };
+            localStorage.setItem(sessionKey, JSON.stringify(session));
+
+            // Xóa từ danh sách notifications
+            setNotifications((prev) => {
+                const next = prev.filter((n) => n.notification_id !== notif.notification_id);
+                updateTotalCount(next.length);
+                return next;
+            });
+
+            alert(`Đã mở phiên phản biện tới ${new Date(deadline).toLocaleDateString("vi-VN")}. Các GV trong khoa ${notif.faculty_name} có thể phản biện.`);
+        } catch (err) {
+            console.error("❌ Open collaborative review failed:", err);
+            alert(err.response?.data?.detail || "Mở phản biện thất bại.");
+        }
     };
 
     /* ===== RENDER ===== */
@@ -113,46 +126,29 @@ export default function NewNoti() {
 
     return (
         <div className="notifications-page">
-            <h1>📬 Thông báo Đề cương Mới</h1>
-            <p className="subtitle">Danh sách đề cương chờ HOD xử lý (Duyệt / Yêu cầu chỉnh sửa)</p>
-
-            {/* FILTER */}
-            <div className="filter-bar">
-                <button
-                    className={`filter-btn ${filter === "ALL" ? "active" : ""}`}
-                    onClick={() => setFilter("ALL")}
-                >
-                    Tất cả ({notifications.length})
-                </button>
-                <button
-                    className={`filter-btn ${filter === "URGENT" ? "active" : ""}`}
-                    onClick={() => setFilter("URGENT")}
-                >
-                    🔴 Cấp tốc ({notifications.filter((n) => n.is_urgent).length})
-                </button>
-                <button
-                    className={`filter-btn ${filter === "PENDING" ? "active" : ""}`}
-                    onClick={() => setFilter("PENDING")}
-                >
-                    ⏳ Chờ xử lý ({notifications.filter((n) => n.status === "PENDING_HOD_REVIEW").length})
-                </button>
+            <div className="notifications-header">
+                <div>
+                    <h1>📬 Thông báo giáo trình mới</h1>
+                    <p className="subtitle">Danh sách giáo trình chờ mở phản biện</p>
+                </div>
+                <div className="bell-indicator" aria-label="Tổng thông báo">
+                    <span className="bell-icon">🔔</span>
+                    <span className="bell-count">{totalCount}</span>
+                </div>
             </div>
 
             {/* NOTIFICATION LIST */}
-            {filteredNotifications.length === 0 ? (
+            {notifications.length === 0 ? (
                 <div className="empty-state">
                     <p>✅ Không có thông báo mới</p>
                 </div>
             ) : (
                 <div className="notification-list">
-                    {filteredNotifications.map((notif) => (
+                    {notifications.map((notif) => (
                         <div
                             key={notif.notification_id}
-                            className={`notification-card ${notif.is_urgent ? "urgent" : ""}`}
+                            className="notification-card"
                         >
-                            {/* Badge urgent */}
-                            {notif.is_urgent && <span className="urgent-badge">🔴 CẤP TỐC</span>}
-
                             {/* Info */}
                             <div className="notif-header">
                                 <h3 className="course-name">
@@ -169,23 +165,29 @@ export default function NewNoti() {
 
                             {/* Change summary */}
                             <div className="change-summary">
-                                <p><strong>📝 Thay đổi:</strong> {notif.change_summary}</p>
+                                <p><strong> Thay đổi:</strong> {notif.change_summary}</p>
                             </div>
 
-                            {/* Action buttons */}
+                            {/* Review deadline setup */}
                             <div className="notif-actions">
-                                <Link
-                                    to={`/hod/review/evaluate/${notif.syllabus_id}`}
-                                    className="btn btn-primary"
-                                >
-                                    🔍 Xem chi tiết & Duyệt
-                                </Link>
-                                <button
-                                    className="btn btn-secondary"
-                                    onClick={() => handleMarkAsRead(notif.notification_id)}
-                                >
-                                    ✓ Đánh dấu đã đọc
-                                </button>
+                                <div className="review-setup">
+                                    <label htmlFor={`deadline-${notif.notification_id}`} className="setup-label">
+                                        ⏱ Chọn thời gian hết hạn phản biện
+                                    </label>
+                                    <input
+                                        id={`deadline-${notif.notification_id}`}
+                                        type="date"
+                                        className="setup-input"
+                                        value={reviewDeadlines[notif.notification_id] || ""}
+                                        onChange={(e) => setReviewDeadlines((prev) => ({ ...prev, [notif.notification_id]: e.target.value }))}
+                                    />
+                                    <button
+                                        className="btn btn-success"
+                                        onClick={() => handleOpenCollaborativeReview(notif)}
+                                    >
+                                        Mở phản biện
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}

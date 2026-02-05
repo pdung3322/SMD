@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../../services/api";
+import { getCurrentUser } from "../../../services/layout";
 import TabNavigation from "../review/TabNavigation";
 import "./collaborative.css";
 
@@ -23,6 +24,8 @@ export default function CollaborativeReview() {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    console.log("CollaborativeReview component mounted/updated, id:", id);
+
     // Syllabus meta
     const [syllabus, setSyllabus] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -30,21 +33,16 @@ export default function CollaborativeReview() {
     // Feedback threads data
     const [threads, setThreads] = useState([]);
 
-    // Filters for threads
-    const [q, setQ] = useState("");
-    const [status, setStatus] = useState("ALL"); // ALL | open | resolved
-    const [section, setSection] = useState("ALL"); // ALL | CLO | Assessment | Content | Materials
-    const [sort, setSort] = useState("latest"); // latest | oldest
-
     // Reply draft for threads
     const [replyDraft, setReplyDraft] = useState({}); // { [threadId]: "text" }
 
     // Summary & Decision data
     const [progress, setProgress] = useState(null);
-    const [stats, setStats] = useState(null);
+    const [error, setError] = useState(null);
     const [summaryText, setSummaryText] = useState("");
     const [decision, setDecision] = useState(""); // forward_aa | require_edit
     const [reason, setReason] = useState("");
+    const [submitting, setSubmitting] = useState(false);
 
     // Tab state: "threads" | "summary"
     const [activeTab, setActiveTab] = useState("threads");
@@ -55,149 +53,103 @@ export default function CollaborativeReview() {
             return;
         }
 
+        let isMounted = true;
         setLoading(true);
 
-        // ===== MOCK SYLLABUS =====
-        const mockSyllabus = {
-            id,
-            course_code: "WEB201",
-            course_name: id === "2" ? "Lập Trình Web" : "Toán Cao Cấp",
-            faculty_name: id === "2" ? "Khoa CNTT" : "Khoa Toán",
-            version: "v1",
-            submitted_date: "2026-01-05",
-        };
+        async function loadData() {
+            setError(null);
+            try {
+                // Fetch chi tiết giáo trình + review comments + CLO + version diff
+                const [detailRes, cloRes, diffRes] = await Promise.all([
+                    api.get(`/syllabus/${id}/detail`),
+                    api.get(`/syllabus/${id}/clos`),
+                    api.get(`/syllabus/${id}/version-diff`),
+                ]);
+                if (!isMounted) return;
 
-        // ===== MOCK THREADS =====
-        const mockThreads = [
-            {
-                id: 101,
-                section: "CLO",
-                title: "CLO2 mô tả còn rộng",
-                status: "open",
-                priority: "medium",
-                created_at: "2026-01-06",
-                author: "GV A",
-                messages: [
-                    {
-                        id: 1,
-                        by: "GV A",
-                        at: "2026-01-06",
-                        text: "CLO2 mô tả hơi rộng, nên cụ thể hóa tiêu chí đánh giá.",
-                    },
-                    {
-                        id: 2,
-                        by: "GV B",
-                        at: "2026-01-07",
-                        text: "Đồng ý. Có thể thêm động từ Bloom rõ hơn (trình bày/thiết kế/triển khai…).",
-                    },
-                ],
-            },
-            {
-                id: 102,
-                section: "Assessment",
-                title: "Tỉ lệ giữa kỳ/cuối kỳ",
-                status: "resolved",
-                priority: "low",
-                created_at: "2026-01-05",
-                author: "GV C",
-                messages: [
-                    {
-                        id: 1,
-                        by: "GV C",
-                        at: "2026-01-05",
-                        text: "Tỉ lệ 30/70 hợp lý, nhưng nên ghi rõ rubric.",
-                    },
-                    {
-                        id: 2,
-                        by: "HOD",
-                        at: "2026-01-06",
-                        text: "Đã ghi chú bổ sung rubric trong bản cập nhật.",
-                    },
-                ],
-                resolved_by: "HOD",
-                resolved_at: "2026-01-06",
-            },
-            {
-                id: 103,
-                section: "Content",
-                title: "Thiếu nội dung phần HTTP Status",
-                status: "open",
-                priority: "high",
-                created_at: "2026-01-07",
-                author: "GV B",
-                messages: [
-                    {
-                        id: 1,
-                        by: "GV B",
-                        at: "2026-01-07",
-                        text: "Nên bổ sung HTTP status codes + ví dụ thực tế.",
-                    },
-                ],
-            },
-        ];
+                const detail = detailRes.data;
+                const cloList = cloRes?.data || [];
+                const diff = diffRes?.data || {};
 
-        // ===== MOCK PROGRESS & STATS =====
-        const mockProgress = {
-            viewed_content: true,
-            checked_clo: true,
-            viewed_version: true,
-            handled_feedback: false,
-        };
+                // Set syllabus info
+                setSyllabus({
+                    id: detail.syllabus_id,
+                    course_code: detail.course_code,
+                    course_name: detail.course_name,
+                    faculty_name: detail.faculty_name || "",
+                    version: detail.current_version,
+                    submitted_date: detail.created_at || "2026-01-05",
+                });
 
-        const mockStats = {
-            feedback_open: 2,
-            feedback_resolved: 1,
-            key_risks: [
-                "CLO2 mô tả rộng, cần cụ thể hóa",
-                "Thiếu nội dung HTTP status + ví dụ",
-            ],
-        };
+                // Transform review_comments thành threads format
+                // Chia comments thành các threads theo reviewer
+                const commentMap = {};
+                (detail.review_comments || []).forEach((comment, idx) => {
+                    const threadId = idx + 100;
+                    if (!commentMap[threadId]) {
+                        commentMap[threadId] = {
+                            id: threadId,
+                            section: "Review",
+                            title: `Phản biện #${idx + 1}`,
+                            status: "open",
+                            priority: "medium",
+                            created_at: comment.created_at || new Date().toISOString(),
+                            author: comment.reviewer_name || "GV",
+                            messages: [
+                                {
+                                    id: comment.comment_id || Date.now(),
+                                    by: comment.reviewer_name || "GV",
+                                    at: comment.created_at || new Date().toISOString(),
+                                    text: comment.content,
+                                }
+                            ],
+                        };
+                    }
+                });
 
-        setSyllabus(mockSyllabus);
-        setThreads(mockThreads);
-        setProgress(mockProgress);
-        setStats(mockStats);
+                setThreads(Object.values(commentMap));
 
-        // Auto-fill summary text
-        setSummaryText(
-            `Tổng hợp: \n- Các góp ý chính: ${mockStats.key_risks.join(
-                "; "
-            )}\n- Đề xuất xử lý: (điền khi backend xong)\n`
-        );
+                setProgress({
+                    viewed_content: Boolean(detail.content),
+                    checked_clo: cloList.length > 0,
+                    viewed_version: Boolean(diff.from_version || diff.to_version),
+                    handled_feedback: Object.values(commentMap).every(t => t.status === "resolved"),
+                });
 
-        setLoading(false);
+                setSummaryText("");
+            } catch (err) {
+                console.error("Load collaborative review failed:", err);
+                if (!isMounted) return;
+                setThreads([]);
+                setProgress(null);
+                setError("Không thể tải phản biện cộng tác.");
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        }
+
+        loadData();
+        return () => { isMounted = false; };
     }, [id]);
 
     const filtered = useMemo(() => {
-        let data = [...threads];
-
-        if (status !== "ALL") data = data.filter((t) => t.status === status);
-        if (section !== "ALL") data = data.filter((t) => t.section === section);
-
-        const kw = q.trim().toLowerCase();
-        if (kw) {
-            data = data.filter((t) => {
-                const inTitle = (t.title || "").toLowerCase().includes(kw);
-                const inMsg = (t.messages || []).some((m) =>
-                    (m.text || "").toLowerCase().includes(kw)
-                );
-                return inTitle || inMsg;
-            });
-        }
-
-        data.sort((a, b) => {
+        return [...threads].sort((a, b) => {
             const da = new Date(a.created_at).getTime();
             const db = new Date(b.created_at).getTime();
-            return sort === "latest" ? db - da : da - db;
+            return db - da; // latest first
         });
-
-        return data;
-    }, [threads, status, section, q, sort]);
+    }, [threads]);
 
     const counts = useMemo(() => {
         const open = threads.filter((t) => t.status === "open").length;
         const resolved = threads.filter((t) => t.status === "resolved").length;
         return { open, resolved, total: threads.length };
+    }, [threads]);
+
+    useEffect(() => {
+        if (!progress) return;
+        const handled = threads.every((t) => t.status === "resolved");
+        setProgress((prev) => (prev ? { ...prev, handled_feedback: handled } : prev));
     }, [threads]);
 
     const isChecklistOk = useMemo(() => {
@@ -264,32 +216,61 @@ export default function CollaborativeReview() {
             if (!window.confirm(confirmText)) return;
         }
 
-        const payload = {
-            syllabus_id: id,
-            decision,
-            summaryText,
-            reason: decision === "require_edit" ? reason : null,
-        };
-        console.log("SUBMIT COLLABORATIVE DECISION:", payload);
+        setSubmitting(true);
 
-        if (decision === "forward_aa") {
-            // Chuyển sang Decision page
-            navigate(`/hod/review/decision/${id}`);
-        } else {
-            alert("Đã gửi tổng hợp yêu cầu chỉnh sửa (mock)!");
-            navigate("/hod/review/pending");
+        // Map decision value để gửi API
+        const decisionMap = {
+            forward_aa: "APPROVED",
+            require_edit: "REVISION",
+        };
+
+        const payload = {
+            decision: decisionMap[decision] || decision,
+            feedback: decision === "require_edit" ? reason : summaryText,
+        };
+
+        const hod_id = getCurrentUser()?.user_id || getCurrentUser()?.id;
+        console.log("HOD ID:", hod_id, "Decision:", decision);
+        if (!hod_id) {
+            alert("Không tìm thấy HOD. Vui lòng đăng nhập lại.");
+            setSubmitting(false);
+            return;
         }
+
+        api.post(`/syllabus/${id}/review`, payload, {
+            params: { hod_id }
+        })
+            .then(() => {
+                alert("Quyết định phản biện đã được gửi!");
+                console.log("Post success, decision:", decision, "Navigating to:", decision === "forward_aa" ? `/hod/review/decision/${id}` : "/hod/review/pending");
+                if (decision === "forward_aa") {
+                    navigate(`/hod/review/decision/${id}`);
+                } else {
+                    navigate("/hod/review/pending");
+                }
+            })
+            .catch((err) => {
+                console.error("Submit decision error:", err);
+                alert(
+                    err.response?.data?.detail ||
+                    "Gửi quyết định thất bại. Vui lòng thử lại."
+                );
+            })
+            .finally(() => {
+                setSubmitting(false);
+            });
     };
 
     // ===== render =====
     if (loading) return <div className="collab-page">Đang tải...</div>;
+    if (error) return <div className="collab-page">{error}</div>;
 
     if (!id) {
         return (
             <div className="collab-page">
                 <div className="collab-head">
                     <h1>Phản biện cộng tác</h1>
-                    <p>Vui lòng chọn đề cương từ danh sách Pending.</p>
+                    <p>Vui lòng chọn giáo trình từ danh sách Pending.</p>
                 </div>
             </div>
         );
@@ -334,59 +315,16 @@ export default function CollaborativeReview() {
                     {/* SUMMARY STRIP */}
                     <div className="collab-strip">
                         <div className="strip-item">
-                            <div className="strip-label">Open</div>
+                            <div className="strip-label">Chưa xử lý</div>
                             <div className="strip-value">{counts.open}</div>
                         </div>
                         <div className="strip-item">
-                            <div className="strip-label">Resolved</div>
+                            <div className="strip-label">Đã xử lý</div>
                             <div className="strip-value">{counts.resolved}</div>
                         </div>
                         <div className="strip-item">
-                            <div className="strip-label">Total</div>
+                            <div className="strip-label">Tổng</div>
                             <div className="strip-value">{counts.total}</div>
-                        </div>
-                        <div className="strip-item">
-                            <div className="strip-label">Ngày nộp</div>
-                            <div className="strip-value">
-                                {new Date(syllabus.submitted_date).toLocaleDateString()}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* FILTER BAR */}
-                    <div className="collab-filter">
-                        <div className="fg">
-                            <label>Tìm kiếm</label>
-                            <input
-                                value={q}
-                                onChange={(e) => setQ(e.target.value)}
-                                placeholder="Tìm theo tiêu đề hoặc nội dung góp ý..."
-                            />
-                        </div>
-                        <div className="fg">
-                            <label>Trạng thái</label>
-                            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-                                <option value="ALL">Tất cả</option>
-                                <option value="open">Đang mở</option>
-                                <option value="resolved">Đã xử lý</option>
-                            </select>
-                        </div>
-                        <div className="fg">
-                            <label>Nhóm mục</label>
-                            <select value={section} onChange={(e) => setSection(e.target.value)}>
-                                <option value="ALL">Tất cả</option>
-                                <option value="CLO">CLO</option>
-                                <option value="Assessment">Đánh giá</option>
-                                <option value="Content">Nội dung</option>
-                                <option value="Materials">Tài liệu</option>
-                            </select>
-                        </div>
-                        <div className="fg">
-                            <label>Sắp xếp</label>
-                            <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                                <option value="latest">Mới nhất</option>
-                                <option value="oldest">Cũ nhất</option>
-                            </select>
                         </div>
                     </div>
 
@@ -405,12 +343,8 @@ export default function CollaborativeReview() {
                                             <div className="thread-title">{t.title}</div>
                                             <div className="thread-meta">
                                                 <span className={`pill pill-${t.status}`}>
-                                                    {t.status === "open" ? "OPEN" : "RESOLVED"}
+                                                    {t.status === "open" ? "Chưa xử lý" : "Đã xử lý"}
                                                 </span>
-                                                <span className={`pill pill-pr-${t.priority}`}>
-                                                    {t.priority.toUpperCase()}
-                                                </span>
-                                                <span className="pill pill-sec">{t.section}</span>
                                                 <span className="thread-by">
                                                     bởi <b>{t.author}</b> •{" "}
                                                     {new Date(t.created_at).toLocaleDateString()}
@@ -447,22 +381,27 @@ export default function CollaborativeReview() {
                                     </div>
 
                                     {/* reply */}
-                                    <div className="thread-reply">
-                                        <textarea
-                                            value={replyDraft[t.id] || ""}
-                                            onChange={(e) =>
-                                                setReplyDraft((prev) => ({
-                                                    ...prev,
-                                                    [t.id]: e.target.value,
-                                                }))
-                                            }
-                                            rows={2}
-                                            placeholder="Trả lời với vai trò HOD (mock)…"
-                                        />
-                                        <button className="btn btn-primary" onClick={() => addReply(t.id)}>
-                                            Gửi trả lời
-                                        </button>
-                                    </div>
+                                    {t.status === "open" && (
+                                        <div className="thread-reply">
+                                            <textarea
+                                                value={replyDraft[t.id] || ""}
+                                                onChange={(e) => {
+                                                    setReplyDraft((prev) => ({
+                                                        ...prev,
+                                                        [t.id]: e.target.value,
+                                                    }));
+                                                    // Auto-expand textarea
+                                                    e.target.style.height = 'auto';
+                                                    e.target.style.height = Math.min(e.target.scrollHeight, 200) + 'px';
+                                                }}
+                                                rows={3}
+                                                placeholder="Trả lời với vai trò HOD…"
+                                            />
+                                            <button className="btn btn-primary btn-sm-reply" onClick={() => addReply(t.id)}>
+                                                Gửi trả lời
+                                            </button>
+                                        </div>
+                                    )}
 
                                     {t.status === "resolved" && (
                                         <div className="thread-foot">
@@ -486,152 +425,115 @@ export default function CollaborativeReview() {
                     <div className="summary-grid">
                         {/* Checklist */}
                         <div className="card">
-                            <div className="card-title">Checklist trước khi chốt</div>
+                            <div className="card-title">Checklist</div>
 
                             <div className={`check ${progress?.viewed_content ? "ok" : "no"}`}>
                                 <span className="dot" />
                                 <div className="check-body">
-                                    <div className="check-title">Đã xem nội dung đề cương</div>
-                                    <div className="check-sub">Gợi ý: xem evaluate page</div>
+                                    <div className="check-title">Đã xem nội dung giáo trình</div>
+                                    <div className="check-sub"></div>
                                 </div>
-                                <Link className="mini-link" to={`/hod/review/evaluate/${id}`}>
-                                    Mở
-                                </Link>
                             </div>
 
                             <div className={`check ${progress?.checked_clo ? "ok" : "no"}`}>
                                 <span className="dot" />
                                 <div className="check-body">
                                     <div className="check-title">Đã kiểm tra CLO</div>
-                                    <div className="check-sub">Đảm bảo CLO rõ ràng, đủ và hợp lý.</div>
+                                    <div className="check-sub"></div>
                                 </div>
-                                <Link className="mini-link" to={`/hod/review/clo/${id}`}>
-                                    Mở
-                                </Link>
                             </div>
 
                             <div className={`check ${progress?.viewed_version ? "ok" : "no"}`}>
                                 <span className="dot" />
                                 <div className="check-body">
                                     <div className="check-title">Đã xem thay đổi phiên bản</div>
-                                    <div className="check-sub">Nắm các thay đổi quan trọng.</div>
+                                    <div className="check-sub"></div>
                                 </div>
-                                <Link className="mini-link" to={`/hod/review/version/${id}`}>
-                                    Mở
-                                </Link>
                             </div>
 
                             <div className={`check ${progress?.handled_feedback ? "ok" : "no"}`}>
                                 <span className="dot" />
                                 <div className="check-body">
                                     <div className="check-title">Đã xử lý phản biện chuyên môn</div>
-                                    <div className="check-sub">
-                                        Ưu tiên đóng góp ý "High" trước.
-                                    </div>
+                                    <div className="check-sub"></div>
                                 </div>
-                                <button className="mini-link" onClick={() => setActiveTab("threads")}>
-                                    Xem
-                                </button>
                             </div>
 
                             {!isChecklistOk && (
                                 <div className="warn">
-                                    Checklist chưa hoàn tất. Bạn vẫn có thể submit nhưng nên hoàn tất để đảm bảo chất lượng.
+                                    Checklist chưa hoàn tất. Bạn vẫn có thể gửi nhưng nên hoàn tất để đảm bảo chất lượng.
                                 </div>
                             )}
                         </div>
 
-                        {/* Stats */}
+                        {/* Summary Form */}
                         <div className="card">
-                            <div className="card-title">Tổng quan góp ý</div>
+                            <div className="card-title">Tổng hợp của HoD</div>
 
-                            <div className="stat-row">
-                                <div className="stat">
-                                    <div className="stat-label">Feedback OPEN</div>
-                                    <div className="stat-value">{stats?.feedback_open ?? 0}</div>
-                                </div>
-                                <div className="stat">
-                                    <div className="stat-label">Feedback RESOLVED</div>
-                                    <div className="stat-value">{stats?.feedback_resolved ?? 0}</div>
-                                </div>
+                            <label className="field">
+                                <span>Nội dung tổng hợp</span>
+                                <textarea
+                                    rows={6}
+                                    value={summaryText}
+                                    onChange={(e) => setSummaryText(e.target.value)}
+                                    placeholder="Tóm tắt góp ý chính, hướng xử lý, kết luận..."
+                                />
+                            </label>
+
+                            <div className="decision-box">
+                                <div className="decision-title">Quyết định</div>
+
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="decision"
+                                        value="forward_aa"
+                                        onChange={(e) => setDecision(e.target.value)}
+                                    />
+                                    <div>
+                                        <b>Tiếp tục sang phê duyệt</b>
+                                        <div className="hint">
+                                            Giáo trình đạt yêu cầu sau phản biện, tiếp tục đánh giá cuối.
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label className="radio">
+                                    <input
+                                        type="radio"
+                                        name="decision"
+                                        value="require_edit"
+                                        onChange={(e) => setDecision(e.target.value)}
+                                    />
+                                    <div>
+                                        <b>Yêu cầu chỉnh sửa (trả về giảng viên)</b>
+                                        <div className="hint">
+                                            Bắt buộc nhập lý do để minh bạch.
+                                        </div>
+                                    </div>
+                                </label>
+
+                                {decision === "require_edit" && (
+                                    <label className="field">
+                                        <span>Lý do bắt buộc</span>
+                                        <textarea
+                                            rows={3}
+                                            value={reason}
+                                            onChange={(e) => setReason(e.target.value)}
+                                            placeholder="Nêu rõ lỗi/thiếu, yêu cầu sửa cụ thể..."
+                                        />
+                                    </label>
+                                )}
                             </div>
 
-                            <div className="risk-title">Vấn đề nổi bật</div>
-                            <ul className="risk-list">
-                                {(stats?.key_risks || []).map((r, idx) => (
-                                    <li key={idx}>{r}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-
-                    {/* Summary Form */}
-                    <div className="card">
-                        <div className="card-title">Tổng hợp của HoD</div>
-
-                        <label className="field">
-                            <span>Nội dung tổng hợp</span>
-                            <textarea
-                                rows={6}
-                                value={summaryText}
-                                onChange={(e) => setSummaryText(e.target.value)}
-                                placeholder="Tóm tắt góp ý chính, hướng xử lý, kết luận..."
-                            />
-                        </label>
-
-                        <div className="decision-box">
-                            <div className="decision-title">Quyết định</div>
-
-                            <label className="radio">
-                                <input
-                                    type="radio"
-                                    name="decision"
-                                    value="forward_aa"
-                                    onChange={(e) => setDecision(e.target.value)}
-                                />
-                                <div>
-                                    <b>Tiếp tục sang Decision (đánh giá cuối)</b>
-                                    <div className="hint">
-                                        Đề cương đạt yêu cầu sau phản biện, tiếp tục đánh giá cuối.
-                                    </div>
-                                </div>
-                            </label>
-
-                            <label className="radio">
-                                <input
-                                    type="radio"
-                                    name="decision"
-                                    value="require_edit"
-                                    onChange={(e) => setDecision(e.target.value)}
-                                />
-                                <div>
-                                    <b>Yêu cầu chỉnh sửa (trả về giảng viên)</b>
-                                    <div className="hint">
-                                        Bắt buộc nhập lý do để minh bạch.
-                                    </div>
-                                </div>
-                            </label>
-
-                            {decision === "require_edit" && (
-                                <label className="field">
-                                    <span>Lý do bắt buộc</span>
-                                    <textarea
-                                        rows={3}
-                                        value={reason}
-                                        onChange={(e) => setReason(e.target.value)}
-                                        placeholder="Nêu rõ lỗi/thiếu, yêu cầu sửa cụ thể..."
-                                    />
-                                </label>
-                            )}
-                        </div>
-
-                        <div className="form-actions">
-                            <button className="btn" onClick={() => navigate("/hod/review/pending")}>
-                                Quay lại Pending
-                            </button>
-                            <button className="btn btn-primary" onClick={handleSubmitDecision}>
-                                {decision === "forward_aa" ? "Tiếp tục Decision →" : "Gửi tổng hợp"}
-                            </button>
+                            <div className="form-actions">
+                                <button className="btn" onClick={() => navigate("/hod/review/pending")}>
+                                    Quay lại
+                                </button>
+                                <button className="btn btn-primary" onClick={handleSubmitDecision}>
+                                    {decision === "forward_aa" ? "Tiếp tục Decision →" : "Gửi tổng hợp"}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

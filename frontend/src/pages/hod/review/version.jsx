@@ -11,7 +11,6 @@ export default function Version() {
     const [diffRows, setDiffRows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [usedFallback, setUsedFallback] = useState(false);
 
     // filter
     const [typeFilter, setTypeFilter] = useState("ALL");
@@ -22,7 +21,6 @@ export default function Version() {
         async function loadData() {
             setLoading(true);
             setError(null);
-            setUsedFallback(false);
 
             try {
                 const res = await api.get(`/syllabus/${id}/version-diff`);
@@ -50,49 +48,7 @@ export default function Version() {
                 console.error("Load version diff failed", err);
 
                 if (!isMounted) return;
-
-                // Fallback mock để vẫn hiển thị UI
-                setUsedFallback(true);
-                setMeta({
-                    syllabus_id: id,
-                    course_name: "Lập Trình Web",
-                    from_version: "v0",
-                    to_version: "v1",
-                    generated_at: "2026-01-05",
-                });
-
-                setDiffRows([
-                    {
-                        id: 1,
-                        section: "Mục tiêu môn học",
-                        type: "changed",
-                        before: "Nắm kiến thức web cơ bản.",
-                        after: "Nắm kiến thức web cơ bản + thực hành xây dựng web app.",
-                    },
-                    {
-                        id: 2,
-                        section: "CLO",
-                        type: "added",
-                        before: "",
-                        after: "CLO4: Liên kết CLO với PLO phù hợp và có minh chứng.",
-                    },
-                    {
-                        id: 3,
-                        section: "Đánh giá",
-                        type: "changed",
-                        before: "Giữa kỳ 30%, Cuối kỳ 70%",
-                        after: "Giữa kỳ 40%, Cuối kỳ 60%",
-                    },
-                    {
-                        id: 4,
-                        section: "Tài liệu tham khảo",
-                        type: "removed",
-                        before: "Giáo trình cũ 2018 (PDF)",
-                        after: "",
-                    },
-                ]);
-
-                setError(null); // vẫn hiển thị UI với dữ liệu fallback
+                setError("Không thể tải thay đổi phiên bản.");
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -138,9 +94,6 @@ export default function Version() {
                     <h1 className="version-title">
                         Thay đổi phiên bản — {meta.course_name}
                     </h1>
-                    {usedFallback && (
-                        <p className="version-warning">Đang hiển thị dữ liệu mẫu do chưa lấy được từ máy chủ.</p>
-                    )}
                 </div>
             </div>
 
@@ -184,7 +137,7 @@ export default function Version() {
                 {filteredDiff.length === 0 ? (
                     <div className="empty-state">
                         <div className="empty-title">Không có thay đổi phù hợp.</div>
-                        <div className="empty-sub">Thử đổi bộ lọc hoặc đây có thể là đề cương chưa có đủ phiên bản để so sánh.</div>
+                        <div className="empty-sub">Thử đổi bộ lọc hoặc đây có thể là giáo trình chưa có đủ phiên bản để so sánh.</div>
                     </div>
                 ) : (
                     <table className="version-table">

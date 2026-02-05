@@ -144,10 +144,20 @@
   font-size: 14px;
   border-bottom: 1px solid #e5e7eb;
   color: #1f2937;
+  vertical-align: middle;
 }
 
 .uth-table tbody tr:hover {
   background: #f9fafb;
+}
+
+.uth-table tbody tr {
+  height: 56px;
+}
+
+.uth-table td:nth-child(5),
+.uth-table th:nth-child(5) {
+  text-align: center;
 }
 
 .col-stt {
@@ -185,7 +195,11 @@
   border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  text-align: center;
 }
 
 .status.pending_review {
@@ -194,6 +208,16 @@
 }
 
 .status.pending_approval {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status.COLLABORATIVE_REVIEW {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.PENDING_HOD_REVIEW {
   background: #fee2e2;
   color: #991b1b;
 }

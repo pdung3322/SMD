@@ -1,5 +1,7 @@
 .decision-page {
-    padding: 18px;
+    padding: 24px 32px;
+    background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+    min-height: 100vh;
 }
 
 .decision-header {
@@ -7,13 +9,14 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 12px;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
 }
 
 .decision-title {
     margin: 0;
-    font-size: 22px;
-    font-weight: 900;
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f766e;
 }
 
 .decision-subtitle {
@@ -25,15 +28,33 @@
 .grid {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
-    gap: 14px;
+    gap: 18px;
 }
 
 .card {
     background: #fff;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
-    padding: 14px;
+    padding: 18px;
     box-shadow: 0 6px 18px rgba(17, 24, 39, 0.05);
+}
+
+.card h3 {
+    margin-bottom: 16px;
+    color: #0f766e;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card h3::before {
+    content: '';
+    width: 3px;
+    height: 20px;
+    background: #0f766e;
+    border-radius: 2px;
 }
 
 .card-head {
@@ -91,9 +112,10 @@
 }
 
 .section-title {
-    font-weight: 900;
-    font-size: 13px;
-    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 14px;
+    color: #0f766e;
 }
 
 .chips {
@@ -174,6 +196,8 @@
     font-size: 13px;
     outline: none;
     resize: vertical;
+    min-height: 60px;
+    box-sizing: border-box;
 }
 
 .req {
@@ -199,7 +223,7 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 12px;
+    margin-top: 16px;
 }
 
 .btn-primary,
@@ -207,13 +231,13 @@
 .btn-ghost {
     border: 1px solid #e5e7eb;
     border-radius: 10px;
-    padding: 10px 12px;
+    padding: 12px 20px;
     font-weight: 900;
     cursor: pointer;
 }
 
 .btn-primary {
-    background: #111827;
+    background: #0f766e;
     color: #fff;
 }
 

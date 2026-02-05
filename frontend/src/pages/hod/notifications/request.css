@@ -1,0 +1,376 @@
+/* ============================================
+   REQUEST NOTIFICATIONS PAGE (request.jsx)
+   ============================================ */
+
+.notifications-page {
+    padding: 24px 28px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f6f9f8;
+    min-height: 100vh;
+}
+
+.notifications-page h1 {
+    font-size: 26px;
+    color: #1f2937;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 18px;
+}
+
+.notifications-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.bell-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #0f766e;
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
+    min-width: 70px;
+    justify-content: center;
+}
+
+.bell-icon {
+    font-size: 18px;
+}
+
+.bell-count {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* ============================================
+   FILTER BAR
+   ============================================ */
+
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #374151;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+    background-color: #edf7f5;
+}
+
+.filter-btn.active {
+    background-color: #0f766e;
+    color: #ffffff;
+    border-color: #0f766e;
+    font-weight: 600;
+}
+
+/* ============================================
+   NOTIFICATION LIST & CARDS
+   ============================================ */
+
+.notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.notification-card {
+    background-color: #ffffff;
+    border: 1px solid #d8e7e1;
+    border-radius: 10px;
+    padding: 18px 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.notification-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    border-color: #0f766e;
+}
+
+.notification-card.pending {
+    border-left: 4px solid #0f766e;
+}
+
+.notification-card.resolved {
+    border-left: 4px solid #0c5e58;
+    opacity: 0.9;
+}
+
+/* ============================================
+   STATUS BADGE
+   ============================================ */
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.status-badge.PENDING_HOD_ACTION {
+    background-color: #e7f7f3;
+    color: #0f766e;
+    border: 1px solid #b9e6d3;
+}
+
+.status-badge.RESOLVED {
+    background-color: #0f766e;
+    color: #fff;
+    border: 1px solid #0c5e58;
+}
+
+/* ============================================
+   NOTIFICATION HEADER & META
+   ============================================ */
+
+.notif-header {
+    margin-bottom: 15px;
+}
+
+.course-name {
+    font-size: 18px;
+    color: #0f766e;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.meta {
+    font-size: 13px;
+    color: #4b5563;
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.meta strong {
+    color: #1f2937;
+    font-weight: 700;
+}
+
+/* ============================================
+   FEEDBACK SECTION
+   ============================================ */
+
+.feedback-section {
+    margin: 15px 0;
+    background-color: #f6f9f8;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+.feedback-toggle {
+    background: none;
+    border: none;
+    color: #0f766e;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    transition: color 0.2s;
+}
+
+.feedback-toggle:hover {
+    color: #0c5e58;
+}
+
+.feedback-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.feedback-item {
+    background-color: #fff;
+    border-left: 3px solid #0f766e;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.feedback-author {
+    color: #4b5563;
+    margin: 0 0 6px 0;
+    font-size: 12px;
+}
+
+.feedback-content {
+    color: #333;
+    margin: 0;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* ============================================
+   ACTIONS SECTION
+   ============================================ */
+
+.notif-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background-color: #0f766e;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0c5e58;
+}
+
+.btn-secondary {
+    background-color: #e7f7f3;
+    color: #0f766e;
+    border: 1px solid #0f766e;
+}
+
+.btn-secondary:hover {
+    background-color: #d7f0ea;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+.empty-state {
+    background-color: #f6f9f8;
+    border: 2px dashed #cde7de;
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+}
+
+.empty-state p {
+    color: #4b5563;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* ============================================
+   ERROR STATE
+   ============================================ */
+
+.notifications-page.error {
+    background-color: #fef2f2;
+    border: 1px solid #fecdd3;
+    border-radius: 8px;
+    padding: 20px;
+    color: #b91c1c;
+    text-align: center;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .notifications-page {
+        padding: 15px;
+    }
+
+    .notifications-page h1 {
+        font-size: 22px;
+    }
+
+    .filter-bar {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .notification-card {
+        padding: 15px;
+    }
+
+    .notif-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .feedback-list {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .notifications-page {
+        padding: 10px;
+    }
+
+    .notifications-page h1 {
+        font-size: 20px;
+    }
+
+    .course-name {
+        font-size: 16px;
+    }
+
+    .meta {
+        font-size: 12px;
+    }
+
+    .notification-card {
+        padding: 12px;
+    }
+}

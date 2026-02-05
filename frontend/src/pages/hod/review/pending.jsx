@@ -1,26 +1,25 @@
-
-// pages/hod/review/pending.jsx
 import { useEffect, useMemo, useState } from "react";
-import api from "../../../services/api";  // ← IMPORT api
+import { getPendingSyllabus } from "../../../services/api";
+import { getCurrentUser } from "../../../services/layout";
 import { Link } from "react-router-dom";
 import "./pending.css";
 
 /* ===== STATUS MAP ===== */
 const STATUS_LABEL = {
   ALL: "Tất cả",
-  pending_review: "Chờ phản biện",  // ← Giữ nguyên
-  pending_approval: "Chờ duyệt",  // ← Giữ nguyên
+  COLLABORATIVE_REVIEW: "Chờ phản biện",
+  PENDING_HOD_REVIEW: "Chờ duyệt",
 };
 
 const STATUS_TABS = [
   { key: "ALL" },
-  { key: "pending_review" },
-  { key: "pending_approval" },
+  { key: "COLLABORATIVE_REVIEW" },
+  { key: "PENDING_HOD_REVIEW" },
 ];
 
 /**
  * PENDING (HOD)
- * - Danh sách đề cương "đang chờ HOD xử lý"
+ * - Danh sách giáo trình "đang chờ HOD xử lý"
  */
 export default function Pending() {
   const [syllabi, setSyllabi] = useState([]);
@@ -33,20 +32,23 @@ export default function Pending() {
 
   /* ===== LOAD DATA TỪ API =====*/
   useEffect(() => {
-    // Lấy hod_id từ user đang login (tạm thời dùng 1, cần integrate auth sau)
-    //const hod_id = 1; 
+    const currentUser = getCurrentUser();
+    const hod_id = currentUser?.user_id ?? null;
 
-    //id 1014 là id test giáo trình
-    const hod_id = 1014;  // TODO: lấy từ localStorage hoặc context
+    if (!hod_id) {
+      setError("Không tìm thấy thông tin HOD. Vui lòng đăng nhập lại.");
+      setLoading(false);
+      return;
+    }
 
-    api.get("/syllabus/pending", { params: { hod_id } })
-      .then((res) => {
-        setSyllabi(res.data);
+    getPendingSyllabus(hod_id)
+      .then((data) => {
+        setSyllabi(data || []);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Load pending syllabi error:", err);
-        setError("Không thể tải danh sách đề cương. Vui lòng thử lại.");
+        setError("Không thể tải danh sách giáo trình. Vui lòng thử lại.");
         setLoading(false);
       });
   }, []);
@@ -88,10 +90,15 @@ export default function Pending() {
   const quickStats = useMemo(() => {
     return {
       total: filteredSyllabi.length,
-      pending: filteredSyllabi.filter((s) => s.status === "pending_approval").length,
-      approved: filteredSyllabi.filter((s) => s.status === "pending_review").length,
+      pendingReview: filteredSyllabi.filter((s) => s.status === "COLLABORATIVE_REVIEW").length,
+      pendingApproval: filteredSyllabi.filter((s) => s.status === "PENDING_HOD_REVIEW").length,
     };
   }, [filteredSyllabi]);
+
+  const getStatusLabel = (st) => {
+    const normalized = st === "PENDING" ? "pending_approval" : st;
+    return STATUS_LABEL[normalized] || normalized || "—";
+  };
 
   if (loading) return <div className="pending-page">Đang tải...</div>;
   if (error) return <div className="pending-page">{error}</div>;
@@ -119,7 +126,7 @@ export default function Pending() {
           <div className="filter-group">
             <label>Tìm kiếm</label>
             <input
-              placeholder="Tìm theo tên môn học, mã môn, giảng viên..."
+              placeholder="Tên giáo trình, mã giáo trình, giảng viên..."
               value={q}
               onChange={(e) => setQ(e.target.value)}
             />
@@ -127,8 +134,8 @@ export default function Pending() {
 
           <div className="pending-stats">
             <span className="stat-pill stat-total">Tổng: {quickStats.total}</span>
-            <span className="stat-pill stat-pending">Chờ phản biện: {quickStats.pending}</span>
-            <span className="stat-pill stat-approved">Chờ duyệt: {quickStats.approved}</span>
+            <span className="stat-pill stat-pending">Chờ phản biện: {quickStats.pendingReview}</span>
+            <span className="stat-pill stat-approved">Chờ duyệt: {quickStats.pendingApproval}</span>
           </div>
         </div>
       </div>
@@ -158,7 +165,6 @@ export default function Pending() {
                   <td>
                     <div className="course-info">
                       <div className="course-name">{s.course_name}</div>
-                      <div className="course-code">{s.course_code}</div>
                     </div>
                   </td>
                   <td>{s.lecturer_name}</td>
@@ -169,12 +175,12 @@ export default function Pending() {
                   </td>
                   <td>
                     <span className={`status ${s.status}`}>
-                      {s.status === "pending_review" ? "Chờ phản biện" : "Chờ duyệt"}
+                      {getStatusLabel(s.status)}
                     </span>
                   </td>
                   <td>
                     <Link
-                      to={`/hod/review/evaluate/${s.syllabus_id}`}
+                      to={`/hod/review/detail/${s.syllabus_id}`}
                       className="btn-outline"
                     >
                       Chi tiết

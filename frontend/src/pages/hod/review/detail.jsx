@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import api from "../../../services/api";
 import TabNavigation from "./TabNavigation";
-import "./evaluate.css";
+import "./detail.css";
 
-export default function Evaluate() {
+export default function Detail() {
     const { id } = useParams();  // ← Lấy syllabus_id từ URL
     const navigate = useNavigate();
     const location = useLocation();
+
+    console.log("Detail component mounted/updated, id:", id);
 
     const [syllabus, setSyllabus] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -30,7 +32,7 @@ export default function Evaluate() {
         }
     };
 
-    /* ===== LOAD CHI TIẾT ĐỀ CƯƠNG ===== */
+    /* ===== LOAD CHI TIẾT GIÁO TRÌNH ===== */
     useEffect(() => {
         console.log("Loading evaluate for id:", id);
         api.get(`/syllabus/${id}/detail`)
@@ -80,18 +82,18 @@ export default function Evaluate() {
             });
     };
 
-    if (loading) return <div className="evaluate-page">Đang tải...</div>;
-    if (!syllabus) return <div className="evaluate-page">Không tìm thấy đề cương.</div>;
+    if (loading) return <div className="detail-page">Đang tải...</div>;
+    if (!syllabus) return <div className="detail-page">Không tìm thấy giáo trình.</div>;
 
     return (
-        <div className="evaluate-page">
+        <div className="detail-page">
             <TabNavigation syllabusId={id} />
 
-            <h1 className="evaluate-title">Đánh giá: {syllabus.course_name}</h1>
+            <h1 className="detail-title">Đánh giá: {syllabus.course_name}</h1>
 
             {/* ===== NỘI DUNG GIÁO TRÌNH ===== */}
-            <div className="evaluate-card">
-                <h3>Thông tin đề cương</h3>
+            <div className="detail-card">
+                <h3>Thông tin giáo trình</h3>
                 <p>
                     <strong>Mã giáo trình:</strong> {syllabus.course_code}
                 </p>
@@ -109,7 +111,7 @@ export default function Evaluate() {
                 </p>
             </div>
 
-            <div className="evaluate-card">
+            <div className="detail-card">
                 <h3>Nội dung chi tiết</h3>
                 <div className="pdf-toolbar">
                     {pdfUrl ? (
