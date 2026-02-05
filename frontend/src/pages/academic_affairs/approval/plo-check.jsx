@@ -1,7 +1,7 @@
 import "./plo-check.css";
-;
 
 import { useMemo, useState } from "react";
+import { ploMasterData, ploCheckMappingData } from "../../../mockData/academicAffairsMockData";
 
 /**
  * STATUS: kết luận hiển thị (AA có thể sửa thủ công)
@@ -13,25 +13,16 @@ const STATUS = {
   BAD: { label: "Không phù hợp", tone: "bad" },
 };
 
-// === 1) Bộ PLO chuẩn (nguồn tham chiếu) ===
-// Thực tế PLO này lấy từ trang "Chuẩn đầu ra PLO" / DB, ở demo mình hard-code.
-const PLO_MASTER = {
-  PLO1: {
-    code: "PLO1",
-    category: "knowledge",
-    keywords: ["khái niệm", "lý thuyết", "cơ bản", "nguyên lý", "kiến thức"],
-  },
-  PLO2: {
-    code: "PLO2",
-    category: "skills",
-    keywords: ["áp dụng", "thực hành", "thiết kế", "triển khai", "xây dựng", "lập trình"],
-  },
-  PLO3: {
-    code: "PLO3",
-    category: "attitude",
-    keywords: ["đạo đức", "trách nhiệm", "thái độ", "tuân thủ", "kỷ luật"],
-  },
-};
+// === 1) Bộ PLO chuẩn (import từ mockData) ===
+const PLO_MASTER = Object.keys(ploMasterData).reduce((acc, key) => {
+  const plo = ploMasterData[key];
+  acc[key] = {
+    code: plo.code,
+    category: plo.category,
+    keywords: plo.keywords,
+  };
+  return acc;
+}, {});
 
 // động từ đo lường (rule đơn giản)
 const ACTION_VERBS = ["hiểu", "áp dụng", "thiết kế", "phân tích", "xây dựng", "triển khai", "đánh giá", "thực hành"];
@@ -87,57 +78,18 @@ function autoEvaluate(row) {
   };
 }
 
-// Demo data (CLO/PLO mapping của các syllabus)
-const initialRows = [
-  {
-    id: "map_001",
-    subject: "Lập trình Web",
-    lecturer: "ThS. Nguyễn Văn A",
-    submittedAt: "2024-01-15",
-    clo: "CLO1: Hiểu khái niệm lập trình web cơ bản",
-    plo: "PLO1: Kiến thức cơ bản",
-    status: STATUS.OK,
-    note: "",
-    
-    lastReviewedAt: null,
-  },
-  {
-    id: "map_002",
-    subject: "Công nghệ phần mềm",
-    lecturer: "TS. Trần Thị B",
-    submittedAt: "2024-01-18",
-    clo: "CLO2: Áp dụng quy trình phát triển phần mềm",
-    plo: "PLO2: Kỹ năng thực hành",
-    status: STATUS.WARN,
-    note: "CLO mô tả chung, cần gắn rubric/đánh giá rõ hơn.",
-    
-    lastReviewedAt: null,
-  },
-  {
-    id: "map_003",
-    subject: "Đạo đức nghề nghiệp",
-    lecturer: "PGS. Phạm Văn C",
-    submittedAt: "2024-01-20",
-    clo: "CLO1: Tuân thủ nguyên tắc đạo đức trong môi trường làm việc",
-    plo: "PLO3: Thái độ & đạo đức",
-    status: STATUS.OK,
-    note: "",
- 
-    lastReviewedAt: null,
-  },
-  {
-    id: "map_004",
-    subject: "Cấu trúc dữ liệu",
-    lecturer: "TS. Lê Văn D",
-    submittedAt: "2024-01-22",
-    clo: "CLO1: Nắm được nội dung môn học",
-    plo: "PLO2: Kỹ năng thực hành",
-    status: STATUS.WARN,
-    note: "",
-    
-    lastReviewedAt: null,
-  },
-];
+// Data import từ mockData
+const initialRows = ploCheckMappingData.map((item) => ({
+  id: item.id,
+  subject: item.subject,
+  lecturer: item.lecturer,
+  submittedAt: item.submittedAt,
+  clo: item.clo,
+  plo: item.plo,
+  status: item.status,
+  note: item.note,
+  lastReviewedAt: item.lastReviewedAt,
+}));
 
 export default function PloCheck() {
   const [rows, setRows] = useState(initialRows);

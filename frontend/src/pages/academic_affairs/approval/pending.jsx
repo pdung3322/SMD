@@ -1,26 +1,18 @@
 import { useNavigate } from "react-router-dom";
+import { pendingApprovalsData } from "../../../mockData/academicAffairsMockData";
 import "./pending.css";
 
-const sampleData = [
-  {
-    name: "Cơ Sở Dữ Liệu",
-    teacher: "Lê Văn C",
-    date: "03/01/2026",
-    status: "pending_approval",
-  },
-  {
-    name: "Lập Trình Web",
-    teacher: "Trần Thị B",
-    date: "02/01/2026",
-    status: "pending_approval",
-  },
-  {
-    name: "Toán Cao Cấp",
-    teacher: "Nguyễn Văn A",
-    date: "01/01/2026",
-    status: "pending_approval",
-  },
-];
+// Map mock data để match với UI
+const sampleData = pendingApprovalsData.map((item) => ({
+  name: item.name,
+  code: item.code,
+  teacher: item.teacher,
+  date: item.date,
+  status: item.status,
+  department: item.department,
+  credits: item.credits,
+  semester: item.semester,
+}));
 
 export default function PendingApprovals() {
   const navigate = useNavigate();

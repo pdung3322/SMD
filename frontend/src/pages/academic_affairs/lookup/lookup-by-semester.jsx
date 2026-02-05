@@ -1,5 +1,6 @@
 import "./lookup-by-semester.css";
 import { useMemo, useState } from "react";
+import { lookupBySemesterData } from "../../../mockData/academicAffairsMockData";
 
 const STATUS = {
   approved: { label: "Đã duyệt", tone: "approved" },
@@ -7,54 +8,8 @@ const STATUS = {
   rejected: { label: "Bị từ chối", tone: "rejected" },
 };
 
-// demo data (sau này backend trả về)
-const DATA = [
-  {
-    id: "sy_001",
-    year: "2025-2026",
-    semester: "Học kỳ 1",
-    subject: "Lập trình Web",
-    teacher: "Nguyễn Văn Chiến",
-    status: "approved",
-    updatedAt: "05/01/2026",
-  },
-  {
-    id: "sy_002",
-    year: "2025-2026",
-    semester: "Học kỳ 1",
-    subject: "Công nghệ phần mềm",
-    teacher: "Trần Thị B",
-    status: "approved",
-    updatedAt: "04/01/2026",
-  },
-  {
-    id: "sy_003",
-    year: "2025-2026",
-    semester: "Học kỳ 1",
-    subject: "Cơ sở dữ liệu",
-    teacher: "Lê Minh K",
-    status: "pending",
-    updatedAt: "03/01/2026",
-  },
-  {
-    id: "sy_004",
-    year: "2025-2026",
-    semester: "Học kỳ 1",
-    subject: "Mạng máy tính",
-    teacher: "Phạm Anh T",
-    status: "rejected",
-    updatedAt: "02/01/2026",
-  },
-  {
-    id: "sy_005",
-    year: "2024-2025",
-    semester: "Học kỳ 2",
-    subject: "Lập trình Web",
-    teacher: "Nguyễn Văn Chiến",
-    status: "approved",
-    updatedAt: "10/06/2025",
-  },
-];
+// Dữ liệu từ mockData
+const DATA = lookupBySemesterData;
 
 export default function LookupBySemester() {
   const [year, setYear] = useState("2025-2026");

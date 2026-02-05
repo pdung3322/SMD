@@ -1,5 +1,6 @@
 import "./curriculum.css";
 import { useRef, useState } from "react";
+import { curriculumProgramsData } from "../../../mockData/academicAffairsMockData";
 
 export default function Curriculum() {
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -24,50 +25,7 @@ export default function Curriculum() {
     setSelectedProgram(null);
   };
 
-  const programs = [
-    {
-      id: 1,
-      name: "Công Nghệ Thông Tin",
-      code: "CNTT",
-      courses: ["Lập trình Web", "Cơ sở dữ liệu", "Công nghệ phần mềm", "Mạng máy tính"],
-    },
-    {
-      id: 2,
-      name: "Kế Toán - Tài Chính",
-      code: "KT",
-      courses: ["Kế toán tài chính", "Luật thuế", "Kiểm toán", "Phân tích tài chính"],
-    },
-    {
-      id: 3,
-      name: "Quản Lý Kinh Doanh",
-      code: "QLKD",
-      courses: ["Chiến lược kinh doanh", "Quản lý nhân sự", "Quản lý tài chính", "Tiếp thị"],
-    },
-    {
-      id: 4,
-      name: "Luật Học ",
-      code: "L",
-      courses: ["Luật hình sự", "Luật dân sự", "Luật thương mại", "Luật lao động"],
-    },
-    {
-      id: 5,
-      name: "Sư Phạm - Giáo Dục",
-      code: "GD",
-      courses: ["Phương pháp giảng dạy", "Tâm lý giáo dục", "Quản lý lớp học", "Đánh giá học tập"],
-    },
-    {
-      id: 6,
-      name: "Y Học - Điều Dưỡng",
-      code: "YT",
-      courses: ["Giải phẫu học", "Sinh lý học", "Bệnh học", "Kỹ năng điều dưỡng"],
-    },
-    {
-      id: 7,
-      name: "Kỹ Thuật Xây Dựng",
-      code: "KTXD",
-      courses: ["Thiết kế kết cấu", "Vật liệu xây dựng", "Quản lý công trình", "An toàn lao động"],
-    },
-  ];
+  const programs = curriculumProgramsData;
 
   return (
     <div className="aaCurriculum">
