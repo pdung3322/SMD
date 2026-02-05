@@ -1,19 +1,26 @@
 import "./approval-result.css";
-import { approvalResultsData } from "../../../mockData/academicAffairsMockData";
 
 const STATUS = {
   approved: { label: "Đã duyệt", tone: "approved" },
   rejected: { label: "Từ chối", tone: "rejected" },
 };
 
-// Map mock data to match UI display
-const rows = approvalResultsData.map((item) => ({
-  id: item.id,
-  subject: item.subject,
-  creator: item.creator,
-  result: item.result,
-  approvedAt: item.approvedAt,
-}));
+const rows = [
+  {
+    id: "ap_001",
+    subject: "Lập trình Web",
+    creator: "Nguyễn Văn Chiến",
+    result: "approved",
+    approvedAt: "05/01/2026",
+  },
+  {
+    id: "ap_002",
+    subject: "Công nghệ phần mềm",
+    creator: "Trần Thị B",
+    result: "rejected",
+    approvedAt: "04/01/2026",
+  },
+];
 
 export default function ApprovalResult() {
   return (

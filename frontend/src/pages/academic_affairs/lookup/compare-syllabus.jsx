@@ -1,8 +1,44 @@
 import "./compare-syllabus.css";
 import { useMemo, useState } from "react";
-import { compareSyllabusData } from "../../../mockData/academicAffairsMockData";
 
-const SYLLABI = compareSyllabusData;
+const SYLLABI = [
+  {
+    id: "web_2025_hk1",
+    label: "Lập trình Web • HK1 2025",
+    meta: { subject: "Lập trình Web", year: "2025-2026", semester: "Học kỳ 1", teacher: "Nguyễn Văn Chiến", updatedAt: "05/01/2026" },
+    sections: {
+      "Mục tiêu học tập": "Hiểu khái niệm cơ bản",
+      "Nội dung": "5 chương",
+      "CLO": "CLO1, CLO2",
+      "Đánh giá": "Bài tập 30% • Thi 70%",
+      "Tài liệu": "Giáo trình A",
+    },
+  },
+  {
+    id: "web_2024_hk1",
+    label: "Lập trình Web • HK1 2024",
+    meta: { subject: "Lập trình Web", year: "2024-2025", semester: "Học kỳ 1", teacher: "Nguyễn Văn Chiến", updatedAt: "06/01/2025" },
+    sections: {
+      "Mục tiêu học tập": "Hiểu khái niệm và áp dụng",
+      "Nội dung": "6 chương",
+      "CLO": "CLO1, CLO2, CLO3",
+      "Đánh giá": "Bài tập 40% • Thi 60%",
+      "Tài liệu": "Giáo trình A + tài liệu bổ sung",
+    },
+  },
+  {
+    id: "cnpm_2025_hk1",
+    label: "Công nghệ phần mềm • HK1 2025",
+    meta: { subject: "Công nghệ phần mềm", year: "2025-2026", semester: "Học kỳ 1", teacher: "Trần Thị B", updatedAt: "04/01/2026" },
+    sections: {
+      "Mục tiêu học tập": "Nắm quy trình phát triển",
+      "Nội dung": "8 chương",
+      "CLO": "CLO1, CLO2",
+      "Đánh giá": "Project 50% • Thi 50%",
+      "Tài liệu": "Giáo trình B",
+    },
+  },
+];
 
 function diffText(a, b) {
   if (a === b) return "";
