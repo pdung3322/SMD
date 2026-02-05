@@ -1,86 +1,71 @@
 import "./curriculum.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Curriculum() {
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const scrollYRef = useRef(0);
+
+  const openProgramModal = (program) => {
+    // giữ vị trí hiện tại + khóa scroll nền (không bị giật / kéo trang)
+    scrollYRef.current = window.scrollY || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollYRef.current}px`;
+    document.body.style.width = "100%";
+    setSelectedProgram(program);
+  };
+
+  const closeProgramModal = () => {
+    // trả lại scroll y ban đầu
+    const y = scrollYRef.current || 0;
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    window.scrollTo(0, y);
+    setSelectedProgram(null);
+  };
 
   const programs = [
     {
       id: 1,
       name: "Công Nghệ Thông Tin",
       code: "CNTT",
-      courses: [
-        "Lập trình Web",
-        "Cơ sở dữ liệu",
-        "Công nghệ phần mềm",
-        "Mạng máy tính",
-      ],
+      courses: ["Lập trình Web", "Cơ sở dữ liệu", "Công nghệ phần mềm", "Mạng máy tính"],
     },
     {
       id: 2,
       name: "Kế Toán - Tài Chính",
       code: "KT",
-      courses: [
-        "Kế toán tài chính",
-        "Luật thuế",
-        "Kiểm toán",
-        "Phân tích tài chính",
-      ],
+      courses: ["Kế toán tài chính", "Luật thuế", "Kiểm toán", "Phân tích tài chính"],
     },
     {
       id: 3,
       name: "Quản Lý Kinh Doanh",
       code: "QLKD",
-      courses: [
-        "Chiến lược kinh doanh",
-        "Quản lý nhân sự",
-        "Quản lý tài chính",
-        "Tiếp thị",
-      ],
+      courses: ["Chiến lược kinh doanh", "Quản lý nhân sự", "Quản lý tài chính", "Tiếp thị"],
     },
     {
       id: 4,
       name: "Luật Học ",
       code: "L",
-      courses: [
-        "Luật hình sự",
-        "Luật dân sự",
-        "Luật thương mại",
-        "Luật lao động",
-      ],
+      courses: ["Luật hình sự", "Luật dân sự", "Luật thương mại", "Luật lao động"],
     },
     {
       id: 5,
       name: "Sư Phạm - Giáo Dục",
       code: "GD",
-      courses: [
-        "Phương pháp giảng dạy",
-        "Tâm lý giáo dục",
-        "Quản lý lớp học",
-        "Đánh giá học tập",
-      ],
+      courses: ["Phương pháp giảng dạy", "Tâm lý giáo dục", "Quản lý lớp học", "Đánh giá học tập"],
     },
     {
       id: 6,
       name: "Y Học - Điều Dưỡng",
       code: "YT",
-      courses: [
-        "Giải phẫu học",
-        "Sinh lý học",
-        "Bệnh học",
-        "Kỹ năng điều dưỡng",
-      ],
+      courses: ["Giải phẫu học", "Sinh lý học", "Bệnh học", "Kỹ năng điều dưỡng"],
     },
     {
       id: 7,
       name: "Kỹ Thuật Xây Dựng",
-      code: "KT",
-      courses: [
-        "Thiết kế kết cấu",
-        "Vật liệu xây dựng",
-        "Quản lý công trình",
-        "An toàn lao động",
-      ],
+      code: "KTXD",
+      courses: ["Thiết kế kết cấu", "Vật liệu xây dựng", "Quản lý công trình", "An toàn lao động"],
     },
   ];
 
@@ -94,9 +79,11 @@ export default function Curriculum() {
             <div className="aaProgramItemContent">
               <h3 className="aaProgramItemName">{program.name}</h3>
             </div>
+
             <button
               className="aaProgramItemBtn"
-              onClick={() => setSelectedProgram(program)}
+              type="button"
+              onClick={() => openProgramModal(program)}
             >
               Xem môn học →
             </button>
@@ -104,21 +91,16 @@ export default function Curriculum() {
         ))}
       </div>
 
-      {/* MODAL/POPUP */}
+      {/* MODAL */}
       {selectedProgram && (
-        <div className="aaModal">
-          <div className="aaModalOverlay" onClick={() => setSelectedProgram(null)}></div>
-          <div className="aaModalContent">
+        <>
+          {/* Backdrop */}
+          <div className="aaModalBackdrop" onClick={closeProgramModal} />
+
+          {/* Modal */}
+          <div className="aaModalContent aaModalContent--floating" role="dialog" aria-modal="true">
             <div className="aaModalHeader">
-              <h2 className="aaModalTitle">
-                {selectedProgram.name}
-              </h2>
-              <button
-                className="aaModalClose"
-                onClick={() => setSelectedProgram(null)}
-              >
-                ✕
-              </button>
+              <h2 className="aaModalTitle">{selectedProgram.name}</h2>
             </div>
 
             <div className="aaModalBody">
@@ -133,15 +115,12 @@ export default function Curriculum() {
             </div>
 
             <div className="aaModalFooter">
-              <button
-                className="aaModalBtn"
-                onClick={() => setSelectedProgram(null)}
-              >
+              <button className="aaModalBtn" onClick={closeProgramModal}>
                 Đóng
               </button>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );

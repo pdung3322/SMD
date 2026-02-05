@@ -262,13 +262,10 @@ academic_affairs: {
       label: "Thông báo",
       items: [
         {
-          label: "Thông báo giáo trình mới",
+          label: "Thông báo kết quả giáo trình",
           path: "/academic_affairs/notification/approval-result",
         },
-        {
-          label: "Thông báo yêu cầu",
-          path: "/academic_affairs/notification/rejected-or-edit",
-        },
+        
       ],
     },
 

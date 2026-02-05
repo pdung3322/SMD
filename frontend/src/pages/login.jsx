@@ -44,7 +44,7 @@ export default function Login() {
           navigate("/hod/dashboard");
           break;
         case "AA":
-          navigate("/academic_affairs/dashboard");
+          navigate("/academic_affairs/approval/pending");
           break;
         case "PRINCIPAL":
           navigate("/principal");

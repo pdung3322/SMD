@@ -1,316 +1,162 @@
-/* Lookup By Semester */
-
-:root {
-  --card: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --teal: #0a7f86;
-  --shadow: 0 12px 28px rgba(2, 6, 23, 0.08);
-}
 
 .aaLookup {
-  padding: 24px;
-  color: var(--text);
+  /* override màu chỉ trong trang này */
+  --lookup-teal: #0f766e;
+
+  padding: 24px 28px;
+  color: #0f172a;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 
-.aaTitle {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 18px;
-  color: #1f2937;
-}
-
-/* CARD */
-.aaCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+/* ===== CARD ===== */
+.aaLookup .aaCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.aaCardHeader {
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
+/* ===== FILTER ===== */
+.aaLookup .aaFilters {
   padding: 16px 18px;
-  border-bottom: 1px solid var(--border);
-  flex-wrap: wrap;
-}
-
-/* FILTER GROUP */
-.aaFilterGroup {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  background: #f9fafb;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.aaFilterGroup label {
+.aaLookup .aaField label {
   font-size: 13px;
+  font-weight: 700;
   color: #374151;
-  font-weight: 600;
 }
 
-.aaSelect {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
+.aaLookup .aaInput,
+.aaLookup .aaSelect {
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
   font-size: 14px;
-  background: #fff;
-  color: var(--text);
 }
 
-.aaSelect:focus {
+.aaLookup .aaInput:focus,
+.aaLookup .aaSelect:focus {
   outline: none;
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(10, 127, 134, 0.1);
+  border-color: var(--lookup-teal);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
 }
 
-/* BUTTON */
-.aaBtn {
-  padding: 8px 16px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
-  transition: all 0.2s;
+/* ===== BUTTON ===== */
+.aaLookup .aaBtn--primary {
+  background: var(--lookup-teal);
+  color: #ffffff;
+  border: none;
 }
 
-.aaBtn--primary {
-  background: var(--teal);
-  color: #fff;
-  border-color: transparent;
-}
-
-.aaBtn--primary:hover {
+.aaLookup .aaBtn--primary:hover {
   opacity: 0.9;
 }
 
-/* TABLE */
-.aaTableWrapper {
-  overflow-x: auto;
-}
-
-.aaTable {
+/* ===== TABLE ===== */
+.aaLookup .aaTable {
   width: 100%;
   border-collapse: collapse;
 }
 
-.aaTable th,
-.aaTable td {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
+.aaLookup .aaTable thead th {
+  background: var(--lookup-teal);
+  color: #ffffff;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.aaLookup .aaTable thead th:nth-child(2) {
   text-align: left;
-  color: #1f2937;
 }
 
-.aaTable th {
-  background: #0f766e;
-  color: #fff;
-  font-weight: 600;
-  font-size: 13px;
+.aaLookup .aaTable td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+  text-align: center;
 }
 
-.aaTable tbody tr:hover {
+.aaLookup .aaTable td:nth-child(2) {
+  text-align: left;
+}
+
+.aaLookup .aaTable tbody tr:hover {
   background: #f9fafb;
 }
 
-/* STATUS */
-.aaStatus {
-  font-weight: 600;
-  font-size: 13px;
+.aaCourseName {
+  font-weight: 700 !important;
+  color: #0f766e !important;
 }
 
-.aaStatus--approved {
-  color: #059669;
-}
-
-.aaStatus--pending {
-  color: #d97706;
-}
-
-.aaStatus--rejected {
-  color: #dc2626;
-}
-
-/* LINK */
-.aaLink {
-  border: none;
-  background: transparent;
-  color: var(--teal);
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 13px;
-  padding: 0;
-  transition: opacity 0.2s;
-}
-
-.aaLink:hover {
-  opacity: 0.7;
-}
-
-@media (max-width: 768px) {
-  .aaCardHeader {
-    flex-direction: column;
-  }
-
-  .aaSelect {
-    width: 100%;
-  }
-
-  .aaBtn {
-    width: 100%;
-  }
-}
-}
-  outline: none;
-  border-color: #9ca3af;
-  background-color: #f3f4f6;
-}
-
-.filter-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.filter-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filter-btn.search {
-  background-color: #059669;
-  color: white;
-}
-
-.filter-btn.search:hover {
-  background-color: #047857;
-}
-
-.filter-btn.reset {
-  background-color: #f3f4f6;
-  color: #374151;
-}
-
-.filter-btn.reset:hover {
-  background-color: #e5e7eb;
-}
-
-/* Results Section */
-.results-section {
-  margin-bottom: 24px;
-}
-
-.results-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.results-count {
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
-}
-
-.sort-select {
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 13px;
-  background-color: #f9fafb;
-  color: #1f2937;
-  cursor: pointer;
-}
-
-/* Results Table */
-.results-table {
-  width: 100%;
-  background: #ffffff;
-  border-collapse: collapse;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-
-.results-table th,
-.results-table td {
-  padding: 12px;
-  border-bottom: 1px solid #e5e7eb;
-  text-align: left;
-  color: #1f2937;
-}
-
-.results-table th {
-  background-color: #f3f4f6;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-}
-
-.results-table tbody tr:hover {
-  background-color: #f9fafb;
-}
-
-/* Action Buttons */
-.result-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.action-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* ===== STATUS BADGE ===== */
+.aaLookup .aaBadge {
+  padding: 6px 10px;
+  border-radius: 999px;
   font-size: 12px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-weight: 800;
 }
 
-.action-btn.view {
-  background-color: #e0e7ff;
-  color: #4f46e5;
+.aaLookup .aaBadge--approved {
+  background: rgba(16, 185, 129, 0.15);
+  color: #065f46;
 }
 
-.action-btn.view:hover {
-  background-color: #c7d2fe;
+.aaLookup .aaBadge--pending {
+  background: rgba(245, 158, 11, 0.18);
+  color: #7c4a00;
 }
 
-.action-btn.download {
-  background-color: #f0fdf4;
-  color: #059669;
+.aaLookup .aaBadge--rejected {
+  background: rgba(239, 68, 68, 0.18);
+  color: #7f1d1d;
 }
 
-.action-btn.download:hover {
-  background-color: #dcfce7;
+/* ===== LINK ===== */
+.aaLookup .aaLink {
+  background: none;
+  border: none;
+  color: var(--lookup-teal);
+  font-weight: 800;
+  cursor: pointer;
 }
 
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
+.aaLookup .aaLink:hover {
+  opacity: 0.75;
+}
+
+/* ===== FOOTER ===== */
+.aaLookup .aaFoot {
+  padding: 12px 14px;
+  font-size: 12px;
+  font-weight: 700;
   color: #6b7280;
+  background: #f9fafb;
+  border-top: 1px solid #e2e8f0;
+}
+/* Bỏ chữ in đậm trong bảng tra cứu */
+.aaLookup .aaStrong {
+  font-weight: 400;
 }
 
-.empty-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
+.aaLookup .aaTable th {
+  font-weight: 600; /* header vừa phải, không quá đậm */
 }
 
-.empty-message {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
+.aaLookup .aaTable td {
+  font-weight: 400;
+}
+
+.aaLookup .aaBadge {
+  font-weight: 500;
 }

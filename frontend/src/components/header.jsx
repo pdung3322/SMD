@@ -44,7 +44,7 @@ export default function Header({ onToggleSidebar }) {
         navigate("/admin");
         break;
       case "academic_affairs":
-        navigate("/academic_affairs/dashboard");
+        navigate("/academic_affairs/approval/pending");
         break;
       case "hod":
         navigate("/hod/dashboard");

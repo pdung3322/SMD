@@ -1,139 +1,204 @@
-/* Compare Syllabus */
-
-:root {
-  --card: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --teal: #0a7f86;
-  --shadow: 0 12px 28px rgba(2, 6, 23, 0.08);
-}
-
+/* Scope riêng: KHÔNG ảnh hưởng trang khác */
 .aaCompare {
-  padding: 24px;
+  --teal: #0f766e;
+  --border: #e2e8f0;
+  --text: #0f172a;
+
+  padding: 24px 28px;
   color: var(--text);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 
-.aaTitle {
+.aaCompare .aaHead { margin-bottom: 14px; }
+
+.aaCompare .aaTitle {
+  margin: 0 0 6px 0;
   font-size: 26px;
   font-weight: 700;
-  margin-bottom: 18px;
   color: #1f2937;
 }
 
-/* CARD */
-.aaCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.aaCardHeader {
-  display: flex;
-  align-items: flex-end;
-  gap: 12px;
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--border);
-  flex-wrap: wrap;
-}
-
-/* FILTER GROUP */
-.aaFilterGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.aaFilterGroup label {
+.aaCompare .aaSub {
+  margin: 0;
   font-size: 13px;
-  color: #374151;
-  font-weight: 600;
+  color: #6b7280;
 }
 
-.aaSelect {
-  padding: 8px 12px;
+.aaCompare .aaCard {
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Filters */
+.aaCompare .aaFilters {
+  padding: 16px 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--border);
+}
+
+.aaCompare .aaField { display: flex; flex-direction: column; gap: 6px; }
+.aaCompare .aaField label { font-size: 13px; font-weight: 700; color: #374151; }
+
+.aaCompare .aaSelect {
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
   font-size: 14px;
   background: #fff;
-  color: var(--text);
 }
 
-.aaSelect:focus {
+.aaCompare .aaSelect:focus {
   outline: none;
   border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(10, 127, 134, 0.1);
+  box-shadow: 0 0 0 3px rgba(15,118,110,0.12);
 }
 
-/* BUTTON */
-.aaBtn {
-  padding: 8px 16px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: #fff;
-  cursor: pointer;
-  font-weight: 600;
+.aaCompare .aaRight {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.aaCompare .aaCheck {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
   font-size: 13px;
-  transition: all 0.2s;
+  color: #374151;
+  font-weight: 700;
 }
 
-.aaBtn--primary {
+.aaCompare .aaMiniKpi { display: flex; gap: 8px; }
+
+.aaCompare .aaPill {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  border: 1px solid var(--border);
+  background: rgba(15,118,110,0.08);
+  color: #0f3d3a;
+}
+.aaCompare .aaPill--muted {
+  background: #f8fafc;
+  color: #64748b;
+}
+
+/* Meta cards */
+.aaCompare .aaMeta {
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.aaCompare .aaMetaCard {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.aaCompare .aaMetaTop { font-size: 12px; font-weight: 800; color: #6b7280; }
+.aaCompare .aaMetaMain { margin-top: 4px; font-size: 15px; font-weight: 700; color: #111827; }
+.aaCompare .aaMetaSub { margin-top: 4px; font-size: 12px; color: #6b7280; font-weight: 700; }
+
+/* Table */
+.aaCompare .aaTableWrapper { overflow-x: auto; }
+
+.aaCompare .aaTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.aaCompare .aaTable thead th {
   background: var(--teal);
   color: #fff;
-  border-color: transparent;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
 }
 
-.aaBtn--primary:hover {
-  opacity: 0.9;
-}
-
-/* TABLE */
-.aaTableWrapper {
-  overflow-x: auto;
-}
-
-.aaTable {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.aaTable th,
-.aaTable td {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
+.aaCompare .aaTable thead th:first-child {
   text-align: left;
-  color: #1f2937;
 }
 
-.aaTable th {
-  background: #0f766e;
-  color: #fff;
-  font-weight: 600;
-  font-size: 13px;
+.aaCompare .aaTable td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  color: #111827;
+  text-align: center;
 }
 
-.aaTable tbody tr:hover {
+.aaCompare .aaTable td:first-child {
+  text-align: left;
+}
+
+.aaCompare .aaTable tbody tr:hover { background: #f9fafb; }
+.aaCompare .aaStrong { font-weight: 400; }
+
+.aaCompare tr.isChanged td:first-child {
+  border-left: 4px solid var(--teal);
+}
+
+/* Badges */
+.aaCompare .aaBadge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+}
+
+.aaCompare .aaBadge--changed {
+  background: rgba(245,158,11,0.14);
+  border-color: rgba(245,158,11,0.25);
+  color: #7c4a00;
+}
+
+.aaCompare .aaBadge--same {
+  background: rgba(16,185,129,0.12);
+  border-color: rgba(16,185,129,0.25);
+  color: #065f46;
+}
+
+/* Empty + Footer */
+.aaCompare .aaEmpty {
+  padding: 22px 14px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.aaCompare .aaEmptyTitle { font-weight: 900; color: #374151; }
+.aaCompare .aaEmptySub { margin-top: 6px; font-size: 13px; }
+
+.aaCompare .aaFoot {
+  padding: 12px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
   background: #f9fafb;
+  border-top: 1px solid var(--border);
 }
 
-@media (max-width: 768px) {
-  .aaCardHeader {
-    flex-direction: column;
-  }
-
-  .aaSelect {
-    width: 100%;
-  }
-
-  .aaBtn {
-    width: 100%;
-  }
-}
-@media (max-width: 1024px) {
-  .comparison-view {
-    grid-template-columns: 1fr;
-  }
+/* Responsive */
+@media (max-width: 900px) {
+  .aaCompare .aaMeta { grid-template-columns: 1fr; }
+  .aaCompare .aaRight { align-items: flex-start; margin-left: 0; }
 }

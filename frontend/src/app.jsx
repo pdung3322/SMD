@@ -31,7 +31,7 @@ import ReviewResult from "./pages/hod/notifications/reviewresult";
 import Request from "./pages/hod/notifications/request";
 
 // Academic Affairs
-import AcademicAffairsDashboard from "./pages/academic_affairs/dashboard";
+
 
 import PloCheck from "./pages/academic_affairs/approval/plo-check";
 
@@ -42,7 +42,7 @@ import Curriculum from "./pages/academic_affairs/program/curriculum";
 import LookupBySemester from "./pages/academic_affairs/lookup/lookup-by-semester";
 import CompareSyllabus from "./pages/academic_affairs/lookup/compare-syllabus";
 import ApprovalResult from "./pages/academic_affairs/notification/approval-result";
-import RejectedOrEdit from "./pages/academic_affairs/notification/rejected-or-edit";
+
 
 export default function App() {
   return (
@@ -216,14 +216,7 @@ export default function App() {
         />
 
         {/* ACADEMIC AFFAIRS DASHBOARD */}
-        <Route
-          path="/academic_affairs/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["AA"]}>
-              <AcademicAffairsDashboard />
-            </ProtectedRoute>
-          }
-        />
+        
 
         {/* PENDING APPROVALS */}
         <Route
@@ -294,15 +287,7 @@ export default function App() {
           }
         />
 
-        {/* REJECTED OR EDIT */}
-        <Route
-          path="/academic_affairs/notification/rejected-or-edit"
-          element={
-            <ProtectedRoute allowedRoles={["AA"]}>
-              <RejectedOrEdit />
-            </ProtectedRoute>
-          }
-        />
+        
 
         {/* PRINCIPAL */}
         <Route

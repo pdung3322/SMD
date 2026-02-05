@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./pending.css";
 
 const sampleData = [
@@ -22,9 +23,15 @@ const sampleData = [
 ];
 
 export default function PendingApprovals() {
+  const navigate = useNavigate();
+
+  const handlePLOCheck = (item) => {
+    navigate("/academic_affairs/approval/plo-check", { state: { syllabus: item } });
+  };
+
   return (
     <div className="aaPending">
-      <h1 className="aaTitle">Đề cương chờ duyệt</h1>
+      <h1 className="aaTitle">Giáo trình chờ duyệt</h1>
 
       <div className="aaCard">
         <div className="aaCardHeader">
@@ -70,7 +77,13 @@ export default function PendingApprovals() {
                   <div className="aaActionGroup">
                     <button className="aaActionBtn aaActionBtn--approve">Duyệt</button>
                     <button className="aaActionBtn aaActionBtn--reject">Từ chối</button>
-                    <a className="aaLink" href="#">Chi tiết</a>
+                    <button 
+                      className="aaLink" 
+                      onClick={() => handlePLOCheck(item)}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                    >
+                      Kiểm tra PLO
+                    </button>
                   </div>
                 </td>
               </tr>
