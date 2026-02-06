@@ -1,0 +1,230 @@
+/* =========================
+   1. BỐ CỤC TỔNG THỂ (Dashboard Layout)
+========================= */
+.dashboard-app {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: #f8fafc;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+}
+
+/* =========================
+   THANH ĐIỀU HƯỚNG (Tab Navigation)
+========================= */
+.tab-navigation {
+  display: flex;
+  gap: 12px;           /* Khoảng cách giữa các ô vuông */
+  margin-bottom: 24px;
+  padding: 4px 0;
+}
+
+.tab-navigation button {
+  /* Tạo hình dáng ô vuông/chữ nhật */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  
+  /* Màu sắc cơ bản */
+  background-color: #ffffff; /* Nền trắng */
+  border: 1px solid #e2e8f0;  /* Viền xám nhạt */
+  border-radius: 10px;       /* Bo góc */
+  
+  /* Chữ và biểu tượng */
+  color: #475569;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  /* Đổ bóng nhẹ để tạo độ nổi */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Hiệu ứng khi di chuột qua (Hover) */
+.tab-navigation button:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* TRẠNG THÁI ĐANG CHỌN (Active) */
+.tab-navigation button.active {
+  /* Nền xanh nhạt và viền xanh đậm theo hình mẫu */
+  background-color: #f0f7ff; 
+  border: 1.5px solid #3b82f6; 
+  color: #1d4ed8;
+}
+
+/* Số đếm bên cạnh chữ "Cần duyệt ngay" */
+.tab-count {
+  background: transparent;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+/* Tùy chỉnh icon bên trong button */
+.tab-navigation button svg {
+  flex-shrink: 0;
+}
+/* =========================
+   3. BẢNG DỮ LIỆU (Modern Table)
+========================= */
+.table-container {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modern-table th {
+  text-align: left;
+  padding: 16px 24px;
+  background: #fcfdfe;
+  color: #94a3b8;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.modern-table td {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f8fafc;
+  color: #334155;
+}
+
+.modern-table tr:hover td {
+  background-color: #f8fafc;
+}
+
+/* Badge Khoa/Viện */
+.dept-badge {
+  background: #eef2ff;
+  color: #4f46e5;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+   4. PANEL CHI TIẾT (Side Detail Panel)
+   Nên dùng class này khi click "Xem chi tiết" 
+========================= */
+.detail-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 450px;
+  height: 100vh;
+  background: white;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  padding: 40px;
+  z-index: 100;
+  animation: slideIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.detail-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.detail-header h2 {
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.info-group {
+  margin-bottom: 20px;
+}
+
+.info-label {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Hộp AA đề xuất */
+.aa-suggestion {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.aa-header {
+  color: #92400e;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* =========================
+   5. NÚT HÀNH ĐỘNG (Action Buttons)
+========================= */
+.button-group {
+  margin-top: auto; /* Đẩy xuống dưới cùng của panel */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn-approve {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-reject {
+  background: #fff;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tab-navigation{
+  font-size: 20px;
+
+}
+
+.btn-approve:hover { opacity: 0.9; }
+.btn-reject:hover { background: #fff1f2; }

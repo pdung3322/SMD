@@ -1,0 +1,249 @@
+/* ===== RESET & BASE ===== */
+* {
+  box-sizing: border-box;
+}
+
+.system-monitor-v2 {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f8fafc;
+  padding: 24px;
+  color: #0f172a;
+}
+
+/* ===== HEADER ===== */
+.monitor-header-v2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.title-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.icon-main {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.title-area h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.title-area p {
+  font-size: 12px;
+  color: #64748b;
+  margin: 2px 0 0;
+}
+
+/* ===== SYNC AREA ===== */
+.sync-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.time-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.btn-sync {
+  background: #e0f2fe;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #0369a1;
+}
+
+.btn-sync.is-loading svg {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== GRID STATS ===== */
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* ===== CARD ===== */
+.stat-card-v2 {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.card-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+}
+
+/* ===== STATUS DOT ===== */
+.status-dot-v2 {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-dot-v2.healthy {
+  background: #22c55e;
+}
+
+.status-dot-v2.checking {
+  background: #eab308;
+}
+
+/* ===== CARD VALUE ===== */
+.card-value {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.value-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: #020617;
+  letter-spacing: 0.2px;
+}
+
+.sub-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* ===== AI BADGE ===== */
+.badge-ai {
+  background: #ede9fe;
+  color: #6d28d9;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* ===== QUEUE ===== */
+.queue-display {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.queue-display .num {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.queue-display .unit {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* ===== PROGRESS ===== */
+.progress-mini {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-mini .fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.fill.green {
+  background: #22c55e;
+}
+
+.fill.purple {
+  background: #8b5cf6;
+}
+
+.fill.blue {
+  background: #3b82f6;
+}
+
+/* ===== TERMINAL ===== */
+.terminal-v2 {
+  background: #020617;
+  color: #e5e7eb;
+  border-radius: 14px;
+  padding: 16px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.terminal-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.terminal-content p {
+  font-size: 12px;
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.terminal-content span {
+  color: #38bdf8;
+}
+
+.active-line {
+  color: #facc15;
+}
+
+.system-monitor-v2 .monitor-header-v2 .title-area h2 {
+  color: #333;
+  margin-bottom: 25px;
+  border-left: 5px solid var(--primary-color);
+  padding-left: 15px;
+  font-size: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
