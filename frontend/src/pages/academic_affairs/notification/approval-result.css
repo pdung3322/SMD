@@ -157,3 +157,15 @@
   background: #f9fafb;
   border-top: 1px solid var(--border);
 }
+
+/* ===== NOTIFICATION ANIMATION ===== */
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

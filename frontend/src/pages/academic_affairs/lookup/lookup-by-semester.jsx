@@ -7,7 +7,7 @@ const STATUS = {
   rejected: { label: "Bị từ chối", tone: "rejected" },
 };
 
-// demo data (sau này backend trả về)
+
 const DATA = [
   {
     id: "sy_001",

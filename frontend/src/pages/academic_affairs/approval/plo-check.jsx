@@ -1,7 +1,8 @@
 import "./plo-check.css";
-;
 
 import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getSyllabi, setSyllabi } from "../syllabus";
 
 /**
  * STATUS: kết luận hiển thị (AA có thể sửa thủ công)
@@ -11,6 +12,12 @@ const STATUS = {
   OK: { label: "Phù hợp", tone: "ok" },
   WARN: { label: "Cần điều chỉnh", tone: "warn" },
   BAD: { label: "Không phù hợp", tone: "bad" },
+};
+
+const TONE_TO_STATUS = {
+  ok: STATUS.OK,
+  warn: STATUS.WARN,
+  bad: STATUS.BAD,
 };
 
 // === 1) Bộ PLO chuẩn (nguồn tham chiếu) ===
@@ -87,60 +94,48 @@ function autoEvaluate(row) {
   };
 }
 
-// Demo data (CLO/PLO mapping của các syllabus)
-const initialRows = [
-  {
-    id: "map_001",
-    subject: "Lập trình Web",
-    lecturer: "ThS. Nguyễn Văn A",
-    submittedAt: "2024-01-15",
-    clo: "CLO1: Hiểu khái niệm lập trình web cơ bản",
-    plo: "PLO1: Kiến thức cơ bản",
-    status: STATUS.OK,
-    note: "",
-    
-    lastReviewedAt: null,
-  },
-  {
-    id: "map_002",
-    subject: "Công nghệ phần mềm",
-    lecturer: "TS. Trần Thị B",
-    submittedAt: "2024-01-18",
-    clo: "CLO2: Áp dụng quy trình phát triển phần mềm",
-    plo: "PLO2: Kỹ năng thực hành",
-    status: STATUS.WARN,
-    note: "CLO mô tả chung, cần gắn rubric/đánh giá rõ hơn.",
-    
-    lastReviewedAt: null,
-  },
-  {
-    id: "map_003",
-    subject: "Đạo đức nghề nghiệp",
-    lecturer: "PGS. Phạm Văn C",
-    submittedAt: "2024-01-20",
-    clo: "CLO1: Tuân thủ nguyên tắc đạo đức trong môi trường làm việc",
-    plo: "PLO3: Thái độ & đạo đức",
-    status: STATUS.OK,
-    note: "",
- 
-    lastReviewedAt: null,
-  },
-  {
-    id: "map_004",
-    subject: "Cấu trúc dữ liệu",
-    lecturer: "TS. Lê Văn D",
-    submittedAt: "2024-01-22",
-    clo: "CLO1: Nắm được nội dung môn học",
-    plo: "PLO2: Kỹ năng thực hành",
-    status: STATUS.WARN,
-    note: "",
-    
-    lastReviewedAt: null,
-  },
-];
+function statusFromTone(tone) {
+  return TONE_TO_STATUS[tone] || STATUS.WARN;
+}
+
+function syncRowsToStore(nextRows) {
+  const current = getSyllabi();
+  const mapById = new Map(nextRows.map((row) => [row.id, row]));
+
+  const next = current.map((row) => {
+    const match = mapById.get(row.id);
+    if (!match) return row;
+    return {
+      ...row,
+      clo: match.clo,
+      plo: match.plo,
+      note: match.note || "",
+      lastReviewedAt: match.lastReviewedAt || null,
+      mappingStatus: match.status ? match.status.tone : row.mappingStatus || null,
+    };
+  });
+
+  setSyllabi(next);
+}
 
 export default function PloCheck() {
-  const [rows, setRows] = useState(initialRows);
+  const location = useLocation();
+  const selectedId = location.state?.syllabus?.id || null;
+  const [rows, setRows] = useState(() =>
+    getSyllabi()
+      .filter((row) => row.approvalStatus === "pending")
+      .map((row) => ({
+        id: row.id,
+        subject: row.subject,
+        lecturer: row.teacher,
+        submittedAt: row.submittedAt,
+        clo: row.clo,
+        plo: row.plo,
+        status: row.mappingStatus ? statusFromTone(row.mappingStatus) : null,
+        note: row.note || "",
+        lastReviewedAt: row.lastReviewedAt || null,
+      }))
+  );
   const [statusFilter, setStatusFilter] = useState("");
   const [query, setQuery] = useState("");
 
@@ -155,25 +150,32 @@ export default function PloCheck() {
 
   // === 3) Nút "Tự động kiểm tra" ===
   const runAutoCheck = () => {
-    setRows((prev) =>
-      prev.map((r) => {
+    setRows((prev) => {
+      const next = prev.map((r) => {
         const auto = autoEvaluate(r);
         return {
           ...r,
           status: auto.status,
           // nếu AA đã ghi note thì giữ note; còn trống thì dùng auto note
           note: r.note?.trim() ? r.note : auto.note,
-          
           lastReviewedAt: new Date().toISOString(),
         };
-      })
-    );
+      });
+      syncRowsToStore(next);
+      return next;
+    });
   };
 
   const openDetail = (row) => {
     setEditingId(row.id);
     setDraftStatus(
-      row.status.tone === "ok" ? "OK" : row.status.tone === "warn" ? "WARN" : "BAD"
+      row.status
+        ? row.status.tone === "ok"
+          ? "OK"
+          : row.status.tone === "warn"
+            ? "WARN"
+            : "BAD"
+        : "OK"
     );
     setDraftNote(row.note || "");
     setOpen(true);
@@ -196,28 +198,30 @@ export default function PloCheck() {
     const nextStatus =
       draftStatus === "OK" ? STATUS.OK : draftStatus === "WARN" ? STATUS.WARN : STATUS.BAD;
 
-    setRows((prev) =>
-      prev.map((r) =>
+    setRows((prev) => {
+      const next = prev.map((r) =>
         r.id === editingRow.id
           ? {
               ...r,
               status: nextStatus,
               note: draftNote.trim(),
-              
               lastReviewedAt: new Date().toISOString(),
             }
           : r
-      )
-    );
+      );
+      syncRowsToStore(next);
+      return next;
+    });
 
     closeDetail();
   };
 
   const filteredRows = useMemo(() => {
     const q = query.trim().toLowerCase();
+    const scopedRows = selectedId ? rows.filter((r) => r.id === selectedId) : [];
 
-    return rows.filter((r) => {
-      const matchStatus = statusFilter ? r.status.tone === statusFilter : true;
+    return scopedRows.filter((r) => {
+      const matchStatus = statusFilter ? r.status?.tone === statusFilter : true;
       const matchQuery = q
         ? [r.subject, r.clo, r.plo, r.note]
             .filter(Boolean)
@@ -225,11 +229,11 @@ export default function PloCheck() {
         : true;
       return matchStatus && matchQuery;
     });
-  }, [rows, statusFilter, query]);
+  }, [rows, statusFilter, query, selectedId]);
 
   return (
     <div className="aaPloCheck">
-      <h1 className="aaTitle">Kiểm tra CLO – PLO </h1>
+      <h1 className="aaTitle">Kiểm tra PLO </h1>
 
       <div className="aaCard">
         <div className="aaCardHeader">
@@ -285,9 +289,11 @@ export default function PloCheck() {
                   <td>{r.lecturer}</td>
                   <td>{r.submittedAt}</td>
                   <td>
-                    <span className={`aaStatus aaStatus--${r.status.tone}`}>
-                      {r.status.label}
-                    </span>
+                    {r.status ? (
+                      <span className={`aaStatus aaStatus--${r.status.tone}`}>
+                        {r.status.label}
+                      </span>
+                    ) : null}
                   </td>
                   <td style={{ textAlign: "right" }}>
                     <button className="aaLinkBtn" type="button" onClick={() => openDetail(r)}>

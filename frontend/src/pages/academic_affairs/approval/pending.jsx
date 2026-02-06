@@ -1,36 +1,81 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./pending.css";
+import { getSyllabi, updateSyllabus } from "../syllabus";
 
-const sampleData = [
-  {
-    name: "Cơ Sở Dữ Liệu",
-    teacher: "Lê Văn C",
-    date: "03/01/2026",
-    status: "pending_approval",
-  },
-  {
-    name: "Lập Trình Web",
-    teacher: "Trần Thị B",
-    date: "02/01/2026",
-    status: "pending_approval",
-  },
-  {
-    name: "Toán Cao Cấp",
-    teacher: "Nguyễn Văn A",
-    date: "01/01/2026",
-    status: "pending_approval",
-  },
-];
+const formatDate = (date) => {
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const yyyy = date.getFullYear();
+  return `${dd}/${mm}/${yyyy}`;
+};
 
 export default function PendingApprovals() {
   const navigate = useNavigate();
+  const [notification, setNotification] = useState(null);
+  const [rows, setRows] = useState(() =>
+    getSyllabi().filter((item) => item.approvalStatus === "pending")
+  );
 
   const handlePLOCheck = (item) => {
     navigate("/academic_affairs/approval/plo-check", { state: { syllabus: item } });
   };
 
+  const handleApprove = (item) => {
+    const approvedAt = formatDate(new Date());
+    updateSyllabus(item.id, { approvalStatus: "approved", approvedAt });
+    setRows(getSyllabi().filter((row) => row.approvalStatus === "pending"));
+
+    // Hiển thị thông báo
+    setNotification({
+      type: "success",
+      message: `Đã duyệt giáo trình "${item.subject}" của ${item.teacher}`
+    });
+    
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  };
+
+  const handleReject = (item) => {
+    const approvedAt = formatDate(new Date());
+    updateSyllabus(item.id, { approvalStatus: "rejected", approvedAt });
+    setRows(getSyllabi().filter((row) => row.approvalStatus === "pending"));
+
+    // Hiển thị thông báo
+    setNotification({
+      type: "error",
+      message: `Đã từ chối giáo trình "${item.subject}" của ${item.teacher}`
+    });
+    
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(() => {
+      setNotification(null);
+    }, 3000);
+  };
+
   return (
     <div className="aaPending">
+      {/* Notification Toast */}
+      {notification && (
+        <div className={`aaNotification aaNotification--${notification.type}`}
+             style={{
+               position: 'fixed',
+               top: '20px',
+               right: '20px',
+               padding: '16px 24px',
+               borderRadius: '8px',
+               backgroundColor: notification.type === 'success' ? '#10b981' : '#ef4444',
+               color: 'white',
+               boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+               zIndex: 9999,
+               animation: 'slideIn 0.3s ease-out'
+             }}>
+          {notification.message}
+        </div>
+      )}
+
       <h1 className="aaTitle">Giáo trình chờ duyệt</h1>
 
       <div className="aaCard">
@@ -41,7 +86,7 @@ export default function PendingApprovals() {
           </div>
 
           <div className="aaStats">
-            <span className="aaBadge aaBadge--total">Tổng: 3</span>
+            <span className="aaBadge aaBadge--total">Tổng: {rows.length}</span>
           </div>
         </div>
 
@@ -58,16 +103,16 @@ export default function PendingApprovals() {
           </thead>
 
           <tbody>
-            {sampleData.map((item, idx) => (
+            {rows.map((item, idx) => (
               <tr key={idx}>
                 <td>{idx + 1}</td>
                 <td>
                   <div className="aaCourseInfo">
-                    <div className="aaCourseTitle">{item.name}</div>
+                    <div className="aaCourseTitle">{item.subject}</div>
                   </div>
                 </td>
                 <td>{item.teacher}</td>
-                <td>{item.date}</td>
+                <td>{item.submittedAt}</td>
                 <td>
                   <span className="aaStatus aaStatus--pending">
                     Chờ duyệt
@@ -75,8 +120,18 @@ export default function PendingApprovals() {
                 </td>
                 <td>
                   <div className="aaActionGroup">
-                    <button className="aaActionBtn aaActionBtn--approve">Duyệt</button>
-                    <button className="aaActionBtn aaActionBtn--reject">Từ chối</button>
+                    <button 
+                      className="aaActionBtn aaActionBtn--approve"
+                      onClick={() => handleApprove(item)}
+                    >
+                      Duyệt
+                    </button>
+                    <button 
+                      className="aaActionBtn aaActionBtn--reject"
+                      onClick={() => handleReject(item)}
+                    >
+                      Từ chối
+                    </button>
                     <button 
                       className="aaLink" 
                       onClick={() => handlePLOCheck(item)}
