@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Upload, Button, Input, Card, message, Modal } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
 import "./syllabuscreate.css";
 
 export default function LecturerSyllabusCreate() {
@@ -15,14 +14,14 @@ export default function LecturerSyllabusCreate() {
   const [loading, setLoading] = useState(false);
 
   // =========================
-  // UPLOAD CONFIG (CHUẨN ANTD)
+  // UPLOAD CONFIG
   // =========================
   const uploadProps = {
     multiple: true,
     fileList: files,
     beforeUpload: (file) => {
       setFiles((prev) => [...prev, file]);
-      return false; // chặn auto upload
+      return false;
     },
     onRemove: (file) => {
       setFiles((prev) => prev.filter((f) => f.uid !== file.uid));
@@ -30,11 +29,11 @@ export default function LecturerSyllabusCreate() {
   };
 
   // =========================
-  // SUBMIT
+  // SUBMIT (MOCK)
   // =========================
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!courseCode.trim() || !courseName.trim()) {
-      message.warning("Xin vui lòng nhập đầy đủ mã và tên học phần");
+      message.warning("Vui lòng nhập đầy đủ mã và tên học phần");
       return;
     }
 
@@ -45,46 +44,50 @@ export default function LecturerSyllabusCreate() {
     }
 
     if (files.length === 0) {
-      message.warning("Xin vui lòng tải lên ít nhất một file giáo trình");
+      message.warning("Vui lòng tải lên ít nhất 1 file giáo trình");
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const formData = new FormData();
-      formData.append("course_code", courseCode.trim());
-      formData.append("course_name", courseName.trim());
-      formData.append("credits", creditNumber);
+    // ===== MOCK SYLLABUS OBJECT =====
+    const newSyllabus = {
+      syllabus_id: Date.now(),
+      course_code: courseCode.trim(),
+      course_name: courseName.trim(),
+      credits: creditNumber,
+      updated_at: new Date().toISOString(),
+      status: "DRAFT", // 🔥 QUAN TRỌNG
+      versions: [
+        {
+          version: 1,
+          note: "Bản nháp ban đầu",
+          files: files.map((f) => ({
+            name: f.name,
+            url: "#", // mock download
+          })),
+        },
+      ],
+    };
 
-      files.forEach((file) => {
-        // ✅ AntD UploadFile → lấy file gốc
-        formData.append("files", file.originFileObj || file);
-      });
+    // ===== SAVE LOCALSTORAGE =====
+    const oldList =
+      JSON.parse(localStorage.getItem("LECTURER_SYLLABUS_LIST")) || [];
 
-      await api.post("/api/lecturer/syllabuses", formData);
-      // ❌ KHÔNG set Content-Type tay
+    localStorage.setItem(
+      "LECTURER_SYLLABUS_LIST",
+      JSON.stringify([newSyllabus, ...oldList])
+    );
+
+    setTimeout(() => {
+      setLoading(false);
 
       Modal.success({
         title: "Tạo giáo trình thành công",
-        content: "Giáo trình đã được gửi vào hệ thống và đang chờ phê duyệt.",
+        content: "Giáo trình đang ở trạng thái BẢN NHÁP.",
         onOk: () => navigate("/lecturer/syllabuses"),
       });
-    } catch (err) {
-      console.error("CREATE SYLLABUS ERROR:", err);
-
-      const detail = err.response?.data?.detail;
-
-      if (Array.isArray(detail)) {
-        message.error(detail.map((e) => e.msg).join(", "));
-      } else if (typeof detail === "string") {
-        message.error(detail);
-      } else {
-        message.error("Xin lỗi, gửi giáo trình không thành công");
-      }
-    } finally {
-      setLoading(false);
-    }
+    }, 500);
   };
 
   // =========================
@@ -121,9 +124,9 @@ export default function LecturerSyllabusCreate() {
           <p className="upload-icon">
             <UploadOutlined />
           </p>
-          <p>Kéo thả hoặc click để tải lên nhiều file</p>
+          <p>Kéo thả hoặc click để tải lên file</p>
           <p className="ant-upload-hint">
-            Hỗ trợ: PDF, DOCX, PPTX, XLSX, ZIP, source code…
+            PDF, DOCX, PPTX, XLSX, ZIP…
           </p>
         </Upload.Dragger>
 
@@ -152,7 +155,7 @@ export default function LecturerSyllabusCreate() {
           Hủy
         </Button>
         <Button type="primary" loading={loading} onClick={handleSubmit}>
-          Gửi phê duyệt
+          Lưu bản nháp
         </Button>
       </div>
     </div>

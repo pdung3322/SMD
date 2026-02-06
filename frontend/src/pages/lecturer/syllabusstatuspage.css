@@ -1,0 +1,41 @@
+/* WRAPPER */
+.syllabus-status-page {
+  padding: 8px;
+}
+
+/* CARD */
+.status-card {
+  border-radius: 10px;
+}
+
+/* TITLE */
+.page-title {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f766e; /* xanh UTH */
+}
+
+/* TABLE CUSTOM */
+.syllabus-status-page .ant-table {
+  border-radius: 8px;
+}
+
+.syllabus-status-page .ant-table-thead > tr > th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* COLUMN */
+.col-syllabus {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* TAG */
+.syllabus-status-page .ant-tag {
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-weight: 600;
+}

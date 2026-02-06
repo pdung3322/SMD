@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.dialects.mssql import NVARCHAR
 from backend.infrastructure.databases.base import Base
 
@@ -18,7 +18,11 @@ class User(Base):
 
     role = Column(NVARCHAR(50), nullable=False)
     # ADMIN / LECTURER / STUDENT / HOD / AA / PRINCIPAL
-
+    faculty_id = Column(
+        Integer,
+        ForeignKey("faculties.faculty_id"),
+        nullable=True
+    )
     status = Column(
         NVARCHAR(50),
         nullable=False,

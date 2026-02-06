@@ -1,0 +1,78 @@
+.workflow-page {
+  padding: 8px;
+}
+
+/* ===== TITLE ===== */
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* ===== CARD ===== */
+.workflow-card {
+  margin-bottom: 16px;
+}
+
+/* ===== SECTION ===== */
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* ===== WORKFLOW STEPS ===== */
+.workflow-steps {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.workflow-step {
+  display: flex;
+  align-items: center;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 12px 16px;
+  min-width: 220px;
+}
+
+.step-index {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #0f766e;
+  color: white;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-title {
+  font-weight: 600;
+}
+
+.step-desc {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.workflow-arrow {
+  font-size: 24px;
+  margin: 0 12px;
+  color: #999;
+}
+
+/* ===== NOTE ===== */
+.workflow-note {
+  padding-left: 20px;
+  color: #555;
+}

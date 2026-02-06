@@ -1,0 +1,32 @@
+.syllabus-status-page {
+  min-height: 100%;
+}
+
+/* ===== TITLE ===== */
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+/* ===== FILTER ===== */
+.filter-bar {
+  margin-bottom: 16px;
+}
+
+/* ===== COURSE CELL ===== */
+.course-name {
+  font-weight: 600;
+}
+
+.course-code {
+  font-size: 12px;
+  color: #888;
+}
+
+/* ===== STATUS ===== */
+.status-tag {
+  font-weight: 500;
+  padding: 2px 10px;
+}

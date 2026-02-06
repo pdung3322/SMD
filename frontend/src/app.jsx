@@ -11,15 +11,31 @@ import UserCreate from "./pages/admin/users/usercreate";
 import UserImport from "./pages/admin/users/userimport";
 import UserPermission from "./pages/admin/users/userpermission";
 import UserStatus from "./pages/admin/users/userstatus";
+
 import SyllabusList from "./pages/admin/syllabus/syllabuslist";
-import LecturerSyllabusList from "./pages/lecturer/syllabuslist";
-import LecturerSyllabusCreate from "./pages/lecturer/syllabuscreate";
-import LecturerSyllabusEdit from "./pages/lecturer/syllabusedit";
+import SyllabusVersions from "./pages/admin/syllabus/syllabusversions";
+import SyllabusStatus from "./pages/admin/syllabus/syllabusstatus";
 import AcademicYearList from "./pages/admin/academic/academicyearlist";
 import SemesterList from "./pages/admin/academic/semesterlist";
 import CurrentSemester from "./pages/admin/academic/currentsemester";
-import LecturerDashboard from "./pages/lecturer/dashboard";
+import TrainingProgram from "./pages/admin/trainingprogram/trainingprogram";
+import CourseRelations from "./pages/admin/course-relations/courserelations";
 
+import LecturerDashboard from "./pages/lecturer/dashboard";
+import LecturerSyllabusList from "./pages/lecturer/syllabuslist";
+import LecturerSyllabusCreate from "./pages/lecturer/syllabuscreate";
+import LecturerSyllabusEdit from "./pages/lecturer/syllabusedit";
+import LecturerSyllabusDetail from "./pages/lecturer/syllabusdetail";
+import LecturerSyllabusCompare from "./pages/lecturer/syllabuscompare";
+import LecturerSyllabusApproval from "./pages/lecturer/syllabusapproval";
+import LecturerComments from "./pages/lecturer/comments";
+import LecturerCommentReply from "./pages/lecturer/commentreply";
+import LecturerSyllabusUpdate from "./pages/lecturer/syllabusupdate";
+import LecturerWorkflowChange from "./pages/lecturer/workflowchange";
+import SyllabusStatusPage from "./pages/lecturer/syllabusstatuspage";
+import WorkflowConfig from "./pages/admin/workflowconfig";
+import WorkflowStatus from "./pages/admin/workflowstatus";
+import SystemLogs from "./pages/admin/systemlogs";
 export default function App() {
   return (
     <Routes>
@@ -28,7 +44,7 @@ export default function App() {
 
       {/* LAYOUT */}
       <Route element={<Layout />}>
-        {/* ADMIN */}
+        {/* ADMIN DASHBOARD */}
         <Route
           path="/admin"
           element={
@@ -38,6 +54,7 @@ export default function App() {
           }
         />
 
+        {/* USERS */}
         <Route
           path="/admin/users"
           element={
@@ -46,7 +63,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/users/:id"
           element={
@@ -55,7 +71,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/users/create"
           element={
@@ -64,7 +79,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/admin/users/import"
           element={
@@ -73,101 +87,89 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/admin/users/permissions" element={<UserPermission />} />
+        <Route path="/admin/users/status" element={<UserStatus />} />
 
-        <Route
-          path="/admin/users/permissions"
-          element={<UserPermission />}
-        />
-
-        <Route
-          path="/admin/users/status"
-          element={<UserStatus />}
-        />
-
+        {/* SYLLABUS (NESTED – QUAN TRỌNG) */}
         <Route
           path="/admin/syllabus"
-          element={<SyllabusList />}
-        />
-
-        {/* ADMIN - ACADEMIC */}
-<Route
-  path="/admin/academic-years"
-  element={
-    <ProtectedRoute allowedRoles={["ADMIN"]}>
-      <AcademicYearList />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/admin/semesters"
-  element={
-    <ProtectedRoute allowedRoles={["ADMIN"]}>
-      <SemesterList />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/admin/current-semester"
-  element={
-    <ProtectedRoute allowedRoles={["ADMIN"]}>
-      <CurrentSemester />
-    </ProtectedRoute>
-  }
-/>
-
-
-        {/* HOD */}
-        <Route
-          path="/hod"
           element={
-            <ProtectedRoute allowedRoles={["HOD"]}>
-              <h1>HOD PAGE</h1>
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <Outlet />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<SyllabusList />} />
+          <Route path="versions" element={<SyllabusVersions />} />
+        </Route>
+<Route path="/admin/syllabus/status" element={<SyllabusStatus />} />
+        {/* ACADEMIC */}
+        <Route
+          path="/admin/academic-years"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <AcademicYearList />
             </ProtectedRoute>
           }
         />
-
-        {/* AA */}
         <Route
-          path="/aa"
+          path="/admin/semesters"
           element={
-            <ProtectedRoute allowedRoles={["AA"]}>
-              <h1>AA PAGE</h1>
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <SemesterList />
             </ProtectedRoute>
           }
         />
-
-        {/* PRINCIPAL */}
         <Route
-          path="/principal"
+          path="/admin/current-semester"
           element={
-            <ProtectedRoute allowedRoles={["PRINCIPAL"]}>
-              <h1>PRINCIPAL PAGE</h1>
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <CurrentSemester />
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/training-programs"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <TrainingProgram />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/course-relations"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <CourseRelations />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/admin/workflow" element={<WorkflowConfig />} />
+        <Route path="/admin/workflow/status" element={<WorkflowStatus />} />
+        <Route path="/admin/system-logs" element={<SystemLogs />} />
 
         {/* LECTURER */}
-    <Route
-  path="/lecturer"
-  element={
-    <ProtectedRoute allowedRoles={["LECTURER"]}>
-      <Outlet />
-    </ProtectedRoute>
-  }
->
-  {/* DASHBOARD */}
-  <Route index element={<LecturerDashboard />} />
-
-  {/* SYLLABUS */}
-  <Route path="syllabuses" element={<LecturerSyllabusList />} />
-  <Route path="syllabus/create" element={<LecturerSyllabusCreate />} />
-  <Route path="syllabus/:id/edit" element={<LecturerSyllabusEdit />} />
-</Route>
-
-
-         
+        <Route
+          path="/lecturer"
+          element={
+            <ProtectedRoute allowedRoles={["LECTURER"]}>
+              <Outlet />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<LecturerDashboard />} />
+          <Route path="syllabuses" element={<LecturerSyllabusList />} />
+          <Route path="syllabus/create" element={<LecturerSyllabusCreate />} />
+          <Route path="syllabuses/:id" element={<LecturerSyllabusDetail />} />
+          <Route path="syllabus/:id/edit" element={<LecturerSyllabusEdit />} />
+          <Route path="syllabus/compare" element={<LecturerSyllabusCompare />} />
+          <Route path="syllabus/approval" element={<LecturerSyllabusApproval />} />
+          <Route path="comments" element={<LecturerComments />} />
+          <Route path="comment-reply" element={<LecturerCommentReply />} />
+          <Route path="syllabus-update" element={<LecturerSyllabusUpdate />} />
+          <Route path="workflow-change" element={<LecturerWorkflowChange />} />
+          <Route path="syllabus-status-test" element={<SyllabusStatusPage />} />
+        </Route>
 
         {/* STUDENT */}
         <Route
@@ -180,8 +182,9 @@ export default function App() {
         />
       </Route>
 
-      {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/login" />} />
+      {/* FALLBACK */}
+      <Route path="*" element={<div>Page chưa tồn tại</div>} />
+
     </Routes>
   );
 }

@@ -1,0 +1,17 @@
+.approval-title {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 700;            /* IN ĐẬM */
+  color: #0b7a75;              /* xanh giống hệ thống */
+  margin-bottom: 20px;
+}
+
+.approval-title::before {
+  content: "";
+  width: 4px;
+  height: 28px;
+  background-color: #0b7a75;
+  margin-right: 12px;
+  border-radius: 2px;
+}

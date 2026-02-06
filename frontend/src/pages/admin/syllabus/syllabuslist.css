@@ -1,0 +1,25 @@
+.admin-syllabus-list {
+  background: #fff;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;         
+  color: #0f766e;
+
+  padding-left: 14px;
+ 
+  margin-bottom: 20px;
+}
+
+
+
+.ant-table-thead > tr > th {
+  background-color: #0f766e;
+  color: #fff;
+  font-weight: 600;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: #f0fdfa;
+}

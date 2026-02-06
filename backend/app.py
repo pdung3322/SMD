@@ -1,13 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+import backend.infrastructure.models
 from backend.api.routers.auth import router as auth_router
 from backend.api.routers.users import router as user_router
 from backend.api.routers.permissions import router as permission_router
 from backend.api.routers.user_permissions import router as user_permission_router
-from backend.api.routers.syllabus_list import router as syllabus_list_router
-from backend.api.routers.course_materials import router as course_materials_router
 from backend.api.routers.academic import router as academic_router
+from backend.api.routers.training_programs import router as training_programs_router
+from backend.api.routers.course_relations import router as course_relations_router
+from backend.api.routers.courses import router as courses_router
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(
     title="SMD Backend API",
@@ -31,6 +34,8 @@ app.include_router(auth_router)
 app.include_router(user_router, prefix="/api")
 app.include_router(permission_router, prefix="/api")   # ✅ FIX
 app.include_router(user_permission_router, prefix="/api")
-app.include_router(syllabus_list_router)
-app.include_router(course_materials_router)
 app.include_router(academic_router)
+app.include_router(training_programs_router)
+app.include_router(courses_router, prefix="/api")
+app.include_router(course_relations_router, prefix="/api")
+app.mount("/uploads", StaticFiles(directory="backend/uploads"), name="uploads")

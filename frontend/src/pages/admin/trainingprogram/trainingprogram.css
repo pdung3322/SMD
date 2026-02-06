@@ -1,0 +1,91 @@
+.tp-container {
+  padding: 24px;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.tp-title {
+  margin-bottom: 24px;
+}
+
+.tp-major {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tp-major-title {
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.tp-spec-title {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.tp-program-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tp-program-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.tp-program-item:hover {
+  background: #e6f4ff;
+}
+
+.tp-pdf-icon {
+  color: #cf1322;
+  font-size: 18px;
+}
+
+.tp-program-text {
+  flex: 1;
+  font-weight: 500;
+}
+
+.tp-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+/* ===== PAGE TITLE (GIỐNG DANH SÁCH NĂM HỌC) ===== */
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f766e; /* xanh UTH */
+
+  margin-bottom: 20px;
+  padding-left: 12px;
+  position: relative;
+}
+
+.page-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+
+  width: 4px;
+  height: 70%;
+  background-color: #0f766e;
+  border-radius: 2px;
+}

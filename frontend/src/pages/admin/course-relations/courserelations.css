@@ -1,0 +1,31 @@
+.cr-container {
+  padding: 24px;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f766e;
+  margin-bottom: 20px;
+  padding-left: 12px;
+  position: relative;
+}
+
+.page-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 4px;
+  height: 70%;
+  background-color: #0f766e;
+  border-radius: 2px;
+}
+
+.cr-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}

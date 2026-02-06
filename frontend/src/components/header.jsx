@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Avatar } from "antd";
 import "../assets/header.css";
 import logoUTH from "../images/logo_uth.png";
 
@@ -83,9 +83,8 @@ const getDashboardPathByRole = (role) => {
           className="user-box"
           onClick={() => setOpen((prev) => !prev)}
         >
-          <div className="avatar">
-            {getAvatarLetter(user)}
-          </div>
+          <Avatar>{getAvatarLetter(user)}</Avatar>
+
 
           <span className="username">
             {getDisplayName(user)}

@@ -15,7 +15,6 @@ class SyllabusVersion(Base):
     )
 
     version_number = Column(Integer, nullable=False)
-
     note = Column(Text, nullable=True)
 
     created_by = Column(
@@ -24,11 +23,17 @@ class SyllabusVersion(Base):
         nullable=False
     )
 
-    created_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-        nullable=False
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    syllabus = relationship(
+        "Syllabus",
+        back_populates="versions"
     )
 
-    # relationships
-    syllabus = relationship("Syllabus", backref="versions")
+    # ✅ DÙNG STRING — KHÔNG IMPORT
+    files = relationship(
+        "SyllabusFile",
+        back_populates="version",
+        cascade="all, delete-orphan",
+        lazy="selectin"
+    )

@@ -5,44 +5,66 @@ import {
   Input,
   Card,
   message,
-  Spin,
+  Divider,
+  List,
 } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useNavigate, useParams } from "react-router-dom";
-import api from "../../services/api";
+import { useParams, useNavigate } from "react-router-dom";
 import "./syllabuscreate.css";
 
 export default function LecturerSyllabusEdit() {
-  const { syllabusId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
-  const [loadingData, setLoadingData] = useState(true);
-
-  const [courseInfo, setCourseInfo] = useState(null);
+  const [syllabus, setSyllabus] = useState(null);
   const [files, setFiles] = useState([]);
   const [note, setNote] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // =========================
-  // LOAD SYLLABUS DETAIL
-  // =========================
   useEffect(() => {
-    const fetchDetail = async () => {
-      try {
-        const res = await api.get(
-          `/api/lecturer/syllabuses/${syllabusId}`
-        );
-        setCourseInfo(res.data?.data || res.data);
-      } catch (err) {
-        message.error("Không thể tải thông tin giáo trình");
-        navigate("/lecturer/syllabuses");
-      } finally {
-        setLoadingData(false);
-      }
-    };
+    let list =
+      JSON.parse(localStorage.getItem("LECTURER_SYLLABUS_LIST")) || [];
 
-    fetchDetail();
-  }, [syllabusId, navigate]);
+    if (list.length === 0) {
+      const mockCNPM = {
+        syllabus_id: 2,
+        course_code: "CNPM",
+        course_name: "Công nghệ phần mềm",
+        credits: 3,
+        status: "DRAFT",
+        updated_at: new Date().toISOString(),
+        versions: [
+          {
+            version: 1,
+            note: "Bản nháp ban đầu",
+            files: [
+              {
+                name: "Giáo trình CNPM.pdf",
+                url: "#",
+              },
+            ],
+          },
+        ],
+      };
+      list = [mockCNPM];
+      localStorage.setItem(
+        "LECTURER_SYLLABUS_LIST",
+        JSON.stringify(list)
+      );
+    }
+
+    const found = list.find(
+      (s) => String(s.syllabus_id) === String(id)
+    );
+
+    if (!found) {
+      message.error("Không tìm thấy giáo trình");
+      navigate("/lecturer/syllabuses");
+      return;
+    }
+
+    setSyllabus(found);
+  }, [id, navigate]);
 
   // =========================
   // UPLOAD CONFIG
@@ -55,80 +77,109 @@ export default function LecturerSyllabusEdit() {
       return false;
     },
     onRemove: (file) => {
-      setFiles((prev) =>
-        prev.filter((f) => f.uid !== file.uid)
-      );
+      setFiles((prev) => prev.filter((f) => f.uid !== file.uid));
     },
   };
 
-  // =========================
-  // SUBMIT NEW VERSION
-  // =========================
-  const handleSubmit = async () => {
+ 
+  const handleSave = () => {
     if (files.length === 0) {
-      message.warning("Vui lòng tải lên ít nhất 1 file");
+      message.warning("Vui lòng tải ít nhất 1 file");
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const formData = new FormData();
-      formData.append("note", note);
+    const newVersion = {
+      version: syllabus.versions.length + 1,
+      note: note || "Cập nhật nội dung giáo trình",
+      files: files.map((f) => ({
+        name: f.name,
+        url: "#",
+      })),
+    };
 
-      files.forEach((file) => {
-        formData.append(
-          "files",
-          file.originFileObj || file
-        );
-      });
+    const updated = {
+      ...syllabus,
+      updated_at: new Date().toISOString(),
+      versions: [...syllabus.versions, newVersion],
+      status: "DRAFT", // 🔥 QUAN TRỌNG
+    };
 
-      await api.post(
-        `/api/lecturer/syllabuses/${syllabusId}/versions`,
-        formData
-      );
+    const list =
+      JSON.parse(localStorage.getItem("LECTURER_SYLLABUS_LIST")) || [];
 
-      message.success("Gửi phiên bản chỉnh sửa thành công");
-      navigate("/lecturer/syllabuses");
-    } catch (err) {
-      console.error(err);
-      message.error("Gửi chỉnh sửa thất bại");
-    } finally {
+    const newList = list.map((s) =>
+      s.syllabus_id === syllabus.syllabus_id ? updated : s
+    );
+
+    localStorage.setItem(
+      "LECTURER_SYLLABUS_LIST",
+      JSON.stringify(newList)
+    );
+
+    setTimeout(() => {
       setLoading(false);
-    }
+      message.success("Lưu chỉnh sửa thành công (Bản nháp)");
+      navigate("/lecturer/syllabuses");
+    }, 400);
   };
 
-  // =========================
-  // RENDER
-  // =========================
-  if (loadingData) {
-    return <Spin style={{ marginTop: 100 }} />;
-  }
+  if (!syllabus) return null;
 
+  // =========================
+  // UI
+  // =========================
   return (
     <div className="syllabus-create-page">
-      <h2 className="page-title">Chỉnh sửa giáo trình</h2>
+      <h2 className="page-title">Chỉnh sửa / cập nhật giáo trình</h2>
 
-      {/* ===== INFO (READ ONLY) ===== */}
+      {/* INFO */}
       <Card title="Thông tin học phần" className="block-card">
         <p>
-          <b>Mã học phần:</b> {courseInfo?.course_code}
+          <b>Mã học phần:</b> {syllabus.course_code}
         </p>
         <p>
-          <b>Tên học phần:</b> {courseInfo?.course_name}
+          <b>Tên học phần:</b> {syllabus.course_name}
         </p>
         <p>
-          <b>Số tín chỉ:</b> {courseInfo?.credits}
+          <b>Số tín chỉ:</b> {syllabus.credits}
+        </p>
+        <p>
+          <b>Trạng thái:</b> Bản nháp
         </p>
       </Card>
 
-      {/* ===== UPLOAD ===== */}
-      <Card title="Tài liệu chỉnh sửa" className="block-card">
-        <Upload.Dragger {...uploadProps} className="upload-area">
+      {/* VERSIONS */}
+      <Divider />
+      <h3>Danh sách phiên bản</h3>
+
+      {syllabus.versions.map((v) => (
+        <Card
+          key={v.version}
+          title={`Phiên bản ${v.version}`}
+          style={{ marginBottom: 12 }}
+        >
+          <p>
+            <b>Ghi chú:</b> {v.note}
+          </p>
+          <List
+            dataSource={v.files}
+            renderItem={(f) => (
+              <List.Item>📄 {f.name}</List.Item>
+            )}
+          />
+        </Card>
+      ))}
+
+      {/* UPLOAD */}
+      <Divider />
+      <Card title="Tải lên phiên bản mới" className="block-card">
+        <Upload.Dragger {...uploadProps}>
           <p className="upload-icon">
             <UploadOutlined />
           </p>
-          <p>Kéo thả hoặc click để tải file mới</p>
+          <p>Kéo thả hoặc click để upload</p>
         </Upload.Dragger>
 
         {files.map((file) => (
@@ -149,27 +200,24 @@ export default function LecturerSyllabusEdit() {
 
         <Input.TextArea
           rows={3}
-          placeholder="Ghi chú chỉnh sửa (bắt buộc nếu bị yêu cầu sửa)"
+          placeholder="Ghi chú chỉnh sửa"
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          className="note-area"
+          style={{ marginTop: 12 }}
         />
       </Card>
 
-      {/* ===== ACTION ===== */}
+      {/* ACTION */}
       <div className="action-bar">
-        <Button
-          onClick={() => navigate("/lecturer/syllabuses")}
-        >
+        <Button onClick={() => navigate("/lecturer/syllabuses")}>
           Hủy
         </Button>
-
         <Button
           type="primary"
           loading={loading}
-          onClick={handleSubmit}
+          onClick={handleSave}
         >
-          Gửi chỉnh sửa
+          Lưu chỉnh sửa
         </Button>
       </div>
     </div>

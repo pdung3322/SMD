@@ -41,7 +41,7 @@ system_admin: {
     {
       label: "Quản lý chương trình đào tạo",
       items: [
-        { label: "Chương trình đào tạo ", path: "/admin/program-structure" },
+        { label: "Chương trình đào tạo ", path: "/admin/training-programs" },
         { label: "Quan hệ học phần", path: "/admin/course-relations" },
       ],
     },
@@ -55,21 +55,11 @@ system_admin: {
       ],
     },
 
-    {
-      label: "Quản lý chuẩn đầu ra",
-      items: [
-        { label: "Chuẩn đầu ra học phần (CLO)", path: "/admin/clo" },
-        { label: "Chuẩn đầu ra chương trình (PLO)", path: "/admin/plo" },
-        { label: "Liên kết CLO – PLO", path: "/admin/clo-plo" },
-        { label: "Kiểm tra mức độ bao phủ", path: "/admin/clo-coverage" },
-      ],
-    },
 
     {
       label: "Cấu hình quy trình duyệt",
       items: [
         { label: "Cấu hình luồng duyệt", path: "/admin/workflow" },
-        { label: "Phân công người duyệt", path: "/admin/workflow/assign" },
         { label: "Theo dõi trạng thái phê duyệt", path: "/admin/workflow/status" },
       ],
     },
@@ -101,65 +91,47 @@ lecturer: {
           path: "/lecturer/syllabus/create",
         },
         {
-          label: "Chỉnh sửa / cập nhật giáo trình",
-          path: "/lecturer/syllabus/edit",
-        },
-        {
           label: "So sánh các phiên bản giáo trình",
           path: "/lecturer/syllabus/compare",
         },
         {
           label: "Gửi giáo trình phê duyệt",
-          path: "/lecturer/syllabus/submit",
+          path: "/lecturer/syllabus/approval",
         },
       ],
     },
 
     {
-      label: "Phản hồi & chỉnh sửa ",
-      items: [
-        {
-          label: "Nhận xét",
-          path: "/lecturer/feedback",
-        },
-        {
-          label: "Phản hồi nhận xét",
-          path: "/lecturer/feedback/respond",
-        },
-        {
-          label: "Cập nhật giáo trình theo yêu cầu",
-          path: "/lecturer/feedback/update-syllabus",
-        },
-      ],
+      label: "Phản hồi & chỉnh sửa",
+  items: [
+    {
+      label: "Nhận xét",
+      path: "/lecturer/comments",
     },
-
+    {
+      label: "Phản hồi nhận xét",
+      path: "/lecturer/comment-reply",
+    },
+    {
+      label: "Cập nhật giáo trình theo yêu cầu",
+      path: "/lecturer/syllabus-update",
+    },
+  ],
+},
     {
       label: "Thông báo",
-      items: [
-        {
-          label: "Trạng thái giáo trình học phần",
-          path: "/lecturer/notifications/syllabus-status",
-        },
-        {
-          label: "Thay đổi quy trình làm việc",
-          path: "/lecturer/notifications/workflow",
-        },
-      ],
-    },
-
+  items: [
     {
-      label: "Hỗ trợ",
-      items: [
-        {
-          label: "Gửi yêu cầu hỗ trợ kỹ thuật",
-          path: "/lecturer/support/request",
-        },
-        {
-          label: "Báo lỗi & góp ý hệ thống",
-          path: "/lecturer/support/feedback",
-        },
-      ],
+      label: "Trạng thái giáo trình học phần",
+      path: "/lecturer/syllabus-status-test",
     },
+    {
+      label: "Thay đổi quy trình làm việc",
+      path: "/lecturer/workflow-change",
+    },
+  ],
+},
+
   ],
 },
 

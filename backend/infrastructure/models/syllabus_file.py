@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from backend.infrastructure.databases.base import Base
 from datetime import datetime
 
+
 class SyllabusFile(Base):
     __tablename__ = "syllabus_files"
 
@@ -27,8 +28,9 @@ class SyllabusFile(Base):
         nullable=False
     )
 
-    # relationship
+    # ✅ DÙNG STRING – KHÔNG IMPORT CLASS
     version = relationship(
         "SyllabusVersion",
-        backref="files"
+        back_populates="files",
+        lazy="selectin"
     )

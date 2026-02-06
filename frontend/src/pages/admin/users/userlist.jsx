@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import api from "../../../services/api";
 import { Link } from "react-router-dom"; 
 import "./userlist.css";
 /* ===== ROLE MAP ===== */
@@ -31,8 +31,8 @@ export default function UserList() {
 
   /* ===== LOAD DATA ===== */
   useEffect(() => {
-    axios
-      .get("/users/")
+    api
+      .get("/users")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error("Load users error:", err));
   }, []);

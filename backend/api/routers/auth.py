@@ -79,3 +79,4 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         "email": user.email,
         "role": user.role
     }
+    

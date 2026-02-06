@@ -1,0 +1,21 @@
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f766e;
+
+  padding-left: 14px;
+  margin-bottom: 20px;
+}
+
+.filter-bar {
+  margin-bottom: 16px;
+}
+
+.course-name {
+  font-weight: 600;
+}
+
+.course-code {
+  font-size: 12px;
+  color: #6b7280;
+}

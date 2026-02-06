@@ -1,66 +1,102 @@
-import { Table, Tag, Button, Space, message } from "antd";
 import { useEffect, useState } from "react";
+import { Table, Button, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
-import "./syllabuslist.css";
-
-// =========================
-// MAP TRẠNG THÁI
-// =========================
-const statusMap = {
-  DRAFT: { color: "default", label: "Nháp" },
-  PENDING_REVIEW: { color: "processing", label: "Chờ duyệt (BM)" },
-  PENDING_APPROVAL: { color: "processing", label: "Chờ duyệt (PĐT)" },
-  REVISION_REQUIRED: { color: "error", label: "Yêu cầu chỉnh sửa" },
-  APPROVED: { color: "success", label: "Đã phê duyệt" },
-};
+import "./syllabusList.css";
 
 export default function LecturerSyllabusList() {
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // =========================
-  // FETCH DATA
-  // =========================
-  const fetchSyllabuses = async () => {
-    try {
-      setLoading(true);
-
-      const res = await api.get("/api/lecturer/syllabuses");
-
-      // chịu được cả 2 kiểu response:
-      // 1) trả mảng trực tiếp
-      // 2) { data: [...] }
-      const list = Array.isArray(res.data?.data)
-        ? res.data.data
-        : Array.isArray(res.data)
-        ? res.data
-        : [];
-
-      setData(list);
-    } catch (error) {
-      console.error("Không thể tải danh sách giáo trình", error);
-      message.error("Không thể tải danh sách giáo trình");
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSyllabuses();
+    setLoading(true);
+
+    // ===== MOCK DATA =====
+    const mockData = [
+      {
+        syllabus_id: 1,
+        course_code: "TRIET",
+        course_name: "Triết học Mác – Lênin",
+        updated_at: "2026-02-03T01:16:14",
+        status: "APPROVED",
+      },
+      {
+        syllabus_id: 2,
+        course_code: "DW_DSS",
+        course_name: "Kho dữ liệu và Hệ thống hỗ trợ quyết định",
+        updated_at: "2026-01-05T09:54:28",
+        status: "DRAFT",
+      },
+      {
+        syllabus_id: 3,
+        course_code: "HDH",
+        course_name: "Hệ điều hành",
+        updated_at: "2026-01-05T09:54:28",
+        status: "APPROVED",
+      },
+      {
+        syllabus_id: 4,
+        course_code: "PTTKHT",
+        course_name: "Phân tích & thiết kế hệ thống",
+        updated_at: "2026-01-10T10:15:00",
+        status: "REJECTED",
+      },
+      {
+        syllabus_id: 5,
+        course_code: "TMDT",
+        course_name: "Thương mại điện tử",
+        updated_at: "2026-01-12T08:30:00",
+        status: "PENDING",
+      },
+    {
+        syllabus_id: 6,
+        course_code: "CNPM",
+        course_name: "Công nghệ phần mềm",
+        updated_at: "2026-02-06T020:54:28",
+        status: "PENDING",
+      },
+      ];
+
+    setTimeout(() => {
+      setData(mockData);
+      setLoading(false);
+    }, 400);
   }, []);
 
-  // =========================
-  // TABLE COLUMNS
-  // =========================
+  // ===== STATUS (TIẾNG VIỆT) =====
+  const renderStatus = (status) => {
+    let color = "default";
+    let text = "Không xác định";
+
+    switch (status) {
+      case "APPROVED":
+        color = "green";
+        text = "Đã phê duyệt";
+        break;
+      case "PENDING":
+        color = "orange";
+        text = "Chờ phê duyệt";
+        break;
+      case "REJECTED":
+        color = "red";
+        text = "Bị từ chối";
+        break;
+      case "DRAFT":
+        color = "default";
+        text = "Bản nháp";
+        break;
+      default:
+        break;
+    }
+
+    return <Tag color={color}>{text}</Tag>;
+  };
+
   const columns = [
     {
       title: "STT",
-      width: 60,
-      align: "center",
       render: (_, __, index) => index + 1,
+      width: 60,
     },
     {
       title: "Mã học phần",
@@ -69,104 +105,49 @@ export default function LecturerSyllabusList() {
     {
       title: "Tên học phần",
       dataIndex: "course_name",
-      render: (name) => name || "--",
-    },
-    {
-      title: "Số tín chỉ",
-      dataIndex: "credits",
-      width: 90,
-      align: "center",
-    },
-    {
-      title: "Phiên bản",
-      width: 90,
-      align: "center",
-      render: (_, record) =>
-        `v${
-          record.version_number ||
-          record.latest_version?.version_number ||
-          1
-        }`,
-    },
-    {
-      title: "Trạng thái",
-      dataIndex: "status",
-      width: 180,
-      render: (status) => {
-        const s = statusMap[status] || {
-          color: "default",
-          label: status || "--",
-        };
-        return <Tag color={s.color}>{s.label}</Tag>;
-      },
+      render: (text) => <span className="course-name">{text}</span>,
     },
     {
       title: "Cập nhật",
       dataIndex: "updated_at",
-      width: 140,
-      render: (date) =>
-        date ? new Date(date).toLocaleDateString("vi-VN") : "--",
+      render: (value) => new Date(value).getFullYear(),
+      width: 100,
     },
     {
-      title: "Giáo trình",
-      width: 260,
+      title: "Trạng thái",
+      dataIndex: "status",
+      render: renderStatus,
+      width: 140,
+    },
+    {
+      title: "Thao tác",
+      width: 180,
       render: (_, record) => (
-        <Space>
-          <Button
-            size="small"
-            onClick={() =>
-              navigate(`/lecturer/syllabus/${record.syllabus_id || record.id}`)
-            }
-          >
-            Chi tiết
-          </Button>
-
-          <Button
-            size="small"
-            disabled={record.status === "APPROVED"}
-            onClick={() =>
-              navigate(
-                `/lecturer/syllabus/${
-                  record.syllabus_id || record.id
-                }/edit`
-              )
-            }
-          >
-            Chỉnh sửa
-          </Button>
-
-          <Button
-            size="small"
-            onClick={() =>
-              navigate(
-                `/lecturer/syllabus/compare?syllabusId=${
-                  record.syllabus_id || record.id
-                }`
-              )
-            }
-          >
-            So sánh
-          </Button>
-        </Space>
+        <Button
+          className="btn-detail"
+          onClick={() =>
+            navigate(`/lecturer/syllabuses/${record.syllabus_id}`)
+          }
+        >
+          Chi tiết
+        </Button>
       ),
     },
   ];
 
-  // =========================
-  // RENDER
-  // =========================
   return (
     <div className="syllabus-list-page">
-      <h2>Danh sách giáo trình học phần</h2>
+      <h2>Danh sách giáo trình</h2>
 
-      <Table
-        rowKey={(record) => record.syllabus_id || record.id}
-        className="syllabus-table"
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-        pagination={{ pageSize: 10 }}
-      />
+      <div className="syllabus-table">
+        <Table
+          rowKey="syllabus_id"
+          columns={columns}
+          dataSource={data}
+          loading={loading}
+          pagination={{ pageSize: 10 }}
+        />
+      </div>
     </div>
   );
 }
